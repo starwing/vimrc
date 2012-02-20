@@ -1,0 +1,9 @@
+FinishRecovery	recoverPlugin.txt	/*FinishRecovery*
+RecoverPlugin-misc	recoverPlugin.txt	/*RecoverPlugin-misc*
+RecoverPluginFinish	recoverPlugin.txt	/*RecoverPluginFinish*
+RecoverPluginHelp	recoverPlugin.txt	/*RecoverPluginHelp*
+recover-feedback	recoverPlugin.txt	/*recover-feedback*
+recover-history	recoverPlugin.txt	/*recover-history*
+recover-manual	recoverPlugin.txt	/*recover-manual*
+recover.vim	recoverPlugin.txt	/*recover.vim*
+recoverPlugin	recoverPlugin.txt	/*recoverPlugin*

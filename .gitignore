@@ -1,0 +1,8 @@
+swapfiles
+vim73
+_vim_mru_files
+*.7z
+*.zip
+*.tar.gz
+*.tar.bz2
+*~
