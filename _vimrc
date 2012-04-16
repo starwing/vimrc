@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1602)
-" Last Change:  2012-02-04 21:13:33
+" Version:      0.5 (1711)
+" Last Change:  2012-04-16 14:19:31
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -39,6 +39,7 @@ set fileencodings=ucs-bom,utf-8,cp936,gb18030,latin1
 set formatoptions+=mB2
 set helplang=cn
 set history=1000
+set modeline " for debian.vim, changed the initial value
 set shiftwidth=4
 set softtabstop=4
 set tags=./tags,tags,./tags;
@@ -112,17 +113,16 @@ if has('gui_running') " {{{2
         silent! set gfw=YaHei_Consolas_Hybrid:h10:cGB2312
         "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
     else
-        set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
+        "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
+        set gfn=Monospace\ 9
     endif
     "silent! colorscheme kaltex
     silent! colorscheme evening
 
 else " in terminal {{{2
-    silent! colorscheme kaltex
+    "silent! colorscheme kaltex
+    silent! colorscheme evening
 endif " }}}2
-
-" System specified Settings {{{2
-
 if has("win32") " {{{3
     if $LANG =~? 'zh_CN' && &encoding !=? "cp936"
         set termencoding=cp936
@@ -134,43 +134,42 @@ if has("win32") " {{{3
         silent! so $VIMRUNTIME/menu.vim
     endif
 
-    for dir in ['/swapfiles', '/swapfiles/backupfiles', '/swapfiles/undofiles']
-        if !isdirectory($VIM.dir)
-            let s:dir = $VIM.dir
-            if has('win32') && $LANG =~? 'zh_CN'
-                let s:dir = iconv(s:dir, &enc, &tenc)
-            endif
-            silent! call mkdir(s:dir, 'p')
-            unlet s:dir
-        endif
-    endfor
-
-    if isdirectory($VIM.'/swapfiles')
-        set directory=$VIM/swapfiles
-    endif
-    if isdirectory($VIM.'/swapfiles/backupfiles')
-        set backupdir=$VIM/swapfiles/backupfiles
-    endif
-    if v:version >= 703 && isdirectory($VIM.'/swapfiles/undofiles')
-        set undodir=$VIM/swapfiles/undofiles,.
-    endif
 
 elseif has('unix') " {{{3
-    if !isdirectory(expand('~/.vim/swapfiles'))
-        silent! call mkdir('~/.vim/swapfiles', 'p')
-    endif
-
-    if isdirectory(expand('~/.vim/swapfiles'))
-        set backupdir=~/.vim/swapfiles
-        set directory=~/.vim/swapfiles
-    endif
-
     if &term == 'linux'
         " lang C
     endif
 endif " }}}3
+" swapfiles/undofiles settings {{{2
 
-" }}}2
+if has('win32')
+    let s:tprefix = $VIM
+elseif has('unix')
+    let s:tprefix = expand("~/.vim")
+end
+
+for dir in ['/swapfiles', '/swapfiles/backupfiles', '/swapfiles/undofiles']
+    let s:dir = s:tprefix.dir
+    if !isdirectory(s:dir)
+        if has('win32') && $LANG =~? 'zh_CN'
+            let s:dir = iconv(s:dir, &enc, &tenc)
+        endif
+        silent! call mkdir(s:dir, 'p')
+        unlet s:dir
+    endif
+endfor
+
+if isdirectory(s:tprefix.'/swapfiles')
+    let &directory=s:tprefix."/swapfiles"
+endif
+if isdirectory(s:tprefix.'/swapfiles/backupfiles')
+    let &backupdir=s:tprefix."/swapfiles/backupfiles"
+endif
+if v:version >= 703 && isdirectory($VIM.'/swapfiles/undofiles')
+    let &undodir=s:tprefix."/swapfiles/undofiles,."
+endif
+
+"}}}2
 " ----------------------------------------------------------
 " Helpers {{{1
 
@@ -264,8 +263,9 @@ if has('eval')
         endfor
         unlet s:cur_root
     else
-        let s:spec_path = [['$DOC', '~/Document'],
-                    \ ['$WORK', '~/Work']]
+        let s:spec_path = [['$DOC', expand('~/Document')],
+                    \ ['$WORK', '/work'],
+                    \ ['$WORK', expand('~/Work')]]
     endif
 
     for [var, path] in s:spec_path
@@ -524,7 +524,12 @@ xmap <leader>ex "ey:vsp <C-R>e<CR>
 
 if has('eval')
     function! s:get_restart_arg()
-        let cmdline = '!start '.v:progname.' -c "cd '
+        if has('win32')
+            let cmdline = '!start '.v:progname.' -c "cd '
+        else
+            let cmdline = '!'.v:progname.' -c "cd '
+            call feedkeys("\<CR>")
+        end
         if exists(":NERDTreeToggle") == 2
             return cmdline.fnameescape(getcwd()).'|NERDTreeToggle|wincmd l"'
         else
@@ -740,7 +745,7 @@ cnoremap <f1> <C-R>=escape(strftime("%Y-%m-%d %H:%M:%S"), '\ ')<CR>
 " f3: shell {{{4
 
 if !has('win32')
-    map <F3> :<C-U>!xterm<CR>
+    map <F3> :<C-U>!gnome-terminal &<CR>:call feedkeys("\<lt>CR>")<CR>
 elseif executable('sh.exe')
     map <F3> :<C-U>!start sh.exe --login -i<CR>
 else
@@ -860,6 +865,10 @@ nnoremap <silent> <leader>sy     :FufLine<CR>
 " latex-suite {{{2
 
 let g:tex_flavor='latex'
+
+" lua-inspect {{{2
+
+let g:loaded_luainspect=1 "disable luainspect
 
 " minibufexplpp {{{2
 
