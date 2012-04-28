@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1711)
-" Last Change:  2012-04-16 14:19:31
+" Version:      0.5 (1714)
+" Last Change:  2012-04-25 13:23:48
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -110,8 +110,8 @@ if has('gui_running') " {{{2
 
     if has('win32')
         silent! set gfn=Consolas:h10:cANSI
-        silent! set gfw=YaHei_Consolas_Hybrid:h10:cGB2312
-        "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
+        "silent! set gfw=YaHei_Consolas_Hybrid:h10:cGB2312
+        exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
     else
         "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
         set gfn=Monospace\ 9
@@ -123,7 +123,7 @@ else " in terminal {{{2
     "silent! colorscheme kaltex
     silent! colorscheme evening
 endif " }}}2
-if has("win32") " {{{3
+if has("win32") " {{{2
     if $LANG =~? 'zh_CN' && &encoding !=? "cp936"
         set termencoding=cp936
 
@@ -135,11 +135,11 @@ if has("win32") " {{{3
     endif
 
 
-elseif has('unix') " {{{3
+elseif has('unix') " {{{2
     if &term == 'linux'
         " lang C
     endif
-endif " }}}3
+endif " }}}2
 " swapfiles/undofiles settings {{{2
 
 if has('win32')
