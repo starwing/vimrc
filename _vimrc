@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1724)
-" Last Change:  2012-05-14 13:40:33
+" Version:      0.5 (1737)
+" Last Change:  2012-05-14 13:58:59
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -61,9 +61,9 @@ endif
 set titlestring=%f%(\ %m%h%r%)\ -\ StarWing's\ Vim:\ %{v:servername}
 set laststatus=2
 set statusline=
-set statusline+=%2*%-3.3n%0*\  " buffer number
-set statusline+=%f\  " file name
-set statusline+=%1*%h%m%r%w%0* " flag
+set statusline+=%2*%-3.3n%0*%<  " buffer number
+set statusline+=%<\ %f  " file name
+set statusline+=\ %1*%h%m%r%w%0* " flag
 set statusline+=[
 
 if v:version >= 600
@@ -73,9 +73,9 @@ endif
 
 set statusline+=%{&fileformat}] " file format
 set statusline+=%= " right align
-"set statusline+=%2*0x%-8B\  " current char
-set statusline+=0x%-8B\  " current char
-set statusline+=%-14.(%l,%c%V%)\ %<%P " offset
+"set statusline+=\ %2*0x%-8B  " current char
+set statusline+=\ 0x%-8B  " current char
+set statusline+=\ %-12.(%l,%c%V%)\ %P " offset
 
 if globpath(&rtp, "plugin/vimbuddy.vim") != ''
     set statusline+=\ %{VimBuddy()} " vim buddy
