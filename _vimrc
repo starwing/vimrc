@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1737)
-" Last Change:  2012-05-14 13:58:59
+" Version:      0.5 (1749)
+" Last Change:  2012-05-14 14:13:20
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -333,14 +333,17 @@ if has('autocmd')
         "au BufWritePre * let &backup = (getfsize(expand('%')) > 500000)
         au BufNewFile,BufRead *.vba set noml
         au FileType dot,lua,haskell,m4,perl,python,ruby,scheme,vim
-                    \ setg sw=4 ts=8 sts=4 et sta nu fdc=2 fo-=t
+                    \   if !exists('b:ft') || b:ft != &ft
+                    \|      let b:ft = &ft
+                    \|      set sw=4 ts=8 sts=4 et sta nu fdc=2 fo-=t
+                    \|  endif
         au FileType scheme if exists(":AutoCloseOff") == 2
                     \|         exec "AutoCloseOff"
                     \|     endif
         au FileType html set fo-=t
         au BufReadPost log.txt syn clear
                     \|         syn region Table start='{' end='}' contains=Table fold
-                    \|         se fdc=5 fdm=syntax
+                    \|         se fdc=5 fdm=syntax autoread
 
         if has("cscope")
             au VimLeave * cs kill -1
