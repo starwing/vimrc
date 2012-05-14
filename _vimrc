@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1723)
-" Last Change:  2012-05-14 13:12:44
+" Version:      0.5 (1724)
+" Last Change:  2012-05-14 13:40:33
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -37,7 +37,6 @@ set diffopt+=vertical
 set display=lastline
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,latin1
 set formatoptions+=mB2
-set helplang=cn
 set history=1000
 set modeline " for debian.vim, changed the initial value
 set shiftwidth=4
