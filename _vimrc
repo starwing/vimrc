@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1714)
-" Last Change:  2012-04-25 13:23:48
+" Version:      0.5 (1722)
+" Last Change:  2012-05-11 12:05:12
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -327,13 +327,14 @@ if has('autocmd')
         endfunction
         " }}}3
 
+        au!
         au BufFilePost * filetype detect|redraw
         au BufWritePre $MYVIMRC silent call s:vimrc_write()
         au BufReadPost * if getfsize(expand('%')) < 50000 | syn sync fromstart | endif
         "au BufWritePre * let &backup = (getfsize(expand('%')) > 500000)
         au BufNewFile,BufRead *.vba set noml
         au FileType dot,lua,haskell,m4,perl,python,ruby,scheme,vim
-                    \ set sw=4 ts=8 sts=4 et sta nu fdc=2 fo-=t
+                    \ setg sw=4 ts=8 sts=4 et sta nu fdc=2 fo-=t
         au FileType scheme if exists(":AutoCloseOff") == 2
                     \|         exec "AutoCloseOff"
                     \|     endif
