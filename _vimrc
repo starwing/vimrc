@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1722)
-" Last Change:  2012-05-11 12:05:12
+" Version:      0.5 (1723)
+" Last Change:  2012-05-14 13:12:44
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1011,8 +1011,8 @@ nmap <leader>ps :SessionSave<CR>
 " supertab {{{2
 
 let g:SuperTabDefaultCompletionType = "<C-N>"
-"let g:SuperTabCrMapping = 0
-"let g:SuperTabLongestEnhanced = 1
+let g:SuperTabCrMapping = 0 " incompatible with autopairs
+let g:SuperTabLongestEnhanced = 1
 "let g:SuperTabLongestHighlight = 1
 
 " surround {{{2
