@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1749)
-" Last Change:  2012-05-14 14:13:20
+" Version:      0.5 (1750)
+" Last Change:  2012-05-25 00:23:46
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -863,6 +863,11 @@ nnoremap <silent> <leader>su     :FufBookmarkFile<CR>
 nnoremap <silent> <leader>s<C-u> :FufBookmarkFileAdd<CR>
 vnoremap <silent> <leader>s<C-u> :FufBookmarkFileAddAsSelectedText<CR>
 nnoremap <silent> <leader>sy     :FufLine<CR>
+
+
+" indent guide {{{2
+
+let g:indent_guides_guide_size=1
 
 
 " latex-suite {{{2
