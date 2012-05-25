@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1750)
-" Last Change:  2012-05-25 00:23:46
+" Version:      0.5 (1757)
+" Last Change:  2012-05-25 10:29:11
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -119,8 +119,8 @@ if has('gui_running') " {{{2
     silent! colorscheme evening
 
 else " in terminal {{{2
-    "silent! colorscheme kaltex
-    silent! colorscheme evening
+    silent! colorscheme kaltex
+    "silent! colorscheme evening
 endif " }}}2
 if has("win32") " {{{2
     if $LANG =~? 'zh_CN' && &encoding !=? "cp936"
@@ -337,6 +337,7 @@ if has('autocmd')
                     \|      let b:ft = &ft
                     \|      set sw=4 ts=8 sts=4 et sta nu fdc=2 fo-=t
                     \|  endif
+        au BufWinEnter */SVG/*.lua se ts=4 noet
         au FileType scheme if exists(":AutoCloseOff") == 2
                     \|         exec "AutoCloseOff"
                     \|     endif
@@ -1018,7 +1019,7 @@ nmap <leader>ps :SessionSave<CR>
 " supertab {{{2
 
 let g:SuperTabDefaultCompletionType = "<C-N>"
-let g:SuperTabCrMapping = 0 " incompatible with autopairs
+"let g:SuperTabCrMapping = 0 " incompatible with autopairs
 let g:SuperTabLongestEnhanced = 1
 "let g:SuperTabLongestHighlight = 1
 

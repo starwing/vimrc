@@ -124,7 +124,7 @@ au FileType rest SetCompilerInfo rst2html
 
 au FileType markdown SetExtensionName md
 au FileType markdown SetCompilerInfo mmd2html
-	    \ cc='multimarkdown' input='%:.' output='%:r.html'
+	    \ cc='lunamark' input='%:.' output='%:r.html'
 	    \ cmd='!$cc $flags -o $output $input' flags=''
 	    \ run='!"$output"'
 
