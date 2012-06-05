@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1757)
-" Last Change:  2012-05-25 10:29:11
+" Version:      0.5 (1759)
+" Last Change:  2012-05-30 14:04:48
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -877,7 +877,8 @@ let g:tex_flavor='latex'
 
 " lua-inspect {{{2
 
-let g:loaded_luainspect=1 "disable luainspect
+"let g:loaded_luainspect=1 "disable luainspect
+let g:lua_inspect_events = ""
 
 " minibufexplpp {{{2
 
