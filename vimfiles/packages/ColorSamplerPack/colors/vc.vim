@@ -10,12 +10,12 @@ if exists("syntax_on")
 endif
 let g:colors_name="vc"
 
-hi Comment		gui=NONE		guifg=SeaGreen		guibg=NONE
+hi Comment		gui=italic		guifg=SeaGreen		guibg=NONE
 hi Constant		gui=NONE		guifg=#004488 		guibg=NONE
 "hi Identifier	gui=NONE		guifg=Blue			guibg=NONE
 hi Statement 	gui=NONE		guifg=Blue			guibg=NONE
 hi PreProc		gui=NONE		guifg=Blue			guibg=NONE	
-hi Type			gui=NONE		guifg=Blue			guibg=NONE
+hi Type			gui=bold		guifg=Blue			guibg=NONE
 hi Special		gui=NONE		guifg=SteelBlue	guibg=NONE
 "hi Underlined	
 "hi Ignore		

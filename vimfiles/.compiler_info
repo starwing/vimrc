@@ -13,8 +13,8 @@ set cpo&vim
 
 au FileType c,cpp SetDefaultInfo!
 	\ cmd='!$cc $flags $input $libs -o $output'
-	\ run='!$output' input='%:.' output='%:t:r'
-	\ asm_run=":pedit $output"
+	\ run='!$output $args' input='%:.' output='%:t:r'
+	\ asm_run=":pedit $output" args=''
 	\ asm_output='$output.s'
 	\ debug_run='!gdb -q $output'
 

@@ -56,7 +56,7 @@ hi Ignore ctermfg=DarkGrey guifg=grey20
 
 " Change By Starwing
 " DateTime : 2008年 09月 02日 星期二 15:18:48 CST
-hi Comment guifg=#80A0FF
+hi Comment gui=italic guifg=#80A0FF
 hi FoldColumn guibg=grey20 guifg=Grey
 hi Folded guibg=DarkGrey guifg=White
 hi Function guibg=bg guifg=Purple gui=bold

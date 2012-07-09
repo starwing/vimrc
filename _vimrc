@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1759)
-" Last Change:  2012-05-30 14:04:48
+" Version:      0.5 (1785)
+" Last Change:  2012-07-09 14:28:09
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -203,7 +203,7 @@ if has('eval')
                     \  ['perl',     'perl/perl/bin'    ],
                     \  ['python',   'Python'           ]]
         for [name, path] in s:tools
-            if !isdirectory($VIM.'/../'.$TOOLS) | continue | endif
+            if !isdirectory($VIM.'/../'.path) | continue | endif
 
             let s:{name}_path = s:globfirst($VIM.'/../'.path)
 
@@ -468,7 +468,7 @@ if has('win32') && executable('vimtweak.dll')
         exec 'com! -bar Switch'.var.' exec !s:tweak_'.var.
                     \ '."VimTweak '.var.'"'
     endfor
-    command! -bar SwitchAlpha if s:tweak_SetAlpha == 255|200SetAlpha
+    command! -bar SwitchAlpha if s:tweak_SetAlpha == 255|230SetAlpha
                 \ |else|255SetAlpha|endif
     command! -bar -count=255 SetAlpha <count>VimTweak SetAlpha
     map <F10> :<C-U>SwitchMaximize<CR>
@@ -648,6 +648,11 @@ if has('eval')
     map Y y$
 endif
 
+" set buffer tabstop and sw and et
+
+map <leader>1 :<C-U>setl ts=8 sw=4 et nu fdm=syntax fdc=2<CR>
+map <leader>2 :<C-U>setl ts=4 sw=4 noet nu fdm=syntax fdc=2<CR>
+
 " indent {{{3
 
 xmap > >gv
@@ -735,6 +740,10 @@ map <M-S-H> <C-W>H
 map <M-S-L> <C-W>L
 
 
+" save {{{3
+
+map <C-S> :<C-U>w<CR>
+
 " Function Key maps {{{3
 
 " f1: show the wildmenu {{{4
@@ -769,6 +778,12 @@ imap <F4> <ESC><F4>a
 " ----------------------------------------------------------
 " plugin settings {{{1
 if has('eval')
+
+" Easy Vim {{{2
+
+if &insertmode
+    run! evim.vim
+endif
 
 " 2html {{{2
 
@@ -810,6 +825,9 @@ map <leader>ct= <C-\>=
 
 amenu 1.246 ToolBar.BuiltIn25 :CC<CR>
 tmenu ToolBar.BuiltIn25 CTK Compile
+amenu 1.247 ToolBar.BuiltIn15 :RUN<CR>
+tmenu ToolBar.BuiltIn15 CTK Run
+amenu 1.248 ToolBar.-sep5-1- <Nop>
 
 
 " delimitMate {{{2
@@ -1021,7 +1039,7 @@ nmap <leader>ps :SessionSave<CR>
 
 let g:SuperTabDefaultCompletionType = "<C-N>"
 "let g:SuperTabCrMapping = 0 " incompatible with autopairs
-let g:SuperTabLongestEnhanced = 1
+"let g:SuperTabLongestEnhanced = 1
 "let g:SuperTabLongestHighlight = 1
 
 " surround {{{2
