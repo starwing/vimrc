@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1785)
-" Last Change:  2012-07-09 14:28:09
+" Version:      0.5 (1788)
+" Last Change:  2012-07-09 15:31:27
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -199,6 +199,7 @@ if has('eval')
         let s:tools = [['git',      'git/bin'          ],
                     \  ['minsys',   'minSYS/bin'       ],
                     \  ['mingw',    'minSYS/mingw/bin' ],
+                    \  ['mingw',    'minGW/bin'        ],
                     \  ['lua',      'Lua'              ],
                     \  ['perl',     'perl/perl/bin'    ],
                     \  ['python',   'Python'           ]]
