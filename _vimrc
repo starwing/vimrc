@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1788)
-" Last Change:  2012-07-09 15:31:27
+" Version:      0.5 (1793)
+" Last Change:  2012-07-13 11:38:58
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -197,9 +197,11 @@ if has('eval')
     if has("win32")
         call s:let('$PATH', s:globfirst($VIM."/vimfiles/tools").";".$PATH)
         let s:tools = [['git',      'git/bin'          ],
+                    \  ['mingw',    'minGW/bin'        ],
                     \  ['minsys',   'minSYS/bin'       ],
                     \  ['mingw',    'minSYS/mingw/bin' ],
-                    \  ['mingw',    'minGW/bin'        ],
+                    \  ['lua52',    'lua52'            ],
+                    \  ['lua51',    'lua51'            ],
                     \  ['lua',      'Lua'              ],
                     \  ['perl',     'perl/perl/bin'    ],
                     \  ['python',   'Python'           ]]
