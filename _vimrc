@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1793)
-" Last Change:  2012-07-13 11:38:58
+" Version:      0.5 (1800)
+" Last Change:  2012-08-25 01:18:41
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -37,6 +37,7 @@ set diffopt+=vertical
 set display=lastline
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,latin1
 set formatoptions+=mB2
+set grepprg=grep\ -rn\ 
 set history=1000
 set modeline " for debian.vim, changed the initial value
 set shiftwidth=4
@@ -335,7 +336,7 @@ if has('autocmd')
         au BufReadPost * if getfsize(expand('%')) < 50000 | syn sync fromstart | endif
         "au BufWritePre * let &backup = (getfsize(expand('%')) > 500000)
         au BufNewFile,BufRead *.vba set noml
-        au FileType dot,lua,haskell,m4,perl,python,ruby,scheme,vim
+        au FileType dot,lua,haskell,m4,perl,python,ruby,scheme,tcl,vim
                     \   if !exists('b:ft') || b:ft != &ft
                     \|      let b:ft = &ft
                     \|      set sw=4 ts=8 sts=4 et sta nu fdc=2 fo-=t
@@ -593,6 +594,7 @@ map <leader>fp :<C-U>setf python<CR>
 map <leader>fT :<C-U>setf tex<CR>
 map <leader>fr :<C-U>setf rest<CR>
 map <leader>fs :<C-U>setf scheme<CR>
+map <leader>fT :<C-U>setf tcl<CR>
 map <leader>ft :<C-U>setf text<CR>
 map <leader>fv :<C-U>setf vim<CR>
 
@@ -839,6 +841,12 @@ let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
 autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
 autocmd FileType markdown let b:delimitMate_nesting_quotes = ['`']
+
+" EasyGrep {{{2
+
+let g:EasyGrepMode=2 " TrackExt
+let g:EasyGrepCommand = 1
+
 
 " fuzzyfinder {{{2
 

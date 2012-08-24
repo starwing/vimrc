@@ -18,7 +18,7 @@ au FileType c,cpp SetDefaultInfo!
 	\ asm_output='$output.s'
 	\ debug_run='!gdb -q $output'
 
-au FileType javascript,haskell,lua,meta.lua,m4,perl,python,ruby,scheme,lisp SetDefaultInfo!
+au FileType javascript,haskell,lua,meta.lua,m4,perl,python,ruby,scheme,tcl,lisp SetDefaultInfo!
         \ cmd='#RUN_DIRECT' runmap='<f5>'
         \ run='!$cc $flags $src $args' src='%:.'
         \ flags='' args=''
@@ -142,6 +142,12 @@ au FileType scheme SetCompilerInfo! racket
             \ title='racket' cc='racket'
 au FileType scheme SetCompilerInfo! chicken
             \ title='chicken' cc='csi' flags='-q'
+
+" filetype tcl {{{1
+
+au FileType tcl SetExtensionName tcl
+au FileType tcl SetCompilerInfo! tclsh
+            \ title='tclsh' cc='tclsh'
 
 " filetype lisp {{{1
 
