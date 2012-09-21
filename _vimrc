@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1800)
-" Last Change:  2012-08-25 01:18:41
+" Version:      0.5 (1827)
+" Last Change:  2012-09-21 14:50:21
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -105,8 +105,7 @@ if has('eval')
 endif
 
 if has('gui_running') " {{{2
-    set go=er co=120 lines=35
-    "set co=120 lines=35
+    set co=120 lines=35
 
     if has('win32')
         silent! set gfn=Consolas:h10:cANSI
@@ -198,6 +197,7 @@ if has('eval')
     if has("win32")
         call s:let('$PATH', s:globfirst($VIM."/vimfiles/tools").";".$PATH)
         let s:tools = [['git',      'git/bin'          ],
+                    \  ['git',      'minGW/git/bin'    ],
                     \  ['mingw',    'minGW/bin'        ],
                     \  ['minsys',   'minSYS/bin'       ],
                     \  ['mingw',    'minSYS/mingw/bin' ],
@@ -278,6 +278,10 @@ if has('eval')
     endfor
     unlet s:spec_path
 
+    if has('win32') && exists('$WORK') && isdirectory(glob("$WORK/Home"))
+        let $HOME = glob("$WORK/Home")
+    endif
+
     " $PRJDIR {{{3
 
     for dir in ['~', '~/..', $VIM, $VIM.'/..', $VIM.'/../..', $WORK]
@@ -292,6 +296,7 @@ if has('eval')
     if !exists('$PRJDIR') && exists('$WORK')
         let $PRJDIR = $WORK
     endif
+
 
     if exists('$PRJDIR') && argc() == 0
         let orig_dir = getcwd()
@@ -441,6 +446,31 @@ if has('win32')
     command! -nargs=* -complete=file VI !start vim <args>
     command! -nargs=* -complete=file VG !start gvim <args>
 endif
+
+" Full GUI {{{3
+
+if has('gui_running')
+    let s:has_mt = glob("$VIM/_fullscreen") == ""
+    if s:has_mt
+        set go+=mT
+    else
+        set go-=m go-=T
+    endif
+
+    function! s:check_mt()
+        if s:has_mt
+            set go-=m go-=T
+        else
+            set go+=mT
+        endif
+        let s:has_mt = !s:has_mt
+    endfunction
+
+    command! -bar ToggleGUI call s:check_mt()
+
+    map <F9> :<C-U>ToggleGUI<CR>
+endif
+
 
 " DarkRoom {{{3
 
