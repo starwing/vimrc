@@ -18,7 +18,7 @@ au FileType c,cpp SetDefaultInfo!
 	\ asm_output='$output.s'
 	\ debug_run='!gdb -q $output'
 
-au FileType javascript,haskell,lua,meta.lua,m4,perl,python,ruby,scheme,tcl,lisp SetDefaultInfo!
+au FileType clojure,javascript,haskell,lua,meta.lua,m4,perl,python,ruby,scheme,tcl,lisp SetDefaultInfo!
         \ cmd='#RUN_DIRECT' runmap='<f5>'
         \ run='!$cc $flags $src $args' src='%:.'
         \ flags='' args=''
@@ -59,6 +59,12 @@ au FileType cpp SetCompilerInfo! vc++
     	\ asm_title='Microsoft VC++ to ASM'
     	\ asm_flags='/FAs $flags'
 
+" filetype clojure "{{{1
+ 
+au filetype clojure SetExtensionName clj
+au filetype clojure SetCompilerInfo! clojure
+	    \ title='clojure' cc='java clojure.main'
+ 
 " filetype graphviz {{{1
 
 au FileType dot SetExtensionName dot

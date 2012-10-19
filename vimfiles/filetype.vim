@@ -7,6 +7,7 @@ endif
 
 augroup filetypedetect
     au BufRead,BufNewFile *.cal      	setf text
+    au BufRead,BufNewFile *.clj      	setf clojure
     au BufRead,BufNewFile *.i		setf swig 
     au BufRead,BufNewFile *.ll		setf llvm
     au BufRead,BufNewFile *.mlua     	setf meta.lua

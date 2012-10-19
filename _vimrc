@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1827)
-" Last Change:  2012-09-21 14:50:21
+" Version:      0.5 (1876)
+" Last Change:  2012-10-12 18:11:40
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -203,6 +203,7 @@ if has('eval')
                     \  ['mingw',    'minSYS/mingw/bin' ],
                     \  ['lua52',    'lua52'            ],
                     \  ['lua51',    'lua51'            ],
+                    \  ['luaJIT',   'luaJIT'           ],
                     \  ['lua',      'Lua'              ],
                     \  ['perl',     'perl/perl/bin'    ],
                     \  ['python',   'Python'           ]]
@@ -341,7 +342,7 @@ if has('autocmd')
         au BufReadPost * if getfsize(expand('%')) < 50000 | syn sync fromstart | endif
         "au BufWritePre * let &backup = (getfsize(expand('%')) > 500000)
         au BufNewFile,BufRead *.vba set noml
-        au FileType dot,lua,haskell,m4,perl,python,ruby,scheme,tcl,vim
+        au FileType clojure,dot,lua,haskell,m4,perl,python,ruby,scheme,tcl,vim
                     \   if !exists('b:ft') || b:ft != &ft
                     \|      let b:ft = &ft
                     \|      set sw=4 ts=8 sts=4 et sta nu fdc=2 fo-=t
@@ -536,6 +537,22 @@ if exists("$VIMDIR")
                     \ 'fnamemodify(v:val, ":t")')
     endfunction
 endif
+
+" Add Linenumber {{{3
+  
+command! -bar -range=% LN 
+            \|silent <line1>,<line2>s/  /　/ge
+            \|silent <line1>,<line2>s/^/\=printf(
+            \           "|%0.*d| ", strlen(<line2>), line('.'))/ge
+            \|silent! <line1>,<line2>yank *
+            \|silent! undo
+            \|let @/=""
+
+command! -bar -range=% DLN
+            \|silent <line1>,<line2>s/　/  /ge
+            \|silent <line1>,<line2>s/^|\=\d\+\%(| \|:\)\=//ge
+            \|nohl
+  
 " Font Size {{{3
 
 let s:gf_pat = has('win32') ? 'h\zs\d\+' : '\d\+$'
@@ -612,6 +629,7 @@ inoremap <M-B> <S-Left>
 " filetype settings {{{3
 map <leader>f+ :<C-U>setf cpp<CR>
 map <leader>fc :<C-U>setf c<CR>
+map <leader>fC :<C-U>setf clojure<CR>
 map <leader>fd :<C-U>setf dot<CR>
 map <leader>fh :<C-U>setf haskell<CR>
 map <leader>fj :<C-U>setf java<CR>
