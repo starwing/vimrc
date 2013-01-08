@@ -593,6 +593,21 @@ function! s:exec_cmd(cmdarg) " {{{2
     return output
 endfunction
 
+function! s:call_dep(stat) " {{{2
+    " don't use locale program
+    let cmd = s:make_cmd(s:get_entry_val(a:stat.entry, 'dep', ''), a:stat.entry, 0)
+    if cmd == '' 
+        return [1, "", ""]
+    endif
+
+    let res = s:exec_cmd(cmd)."\n"
+
+    if v:shell_error == 0
+        return [1, cmd, res]
+    endif
+    return [0, cmd, res]
+endfunction
+
 function! s:show_list(info) " {{{2
     if empty(a:info) | return | endif
 
@@ -883,15 +898,26 @@ function! s:compile(count, entry, bang) " {{{1
     let msg = 'Compiling... using '.
                 \ s:get_entry_val(stat.entry, 'title', stat.info.name)
 
-    " don't use locale program
-    let cmd = s:make_cmd(s:get_entry_val(stat.entry, 'cmd', ''), stat.entry, 0)
-    if cmd == '' 
-        redraw | echo 'Empty command, Nothing Done.' 
-"        call Dret('s:compile')
-        return  
-    endif
+    let cmdname = stat.info.name
+    let [ok, buildcmd, res] = s:call_dep(stat)
+    if ok
+        " don't use locale program
+        let cmd = s:make_cmd(s:get_entry_val(stat.entry, 'cmd', ''), stat.entry, 0)
+        if cmd == '' 
+            redraw | echo 'Empty command, Nothing Done.' 
+    "        call Dret('s:compile')
+            return  
+        endif
 
-    let res = s:exec_cmd(cmd)
+        let oldres = res
+        let res = s:exec_cmd(cmd)
+        if oldres != ""
+            let res = res."\n".buildcmd."\n".oldres
+        endif
+    else
+        let cmd = buildcmd
+        let cmdname = "dep command"
+    endif
 
     redraw
     if cmd[0] != ':'
@@ -903,7 +929,7 @@ function! s:compile(count, entry, bang) " {{{1
         endif
 
         let cmdres = [msg, cmd, ''] + split(res, "\<NL>")
-                    \ + [stat.info.name.' returned '.ret_val]
+                    \ + [cmdname.' returned '.ret_val]
         cgetexpr cmdres
         exec v:shell_error == 0 ? 'cwindow' : 
                     \ (res == '' ? 'cclose' : 'copen')
