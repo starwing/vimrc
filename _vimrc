@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1876)
-" Last Change:  2012-10-12 18:11:40
+" Version:      0.5 (1879)
+" Last Change:  2012-10-25 04:08:35
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -198,6 +198,7 @@ if has('eval')
         call s:let('$PATH', s:globfirst($VIM."/vimfiles/tools").";".$PATH)
         let s:tools = [['git',      'git/bin'          ],
                     \  ['git',      'minGW/git/bin'    ],
+                    \  ['cmake',    'cmake/bin'        ],
                     \  ['mingw',    'minGW/bin'        ],
                     \  ['minsys',   'minSYS/bin'       ],
                     \  ['mingw',    'minSYS/mingw/bin' ],
@@ -206,7 +207,9 @@ if has('eval')
                     \  ['luaJIT',   'luaJIT'           ],
                     \  ['lua',      'Lua'              ],
                     \  ['perl',     'perl/perl/bin'    ],
-                    \  ['python',   'Python'           ]]
+                    \  ['python',   'Python'           ],
+                    \  ['python',   'Python27'         ],
+                    \  ['python',   'Python31'         ]]
         for [name, path] in s:tools
             if !isdirectory($VIM.'/../'.path) | continue | endif
 
