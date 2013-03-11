@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1879)
-" Last Change:  2012-10-25 04:08:35
+" Version:      0.5 (1880)
+" Last Change:  2013-02-22 09:00:14
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -47,6 +47,7 @@ set tabstop=8
 set textwidth=70
 set viminfo+=!
 set virtualedit=block
+set whichwrap+=<,>,h,l
 set wildcharm=<C-Z>
 set wildmenu
 

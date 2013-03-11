@@ -3,6 +3,7 @@ local dstdir = [[\Vim\vim73]]
 local srcdir = [[\Work\Sources\Vim\src\]]
 local flags  = [[IME=yes CSCOPE=yes OLE=yes WINVER=0x0500]]
 local optflags={
+    user    = [[USERNAME=SW USERDOMAIN=SB_DiaoSi_Mo]],
     sdkdir  = [[SDK_INCLUDE_DIR="C:\Program Files\Microsoft SDKs\Windows\v7.1\Include"]],
     lua     = [[LUA=\Lua52 DYNAMIC_LUA=yes LUA_VER=52]],
     mz      = [[MZSCHEME=\Racket DYNAMIC_MZSCHEME=yes MZSCHEME_VER=3m_8aa8e0]],
@@ -12,7 +13,7 @@ local optflags={
     ruby    = [[RUBY=\ruby192 DYNAMIC_RUBY=yes RUBY_VER=191 RUBY_VER_LONG=1.9.1]],
     tcl     = [[TCL=\Tcl DYNAMIC_TCL=yes TCL_VER=85 TCL_VER_LONG=8.5]],
 }
-local uses = { "lua", "perl", "python", "python3", "tcl" }
+local uses = { "user", "lua", "perl", "python", "python3", "tcl" }
 -- end --
 
 -- parse argument options
