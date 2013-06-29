@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1880)
-" Last Change:  2013-02-22 09:00:14
+" Version:      0.5 (1901)
+" Last Change:  2013-06-29 18:43:36
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -116,8 +116,11 @@ if has('gui_running') " {{{2
         "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
         set gfn=Monospace\ 9
     endif
-    "silent! colorscheme kaltex
-    silent! colorscheme evening
+    if has('win32')
+        silent! colorscheme evening
+    else
+        silent! colorscheme kaltex
+    end
 
 else " in terminal {{{2
     silent! colorscheme kaltex
@@ -455,7 +458,7 @@ endif
 " Full GUI {{{3
 
 if has('gui_running')
-    let s:has_mt = glob("$VIM/_fullscreen") == ""
+    let s:has_mt = glob("$VIM/_fullscreen") == "" && glob("$HOME/.vim/_fullscreen") == ""
     if s:has_mt
         set go+=mT
     else
@@ -595,10 +598,13 @@ if has('eval')
             return cmdline.fnameescape(getcwd()).'"'
         endif
     endfunction
-    map <leader>vv :<C-U>exec <SID>get_restart_arg()<CR>
+    map <leader>vn :<C-U>exec <SID>get_restart_arg()<CR>
     map <leader>vr :<C-U>exec <SID>get_restart_arg()<BAR>qa!<CR>
-    map <leader>vi :<C-U>!start vim<CR>
-    map <leader>vg :<C-U>!start gvim<CR>
+    if has('win32')
+        map <leader>vi :<C-U>!start gvim<CR>
+    else
+        map <leader>vi :<C-U>!gvim<CR><CR>
+    end
 end
 
 " cd to current file folder {{{3
