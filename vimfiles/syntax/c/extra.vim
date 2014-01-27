@@ -22,6 +22,13 @@ syn match       cBinaryOperatorError display "\~="
 syn match       cLogicalOperator  display "&&\|||"
 syn match       cLogicalOperatorError display "\(&&\|||\)="
 
+"========================================================
+" fold comment
+"========================================================
+
+syn region cFoldDefine start="^\s*\(%:\|#\)\s*define\>" skip="\\$" end="$" 
+            \ containedin=cDefine contained keepend fold transparent
+
 " Math Operator
 hi def link cMathOperator            cOperator
 hi def link cPointerOperator         cOperator
