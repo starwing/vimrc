@@ -1,2 +1,2 @@
 copy "%~dp0scripts" "%~dp0.."
-copy "%~dp0_vimrc"  "%~dp0..\_vimrc"
+echo source $VIM/vimfiles/_vimrc > "%~dp0..\_vimrc"

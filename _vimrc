@@ -458,7 +458,9 @@ endif
 " Full GUI {{{3
 
 if has('gui_running')
-    let s:has_mt = glob("$VIM/_fullscreen") == "" && glob("$HOME/.vim/_fullscreen") == ""
+    let s:has_mt = glob("$VIM/_fullscreen") == "" &&
+                \  glob("$VIM/vimfiles/_fullscreen") == "" &&
+                \  glob("$HOME/.vim/_fullscreen") == ""
     if s:has_mt
         set go+=mT
     else
@@ -672,8 +674,13 @@ nmap<silent> <leader>gs :echo ""<bar>for id in synstack(line('.'),col('.'))
             \\|endfor<CR>
 
 " vimrc edit {{{3
-map <leader>re :drop $MYVIMRC<CR>
-map <leader>rr :so $MYVIMRC<CR>
+if has("win32")
+    map <leader>re :drop $VIM/vimfiles/_vimrc<CR>
+    map <leader>rr :so $VIM/vimfiles/_vimrc<CR>
+else
+    map <leader>re :drop $MYVIMRC<CR>
+    map <leader>rr :so $MYVIMRC<CR>
+endif
 
 " clipboard operations {{{3
 if has('eval')
