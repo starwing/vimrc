@@ -354,7 +354,7 @@ if has('autocmd')
                     \|      let b:ft = &ft
                     \|      set sw=4 ts=8 sts=4 et sta nu fdc=2 fo-=t
                     \|  endif
-        au BufWinEnter */SVG/*.lua se ts=4 noet
+        au FileType lua se sw=3 ts=3 et
         au FileType scheme if exists(":AutoCloseOff") == 2
                     \|         exec "AutoCloseOff"
                     \|     endif
@@ -1114,6 +1114,7 @@ nmap <leader>ps :SessionSave<CR>
 " supertab {{{2
 
 let g:SuperTabDefaultCompletionType = "<C-N>"
+let g:SuperTabNoCompleteAfter = [ '^', ',', '\s' ]
 "let g:SuperTabCrMapping = 0 " incompatible with autopairs
 "let g:SuperTabLongestEnhanced = 1
 "let g:SuperTabLongestHighlight = 1
