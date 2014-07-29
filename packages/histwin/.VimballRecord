@@ -1,1 +1,0 @@
-histwin-0.21.vba: call delete('D:\Tools\Vim\vimfiles\packages\histwin\/plugin/histwinPlugin.vim')|call delete('D:\Tools\Vim\vimfiles\packages\histwin\/autoload/histwin.vim')|call delete('D:\Tools\Vim\vimfiles\packages\histwin\/doc/histwin.txt')

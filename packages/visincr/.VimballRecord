@@ -1,1 +1,0 @@
-visincr.vba: call delete('D:\tools\Vim\vimfiles\packages\visincr\/plugin/visincrPlugin.vim')|call delete('D:\tools\Vim\vimfiles\packages\visincr\/autoload/visincr.vim')|call delete('D:\tools\Vim\vimfiles\packages\visincr\/doc/visincr.txt')|call delete('D:\tools\Vim\vimfiles\packages\visincr\/autoload/calutil.vim')

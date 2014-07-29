@@ -90,9 +90,9 @@ endif
 
 " diffexpr {{{2
 if has('eval')
-    set diffexpr=rc:my_diff('diff')
+    set diffexpr=MyDiff('diff')
 
-    function! rc:my_diff(cmd)
+    function! MyDiff(cmd)
         let cmd = [a:cmd, '-a --binary', v:fname_in, v:fname_new]
 
         if &diffopt =~ 'icase'
@@ -110,8 +110,8 @@ if has('gui_running') " {{{2
 
     if has('win32')
         silent! set gfn=Consolas:h10:cANSI
-        "silent! set gfw=YaHei_Consolas_Hybrid:h10:cGB2312
-        exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
+        silent! set gfw=YaHei_Consolas_Hybrid:h10:cGB2312
+        "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
     else
         "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
         set gfn=Monospace\ 9
@@ -293,7 +293,7 @@ if has('eval')
     " $PRJDIR {{{3
 
     for dir in ['~', '~/..', $VIM, $VIM.'/..', $VIM.'/../..', $WORK]
-        for name in ['prj', 'Project', 'Code']
+        for name in ['prj', 'Code', 'Project']
             if isdirectory(expand(dir."/".name))
                 call s:let('$PRJDIR', s:globfirst(dir."/".name))
                 break
@@ -349,12 +349,16 @@ if has('autocmd')
         au BufReadPost * if getfsize(expand('%')) < 50000 | syn sync fromstart | endif
         "au BufWritePre * let &backup = (getfsize(expand('%')) > 500000)
         au BufNewFile,BufRead *.vba set noml
-        au FileType clojure,dot,lua,haskell,m4,perl,python,ruby,scheme,tcl,vim
+        au FileType clojure,dot,lua,haskell,m4,perl,python,ruby,scheme,tcl,vim,javascript
                     \   if !exists('b:ft') || b:ft != &ft
                     \|      let b:ft = &ft
                     \|      set sw=4 ts=8 sts=4 et sta nu fdc=2 fo-=t
                     \|  endif
-        au FileType lua se sw=3 ts=3 et
+        au FileType lua se sw=3 sts=3 ts=3 et
+        au FileType javascript se sw=2 sts=2 ts=2 et fdc=2 fdm=syntax
+        au FileType javascript if exists("*JavaScriptFold")
+                    \|             call JavaScriptFold()
+                    \|         endif
         au FileType scheme if exists(":AutoCloseOff") == 2
                     \|         exec "AutoCloseOff"
                     \|     endif
@@ -849,6 +853,65 @@ imap <F4> <ESC><F4>a
 " plugin settings {{{1
 if has('eval')
 
+" Vundle {{{2
+
+set nocompatible
+filetype off
+
+if has("win32")
+    set rtp+=$VIM/vimfiles/bundle/Vundle.vim
+    call vundle#begin("$VIM/vimfiles/bundle")
+elseif exists("~/.vim/bundle/Vundle.vim")
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin("~/.vim/bundle")
+endif
+
+
+Plugin 'EasyGrep'
+Plugin 'echofunc.vim'
+Plugin 'hexman.vim'
+Plugin 'taglist.vim'
+Plugin 'The-NERD-tree'
+Plugin 'VisIncr'
+Plugin 'winmanager'
+
+Plugin 'Shutnik/jshint2.vim'
+Plugin 'Slashbunny/vim-colorsamplerpack'
+Plugin 'edsono/vim-matchit'
+Plugin 'ervandew/supertab'
+Plugin 'fholgado/minibufexpl.vim'
+Plugin 'gmarik/Vundle.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'itchyny/calendar.vim'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'tpope/vim-surround'
+Plugin 'yegappan/mru'
+Plugin 'yianwillis/vimcdoc'
+
+Plugin 'L9'
+Plugin 'FuzzyFinder'
+
+if has('python') || has('python3')
+    Plugin 'SirVer/ultisnips'
+else
+    Plugin 'MarcWeber/vim-addon-mw-utils'
+    Plugin 'tomtom/tlib_vim'
+    Plugin 'garbas/vim-snipmate'
+endif
+
+if has('lua')
+    Plugin 'Shougo/neocomplete.vim' " need Lua
+endif
+
+Plugin 'honza/vim-snippets' " snippets
+
+
+call vundle#end()
+filetype plugin indent on
+
+
 " Easy Vim {{{2
 
 if &insertmode
@@ -882,15 +945,6 @@ nmap <leader>DA <leader>caL<CR>Go<CR><C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR><CR>
 xmap <leader>da "dy<leader>da<BS> - 摘要：<CR><ESC>"dP
 xmap <leader>DA "dy<leader>DA<BS> - 摘要：<CR><ESC>"dP
 
-" cctree {{{2
-
-map <leader>ctt :CCTreeLoadDB cscope.out<CR>
-map <leader>ct> <C-\>>
-map <leader>ct< <C-\><
-map <leader>ct- <C-\>-
-map <leader>ct= <C-\>=
-
-
 " ctk {{{2
 
 amenu 1.246 ToolBar.BuiltIn25 :CC<CR>
@@ -899,13 +953,6 @@ amenu 1.247 ToolBar.BuiltIn15 :RUN<CR>
 tmenu ToolBar.BuiltIn15 CTK Run
 amenu 1.248 ToolBar.-sep5-1- <Nop>
 
-
-" delimitMate {{{2
-
-let delimitMate_expand_cr = 1
-let delimitMate_expand_space = 1
-autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
-autocmd FileType markdown let b:delimitMate_nesting_quotes = ['`']
 
 " EasyGrep {{{2
 
@@ -965,23 +1012,25 @@ nnoremap <silent> <leader>sy     :FufLine<CR>
 let g:indent_guides_guide_size=1
 
 
-" latex-suite {{{2
+" minibufexpl {{{2
 
-let g:tex_flavor='latex'
+" If you like control + vim direction key to navigate
+" windows then perform the remapping
+noremap <C-J>     <C-W>j
+noremap <C-K>     <C-W>k
+noremap <C-H>     <C-W>h
+noremap <C-L>     <C-W>l
 
-" lua-inspect {{{2
+" If you like control + arrow key to navigate windows
+" then perform the remapping
+noremap <C-Down>  <C-W>j
+noremap <C-Up>    <C-W>k
+noremap <C-Left>  <C-W>h
+noremap <C-Right> <C-W>l
 
-"let g:loaded_luainspect=1 "disable luainspect
-let g:lua_inspect_events = ""
+nnoremap <leader>on :on<BAR>MBEOpen<CR>
+xnoremap <leader>on <ESC>:on<BAR>MBEOpen<CR>
 
-" minibufexplpp {{{2
-
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplorerMoreThanOne = 2
-
-nmap <leader>on :on<CR><leader>mbe<C-W>j
-xmap <leader>on <ESC><leader>on
 
 " mru {{{2
 
@@ -1000,81 +1049,6 @@ menutrans Refresh\ list 刷新列表(&R)
 map <leader>u :<C-U>MRU<CR>
 map <leader>ru :<C-U>MRU 
 
-" neocomplcache {{{2
-
-
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplcache.
-"let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
-" Use underbar completion.
-let g:neocomplcache_enable_underbar_completion = 1
-" Set minimum syntax keyword length.
-"let g:neocomplcache_min_syntax_length = 3
-"let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-
-" Define dictionary.
-"let g:neocomplcache_dictionary_filetype_lists = {
-"    \ 'default' : '',
-"    \ 'vimshell' : $HOME.'/.vimshell_hist',
-"    \ 'scheme' : $HOME.'/.gosh_completions'
-"    \ }
-
-" Define keyword.
-if !exists('g:neocomplcache_keyword_patterns')
-    let g:neocomplcache_keyword_patterns = {}
-endif
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-"imap <C-k>     <Plug>(neocomplcache_snippets_expand)
-"smap <C-k>     <Plug>(neocomplcache_snippets_expand)
-"inoremap <expr><C-g>     neocomplcache#undo_completion()
-"inoremap <expr><C-l>     neocomplcache#complete_common_string()
-
-" SuperTab like snippets behavior.
-"imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-"set completeopt-=longest
-"inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-" <TAB>: completion.
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-"inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-"inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-"inoremap <expr><C-y>  neocomplcache#close_popup()
-"inoremap <expr><C-e>  neocomplcache#cancel_popup()
-
-" AutoComplPop like behavior.
-"let g:neocomplcache_enable_auto_select = 1
-
-" Shell like behavior(not recommended).
-"set completeopt+=longest
-"let g:neocomplcache_enable_auto_select = 1
-"let g:neocomplcache_disable_auto_complete = 1
-"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<TAB>"
-"inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-"if !exists('g:neocomplcache_omni_patterns')
-"let g:neocomplcache_omni_patterns = {}
-"endif
-"let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-""autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-"let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 
 " NERDTree {{{2
 
@@ -1099,17 +1073,35 @@ let g:OmniCpp_MayCompleteDot = 1
 let g:OmniCpp_MayCompleteArrow = 1
 let g:OmniCpp_MayCompleteScope = 1
 
+
+" neocomplete {{{2
+
+let g:neocomplete#enable_at_startup = 1
+
+
+" UltiSnips {{{2
+
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger = '<Tab>'
+let g:UltiSnipsListSnippets = '<C-Tab>'
+let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+let g:UltiSnipsSnippetDirectories=['UltiSnips']
+
+if has('win32')
+    let g:UltiSnipsSnippetsDir = expand("$VIM/vimfiles/UltiSnips")
+else
+    let g:UltiSnipsSnippetsDir = expand("~/.vim/UltiSnips")
+endif
+
+
 " perl {{{2
 
 let g:perl_fold = 1
-
-" sessionman {{{2
-
-nmap <leader>pc :SessionClose<CR>
-nmap <leader>pe :SessionShowLast<CR>
-nmap <leader>pl :SessionList<CR>
-nmap <leader>po :SessionOpenLast<CR>
-nmap <leader>ps :SessionSave<CR>
 
 " supertab {{{2
 
@@ -1122,6 +1114,7 @@ let g:SuperTabNoCompleteAfter = [ '^', ',', '\s' ]
 " surround {{{2
 
 let g:surround_{char2nr("c")} = "/* \r */"
+
 
 " taglist {{{2
 

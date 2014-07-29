@@ -71,7 +71,7 @@ endfunc
 " }}}1
 "=============================================================================
 " Function to detect file under cursor (in NERDTree)  {{{1
-function! <SID>:SysIOAction(action)
+function! <SID>SysIOAction(action)
 
 	if !has("win32")
 		if a:action=="BROZ"
@@ -285,17 +285,17 @@ endfunction
 "}}}1
 "=============================================================================
 " Function that get choice of user {{{1
-fun! <SID>:GetChoice() 
+fun! <SID>GetChoice() 
 	silent norm yy
 	" sub carriage return
 	let g:choice=substitute(@", '\n', '', "")
 	bd!
 	" echo g:choice
-	call <SID>:SysIOAction(g:choice)
+	call <SID>SysIOAction(g:choice)
 endfunction "}}}1
 "=============================================================================
 " Function that display listing {{{1
-function! <SID>:DisplayListing()
+function! <SID>DisplayListing()
 
 	1split
 	enew
@@ -304,7 +304,7 @@ function! <SID>:DisplayListing()
 	unlet g:choice
 
 	" remap cr in current opened buffer to detect menu choice
-	inoremap <buffer> <CR> <CR><Esc>:call <SID>:GetChoice()<CR>
+	inoremap <buffer> <CR> <CR><Esc>:call <SID>GetChoice()<CR>
 
 	"
 	call feedkeys("i", 'n') 
@@ -314,7 +314,7 @@ endfunc
 "}}}1
 "=============================================================================
 "Generate the help documentation of this script {{{1
-fun! <SID>:GenerateHelpFile( nameOfDestFile )
+fun! <SID>GenerateHelpFile( nameOfDestFile )
 
 	let helpcontent=[]
 
@@ -493,23 +493,23 @@ endfunction
 "=============================================================================
 "Standalone cmd {{{1
 "RENAME
-command! -nargs=0 -complete=file REN call <SID>:SysIOAction("REN")  
+command! -nargs=0 -complete=file REN call <SID>SysIOAction("REN")  
 "DELETE
-command! -nargs=0 -complete=file DEL call <SID>:SysIOAction("DEL")  
+command! -nargs=0 -complete=file DEL call <SID>SysIOAction("DEL")  
 "OPEN DIR
-command! -nargs=0 -complete=file BROZ call <SID>:SysIOAction("BROZ")  
+command! -nargs=0 -complete=file BROZ call <SID>SysIOAction("BROZ")  
 "INFO
-command! -nargs=0 -complete=file INFOS call <SID>:SysIOAction("INFOS")  
-command! -nargs=0 -complete=file INFO call <SID>:SysIOAction("INFOS")  
-command! -nargs=0 -complete=file INF call <SID>:SysIOAction("INFOS")  
+command! -nargs=0 -complete=file INFOS call <SID>SysIOAction("INFOS")  
+command! -nargs=0 -complete=file INFO call <SID>SysIOAction("INFOS")  
+command! -nargs=0 -complete=file INF call <SID>SysIOAction("INFOS")  
 "}}}1
 "=============================================================================
 "Menu cmd {{{1
-command! -nargs=0 -complete=file LSD call <SID>:DisplayListing()  
+command! -nargs=0 -complete=file LSD call <SID>DisplayListing()  
 "}}}1
 "=============================================================================
 "Help file cmd {{{1
-command! -nargs=0 -complete=file FSOHLP call <SID>:GenerateHelpFile("fsohelp.txt")
+command! -nargs=0 -complete=file FSOHLP call <SID>GenerateHelpFile("fsohelp.txt")
 "}}}1
 "=============================================================================
 "Autosource when saving this file {{{1

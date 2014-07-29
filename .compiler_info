@@ -82,7 +82,7 @@ au FileType haskell SetCompilerInfo! ghci
 " filetype javascript {{{1
 au filetype javascript SetExtensionName js
 au filetype javascript SetCompilerInfo! js
-	    \ title='glue' cc='glue'
+	    \ title='node' cc='node'
 
 " filetype lua {{{1
 
