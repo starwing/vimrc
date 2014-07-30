@@ -11,31 +11,33 @@ syntax keyword luaConstant LUA_AUTHORS
 syntax keyword luaConstant LUA_SIGNATURE
 syntax keyword luaConstant LUA_MULTRET
 syntax keyword luaConstant LUA_REGISTRYINDEX
-syntax keyword luaConstant LUA_OK	     
-syntax keyword luaConstant LUA_YIELD    
-syntax keyword luaConstant LUA_ERRRUN   
+syntax keyword luaConstant LUA_OK
+syntax keyword luaConstant LUA_YIELD
+syntax keyword luaConstant LUA_ERRRUN
 syntax keyword luaConstant LUA_ERRSYNTAX
-syntax keyword luaConstant LUA_ERRMEM   
-syntax keyword luaConstant LUA_ERRGCMM  
-syntax keyword luaConstant LUA_ERRERR   
+syntax keyword luaConstant LUA_ERRMEM
+syntax keyword luaConstant LUA_ERRGCMM
+syntax keyword luaConstant LUA_ERRERR
+syntax keyword luaConstant LUA_API
+syntax keyword luaConstant LUALIB_API
 
-syntax keyword luaConstant LUA_TNONE	    
-syntax keyword luaConstant LUA_TNIL	    
-syntax keyword luaConstant LUA_TBOOLEAN	    
-syntax keyword luaConstant LUA_TLIGHTUSERDATA  
-syntax keyword luaConstant LUA_TNUMBER	    
-syntax keyword luaConstant LUA_TSTRING	    
-syntax keyword luaConstant LUA_TTABLE	    
-syntax keyword luaConstant LUA_TFUNCTION	    
-syntax keyword luaConstant LUA_TUSERDATA	    
-syntax keyword luaConstant LUA_TTHREAD	    
-syntax keyword luaConstant LUA_NUMTAGS	    
+syntax keyword luaConstant LUA_TNONE
+syntax keyword luaConstant LUA_TNIL
+syntax keyword luaConstant LUA_TBOOLEAN
+syntax keyword luaConstant LUA_TLIGHTUSERDATA
+syntax keyword luaConstant LUA_TNUMBER
+syntax keyword luaConstant LUA_TSTRING
+syntax keyword luaConstant LUA_TTABLE
+syntax keyword luaConstant LUA_TFUNCTION
+syntax keyword luaConstant LUA_TUSERDATA
+syntax keyword luaConstant LUA_TTHREAD
+syntax keyword luaConstant LUA_NUMTAGS
 
 syntax keyword luaConstant LUA_MINSTACK
 
-syntax keyword luaConstant LUA_RIDX_MAINTHREAD 
-syntax keyword luaConstant LUA_RIDX_GLOBALS    
-syntax keyword luaConstant LUA_RIDX_LAST	    
+syntax keyword luaConstant LUA_RIDX_MAINTHREAD
+syntax keyword luaConstant LUA_RIDX_GLOBALS
+syntax keyword luaConstant LUA_RIDX_LAST
 
 syntax keyword luaConstant LUA_OPADD
 syntax keyword luaConstant LUA_OPSUB
@@ -49,28 +51,28 @@ syntax keyword luaConstant LUA_OPEQ
 syntax keyword luaConstant LUA_OPLT
 syntax keyword luaConstant LUA_OPLE
 
-syntax keyword luaConstant LUA_GCSTOP	  
-syntax keyword luaConstant LUA_GCRESTART	  
-syntax keyword luaConstant LUA_GCCOLLECT	  
-syntax keyword luaConstant LUA_GCCOUNT	  
-syntax keyword luaConstant LUA_GCCOUNTB	  
-syntax keyword luaConstant LUA_GCSTEP	  
-syntax keyword luaConstant LUA_GCSETPAUSE	  
-syntax keyword luaConstant LUA_GCSETSTEPMUL  
-syntax keyword luaConstant LUA_GCSETMAJORINC 
-syntax keyword luaConstant LUA_GCISRUNNING	  
-syntax keyword luaConstant LUA_GCGEN	  
-syntax keyword luaConstant LUA_GCINC	  
+syntax keyword luaConstant LUA_GCSTOP
+syntax keyword luaConstant LUA_GCRESTART
+syntax keyword luaConstant LUA_GCCOLLECT
+syntax keyword luaConstant LUA_GCCOUNT
+syntax keyword luaConstant LUA_GCCOUNTB
+syntax keyword luaConstant LUA_GCSTEP
+syntax keyword luaConstant LUA_GCSETPAUSE
+syntax keyword luaConstant LUA_GCSETSTEPMUL
+syntax keyword luaConstant LUA_GCSETMAJORINC
+syntax keyword luaConstant LUA_GCISRUNNING
+syntax keyword luaConstant LUA_GCGEN
+syntax keyword luaConstant LUA_GCINC
 
-syntax keyword luaConstant LUA_HOOKCALL	
-syntax keyword luaConstant LUA_HOOKRET	
-syntax keyword luaConstant LUA_HOOKLINE	
-syntax keyword luaConstant LUA_HOOKCOUNT	
+syntax keyword luaConstant LUA_HOOKCALL
+syntax keyword luaConstant LUA_HOOKRET
+syntax keyword luaConstant LUA_HOOKLINE
+syntax keyword luaConstant LUA_HOOKCOUNT
 syntax keyword luaConstant LUA_HOOKTAILCALL
 
-syntax keyword luaConstant LUA_MASKCALL 
-syntax keyword luaConstant LUA_MASKRET  
-syntax keyword luaConstant LUA_MASKLINE 
+syntax keyword luaConstant LUA_MASKCALL
+syntax keyword luaConstant LUA_MASKRET
+syntax keyword luaConstant LUA_MASKLINE
 syntax keyword luaConstant LUA_MASKCOUNT
 
 syntax keyword luaType lua_Alloc
