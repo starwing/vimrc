@@ -1077,6 +1077,7 @@ let g:OmniCpp_MayCompleteScope = 1
 " neocomplete {{{2
 
 let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#data_directory = s:tprefix . "swapfiles/neocomplete"
 
 
 " UltiSnips {{{2
