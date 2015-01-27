@@ -36,7 +36,7 @@ set completeopt=longest,menu
 set diffopt+=vertical
 set display=lastline
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,latin1
-set formatoptions+=mB2
+set formatoptions=tcqjmB2
 set grepprg=grep\ -rn\ 
 set history=1000
 set modeline " for debian.vim, changed the initial value
@@ -110,7 +110,7 @@ if has('gui_running') " {{{2
 
     if has('win32')
         silent! set gfn=Consolas:h10:cANSI
-        silent! set gfw=YaHei_Consolas_Hybrid:h10:cGB2312
+        silent! set gfw=YaHei_Mono:h10:cGB2312
         "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
     else
         "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
@@ -200,20 +200,21 @@ if has('eval')
     " $PATH in win32 {{{3
     if has("win32")
         call s:let('$PATH', s:globfirst($VIM."/vimfiles/tools").";".$PATH)
-        let s:tools = [['git',      'git/bin'          ],
-                    \  ['git',      'minGW/git/bin'    ],
-                    \  ['cmake',    'cmake/bin'        ],
-                    \  ['mingw',    'minGW/bin'        ],
-                    \  ['minsys',   'minSYS/bin'       ],
-                    \  ['mingw',    'minSYS/mingw/bin' ],
-                    \  ['lua52',    'lua52'            ],
-                    \  ['lua51',    'lua51'            ],
-                    \  ['luaJIT',   'luaJIT'           ],
-                    \  ['lua',      'Lua'              ],
-                    \  ['perl',     'perl/perl/bin'    ],
-                    \  ['python',   'Python'           ],
-                    \  ['python',   'Python27'         ],
-                    \  ['python',   'Python31'         ]]
+        let s:tools = [['git',    'git/bin'          ],
+                    \  ['git',    'minGW/git/bin'    ],
+                    \  ['cmake',  'cmake/bin'        ],
+                    \  ['mingw',  'minGW/bin'        ],
+                    \  ['minsys', 'minSYS/bin'       ],
+                    \  ['mingw',  'minSYS/mingw/bin' ],
+                    \  ['lua52',  'lua52'            ],
+                    \  ['lua51',  'lua51'            ],
+                    \  ['luaJIT', 'luaJIT'           ],
+                    \  ['lua',    'Lua'              ],
+                    \  ['perl',   'perl/perl/bin'    ],
+                    \  ['python', 'Python'           ],
+                    \  ['python', 'Python27'         ],
+                    \  ['python', 'Python31'         ],
+                    \  ['rust',   'Rust/bin'         ]]
         for [name, path] in s:tools
             if !isdirectory($VIM.'/../'.path) | continue | endif
 
@@ -356,6 +357,7 @@ if has('autocmd')
                     \|  endif
         au FileType lua se sw=3 sts=3 ts=3 et
         au FileType javascript se sw=2 sts=2 ts=2 et fdc=2 fdm=syntax
+        au FileType cs se bomb ai nu noet sw=4 sts=4 ts=4 fdc=2 fdm=syntax
         au FileType javascript if exists("*JavaScriptFold")
                     \|             call JavaScriptFold()
                     \|         endif
@@ -428,12 +430,14 @@ function! s:open_explorer(fname)
     endif
     if !isdirectory(fname)
         if has('win32')
-            exec exec '/select,'.iconv(fname, &enc, &tenc)
+            "exec exec '/select,'.iconv(fname, &enc, &tenc)
+            exec exec '/select,'.fname
         else
             exec exec iconv(fnamemodify(fname, ':h'), &enc, &tenc)
         endif
     else
-        exec exec iconv(fname, &enc, &tenc)
+        "exec exec iconv(fname, &enc, &tenc)
+        exec exec fname
     endif
 
     "call feedkeys("\n", 't')
@@ -656,7 +660,8 @@ map <leader>fM :<C-U>setf m4<CR>
 map <leader>fP :<C-U>setf perl<CR>
 map <leader>fp :<C-U>setf python<CR>
 map <leader>fT :<C-U>setf tex<CR>
-map <leader>fr :<C-U>setf rest<CR>
+map <leader>fr :<C-U>setf rust<CR>
+map <leader>fR :<C-U>setf rest<CR>
 map <leader>fs :<C-U>setf scheme<CR>
 map <leader>fT :<C-U>setf tcl<CR>
 map <leader>ft :<C-U>setf text<CR>
@@ -855,7 +860,6 @@ if has('eval')
 
 " Vundle {{{2
 
-set nocompatible
 filetype off
 
 if has("win32")
@@ -889,9 +893,17 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-surround'
 Plugin 'yegappan/mru'
 Plugin 'yianwillis/vimcdoc'
+Plugin 'scrooloose/syntastic'
 
 Plugin 'L9'
 Plugin 'FuzzyFinder'
+
+" Language-spec
+Plugin 'wting/rust.vim'
+Plugin 'tikhomirov/vim-glsl'
+
+"Plugin 'xolox/vim-misc'  " required by lua.vim
+"Plugin 'xolox/vim-lua-ftplugin'  " Lua file type plug-in for the Vim text editor
 
 if has('python') || has('python3')
     Plugin 'SirVer/ultisnips'
@@ -1104,6 +1116,28 @@ endif
 
 let g:perl_fold = 1
 
+" Lua {{{2
+
+if exists('$QUICK_V3_ROOT')
+    let g:lua_path = $QUICK_V3_ROOT."quick/cocos/?.lua;".
+                   \ $QUICK_V3_ROOT."quick/cocos/?/init.lua;".
+                   \ $QUICK_V3_ROOT."quick/framework/?.lua;".
+                   \ $QUICK_V3_ROOT."quick/framework/?/init.lua;".
+                   \ $LUA_PATH
+
+    if has('lua')
+        lua package.path=vim.eval('g:lua_path')..';'..package.path
+    endif
+endif
+
+"let lua_complete_keywords = 1
+"let lua_complete_globals = 1
+"let lua_complete_library = 1
+"let lua_complete_dynamic = 1
+let lua_complete_omni = 0
+
+
+
 " supertab {{{2
 
 let g:SuperTabDefaultCompletionType = "<C-N>"
@@ -1116,6 +1150,17 @@ let g:SuperTabNoCompleteAfter = [ '^', ',', '\s' ]
 
 let g:surround_{char2nr("c")} = "/* \r */"
 
+
+" syntastic {{{2
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 " taglist {{{2
 

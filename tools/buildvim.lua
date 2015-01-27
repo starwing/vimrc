@@ -14,7 +14,7 @@ local optflags = {
     ruby    = [[RUBY=\ruby191 DYNAMIC_RUBY=yes RUBY_VER=191 RUBY_VER_LONG=1.9.1]],
     tcl     = [[TCL=\Tcl DYNAMIC_TCL=yes TCL_VER=86 TCL_VER_LONG=8.6]],
 }
-local uses = { "user", "sdkdir64", "lua", "perl", "python", "python3", "ruby", "tcl" }
+local uses = { "user", "sdkdir64", "lua", "perl", "python", "python3", "tcl" }
 -- end --
 
 -- parse argument options

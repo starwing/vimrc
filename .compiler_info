@@ -11,7 +11,7 @@ set cpo&vim
 
 " Common default info {{{1
 
-au FileType c,cpp SetDefaultInfo!
+au FileType c,cpp,rust SetDefaultInfo!
 	\ cmd='!$cc $flags $input $libs -o $output'
 	\ run='!$output $args' input='%:.' output='%:t:r'
 	\ asm_run=":pedit $output" args=''
@@ -58,6 +58,12 @@ au FileType cpp SetCompilerInfo! vc++
     	\ cc='cl' flags='-W4' libs='' runmap='<m-2> <f6>'
     	\ asm_title='Microsoft VC++ to ASM'
     	\ asm_flags='/FAs $flags'
+
+" filetype rust {{{1
+
+au FileType rust SetExtensionName rs
+au FileType rust SetCompilerInfo! rustc
+    	\ title='rustc' cc='rustc' flags='' libs=''
 
 " filetype clojure "{{{1
  
