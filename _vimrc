@@ -904,6 +904,7 @@ Plugin 'FuzzyFinder'
 Plugin 'wting/rust.vim'
 Plugin 'tikhomirov/vim-glsl'
 Plugin 'elzr/vim-json'
+Plugin 'thinca/vim-logcat'
 
 "Plugin 'xolox/vim-misc'  " required by lua.vim
 "Plugin 'xolox/vim-lua-ftplugin'  " Lua file type plug-in for the Vim text editor
@@ -1161,9 +1162,9 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:syntastic_check_on_wq = 1
 
 " taglist {{{2
 
