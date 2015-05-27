@@ -358,7 +358,7 @@ if has('autocmd')
                     \|  endif
         au FileType lua se sw=3 sts=3 ts=3 et
         au FileType javascript se sw=2 sts=2 ts=2 et fdc=2 fdm=syntax
-        au FileType cs se bomb ai nu noet sw=4 sts=4 ts=4 fdc=2 fdm=syntax
+        au FileType cs se ai nu noet sw=4 sts=4 ts=4 fdc=2 fdm=syntax
         au FileType javascript if exists("*JavaScriptFold")
                     \|             call JavaScriptFold()
                     \|         endif
@@ -896,6 +896,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'yegappan/mru'
 Plugin 'yianwillis/vimcdoc'
 Plugin 'scrooloose/syntastic'
+"Plugin 'bling/vim-airline'
 
 Plugin 'L9'
 Plugin 'FuzzyFinder'

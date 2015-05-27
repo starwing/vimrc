@@ -63,6 +63,7 @@ endfunction
 " Generic Settings {{{2
 
 call s:set_option('cindent', '1')
+call s:set_option('cinoptions', '+=g0:0')
 call s:set_option('comments', '=sO:/*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://')
 call s:set_option('errorfile', '=errors.log')
 call s:set_option('expandtab', '1')

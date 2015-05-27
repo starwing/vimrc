@@ -218,7 +218,7 @@ let s:pat_filespec_nonescape = '\\\@<!'.s:pat_filespec
 let s:pat_fname_escape = "[ \t\n*?[{`$\\%#''\"|!<]"
 let s:pat_info ='\v^\s*(.{-})%(\s+(.{-})\s*)=$' 
 let s:pat_info_var = '\v(\w+)\s*(\+)=\=\s*(\S)(.{-})\3'
-let s:pat_modeline = '\v<cc%(-([^:]*))=:\s*(.*)'
+let s:pat_modeline = '\v<([a-z0-9_]+)=cc%(-([^:]*))=:\s*(.*)'
 let s:pat_run_direct = '#*RUN_DIRECT'
 let s:pat_shellcmdtitle = '^!\=\zs.\{-}\ze\(\s\|$\)'
 
@@ -633,8 +633,10 @@ function! s:read_modeline(info, begin, end) " {{{2
     while search(s:pat_modeline, '', a:end) != 0
 "        call Decho('find a modeline in line '.line('.'))
         let mlist = matchlist(getline('.'), s:pat_modeline)
-        if mlist[1] == '' || a:info.name =~ '^\V'.escape(mlist[1], '\')
-            call substitute(mlist[2], s:pat_info_var,
+        if (mlist[1] == '' || has(mlist[1]))
+                    \&& (mlist[2] == '' 
+                    \    || a:info.name =~ '^\V'.escape(mlist[2], '\'))
+            call substitute(mlist[3], s:pat_info_var,
                         \ '\=s:sub_info(a:info)', 'g')
         endif
     endwhile
