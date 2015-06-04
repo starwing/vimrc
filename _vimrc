@@ -863,14 +863,10 @@ if has('eval')
 
 filetype off
 
-if has("win32")
-    set rtp+=$VIM/vimfiles/bundle/Vundle.vim
-    call vundle#begin("$VIM/vimfiles/bundle")
-elseif exists("~/.vim/bundle/Vundle.vim")
-    set rtp+=~/.vim/bundle/Vundle.vim
-    call vundle#begin("~/.vim/bundle")
-endif
-
+let s:bundle_path = has("win32") ? '$VIM/vimfiles/bundle' : '~/.vim/bundle'
+let &rtp .= ','.s:bundle_path.'/Vundle.vim'
+call vundle#begin(s:bundle_path)
+unlet s:bundle_path
 
 Plugin 'EasyGrep'
 Plugin 'echofunc.vim'
