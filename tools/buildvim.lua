@@ -1,12 +1,12 @@
 -- options --
 local dstdir = [[\Vim\vim74]]
 local srcdir = [[\Work\Sources\Vim\src\]]
-local flags  = [[IME=yes CSCOPE=yes OLE=yes WINVER=0x0500]]
+local flags  = [[DIRECTX=yes IME=yes CSCOPE=yes OLE=yes WINVER=0x0500]]
 local optflags = {
     user    = [[USERNAME=SW USERDOMAIN=SB_DiaoSi_Mo]],
     sdkdir   = [[SDK_INCLUDE_DIR="C:\Program Files\Microsoft SDKs\Windows\v7.1\Include"]],
     sdkdir64 = [[SDK_INCLUDE_DIR="C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Include"]],
-    lua     = [[LUA=\Lua52 DYNAMIC_LUA=yes LUA_VER=52]],
+    lua     = [[LUA=\Lua53 DYNAMIC_LUA=yes LUA_VER=53]],
     mz      = [[MZSCHEME=\Racket DYNAMIC_MZSCHEME=yes MZSCHEME_VER=3m_9x82yo]],
     perl    = [[PERL=\perl DYNAMIC_PERL=yes PERL_VER=516]],
     python  = [[PYTHON=\python27 DYNAMIC_PYTHON=yes PYTHON_VER=27]],

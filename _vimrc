@@ -137,6 +137,9 @@ if has("win32") " {{{2
         silent! so $VIMRUNTIME/menu.vim
     endif
 
+    if has("directx")
+        set renderoptions=type:directx,geom:1
+    endif
 
 elseif has('unix') " {{{2
     if &term == 'linux'
