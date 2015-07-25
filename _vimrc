@@ -137,6 +137,9 @@ if has("win32") " {{{2
         silent! so $VIMRUNTIME/menu.vim
     endif
 
+    if has("directx")
+        set renderoptions=type:directx,geom:1
+    endif
 
 elseif has('unix') " {{{2
     if &term == 'linux'
@@ -866,12 +869,13 @@ filetype off
 if has("win32")
     set rtp+=$VIM/vimfiles/bundle/Vundle.vim
     call vundle#begin("$VIM/vimfiles/bundle")
-elseif exists("~/.vim/bundle/Vundle.vim")
+elseif isdirectory(expand("~/.vim/bundle/Vundle.vim/autoload"))
     set rtp+=~/.vim/bundle/Vundle.vim
     call vundle#begin("~/.vim/bundle")
 endif
 
 
+if exists(':Plugin')
 Plugin 'EasyGrep'
 Plugin 'echofunc.vim'
 Plugin 'hexman.vim'
@@ -927,6 +931,7 @@ Plugin 'honza/vim-snippets' " snippets
 
 
 call vundle#end()
+endif
 filetype plugin indent on
 
 
@@ -1159,9 +1164,11 @@ let g:surround_{char2nr("c")} = "/* \r */"
 
 " syntastic {{{2
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+if exists(':SyntasticStatuslineFlag')
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+endif
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 2
