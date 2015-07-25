@@ -903,6 +903,7 @@ Plugin 'FuzzyFinder'
 
 " Language-spec
 Plugin 'wting/rust.vim'
+Plugin 'zah/nimrod.vim'
 Plugin 'tikhomirov/vim-glsl'
 Plugin 'elzr/vim-json'
 Plugin 'thinca/vim-logcat'
@@ -1197,6 +1198,10 @@ endfunction
 nmap <leader>wm :<c-u>if IsWinManagerVisible() <BAR> WMToggle<CR> <BAR> else <BAR> WMToggle<CR>:q<CR> endif <CR><CR>
 map <F2> <leader>wm
 imap <F2> <ESC><leader>wm
+
+" zip {{{2
+let g:loaded_zipPlugin= 1
+let g:loaded_zip      = 1
 
 " }}}2
 
