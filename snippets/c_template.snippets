@@ -1,4 +1,11 @@
 # C file
+snippet once
+	#ifndef ${1:`tolower(vim_snippets#Filename('$1_H', 'UNTITLED_H'))`}
+	#define $1
+
+	${0}
+
+	#endif /* $1 */
 snippet c
 	#include <stdio.h>
 	#include <stdlib.h>

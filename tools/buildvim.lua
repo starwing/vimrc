@@ -11,7 +11,7 @@ local optflags = {
     perl    = [[PERL=\perl DYNAMIC_PERL=yes PERL_VER=516]],
     python  = [[PYTHON=\python27 DYNAMIC_PYTHON=yes PYTHON_VER=27]],
     python3 = [[PYTHON3=\python34 DYNAMIC_PYTHON3=yes PYTHON3_VER=34]],
-    ruby    = [[RUBY=\ruby191 DYNAMIC_RUBY=yes RUBY_VER=191 RUBY_VER_LONG=1.9.1]],
+    ruby    = [[RUBY=\ruby192 DYNAMIC_RUBY=yes RUBY_VER=192 RUBY_VER_LONG=1.9.1]],
     tcl     = [[TCL=\Tcl DYNAMIC_TCL=yes TCL_VER=86 TCL_VER_LONG=8.6]],
 }
 local uses = { "user", "sdkdir64", "lua", "perl", "python", "python3", "tcl" }
