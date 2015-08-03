@@ -910,6 +910,7 @@ Plugin 'wting/rust.vim'
 Plugin 'tikhomirov/vim-glsl'
 Plugin 'elzr/vim-json'
 Plugin 'thinca/vim-logcat'
+Plugin 'leafo/moonscript-vim'
 
 "Plugin 'xolox/vim-misc'  " required by lua.vim
 "Plugin 'xolox/vim-lua-ftplugin'  " Lua file type plug-in for the Vim text editor
@@ -1168,6 +1169,7 @@ if exists(':SyntasticStatuslineFlag')
     set statusline+=%{SyntasticStatuslineFlag()}
     set statusline+=%*
 endif
+let g:syntastic_cpp_compiler_options='-std=c++11'
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 2

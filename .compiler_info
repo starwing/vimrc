@@ -18,7 +18,7 @@ au FileType c,cpp,rust SetDefaultInfo!
 	\ asm_output='$output.s'
 	\ debug_run='!gdb -q $output'
 
-au FileType clojure,javascript,haskell,lua,meta.lua,m4,perl,python,ruby,scheme,tcl,lisp SetDefaultInfo!
+au FileType clojure,javascript,haskell,lua,metalua,moon,m4,perl,python,ruby,scheme,tcl,lisp SetDefaultInfo!
         \ cmd='#RUN_DIRECT' runmap='<f5>'
         \ run='!$cc $flags $src $args' src='%:.'
         \ flags='' args=''
@@ -104,6 +104,12 @@ au FileType lua SetCompilerInfo! metalua
 au FileType meta.lua SetExtensionName mlua
 au FileType meta.lua SetCompilerInfo! mlua
 	    \ title='metalua' cc='metalua' src='-f %:.' cmdmap='<f5>'
+
+" filetype moonscript {{{1
+
+au FileType moon SetExtensionName moon
+au FileType moon SetCompilerInfo! moon
+	    \ title='moon' cc='moon' src='-- %:.' cmdmap='<f5>'
 
 " filetype m4 {{{1
 
