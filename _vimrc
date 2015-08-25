@@ -900,6 +900,8 @@ Plugin 'tpope/vim-surround'
 Plugin 'yegappan/mru'
 Plugin 'yianwillis/vimcdoc'
 Plugin 'scrooloose/syntastic'
+Plugin 'dyng/ctrlsf.vim'
+Plugin 'terryma/vim-multiple-cursors'
 "Plugin 'bling/vim-airline'
 
 Plugin 'L9'
@@ -918,6 +920,7 @@ Plugin 'leafo/moonscript-vim'
 
 if has('python') || has('python3')
     Plugin 'SirVer/ultisnips'
+    Plugin 'Gundo'
 else
     Plugin 'MarcWeber/vim-addon-mw-utils'
     Plugin 'tomtom/tlib_vim'
@@ -1103,6 +1106,19 @@ let g:OmniCpp_MayCompleteScope = 1
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#data_directory = s:tprefix . "/swapfiles/neocomplete"
 
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+  if exists(':NeoCompleteLock')==2
+    exe 'NeoCompleteLock'
+  endif
+endfunction
+
+" Called once only when the multiple selection is canceled (default <Esc>)
+function! Multiple_cursors_after()
+  if exists(':NeoCompleteUnlock')==2
+    exe 'NeoCompleteUnlock'
+  endif
+endfunction
 
 " UltiSnips {{{2
 
