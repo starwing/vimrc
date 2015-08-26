@@ -1,6 +1,7 @@
 -- options --
 local dstdir = [[\Vim\vim74]]
 local srcdir = [[\Work\Sources\Vim\src\]]
+local rtdir  = [[\Work\Sources\Vim\runtime\]]
 local flags  = [[DIRECTX=yes IME=yes CSCOPE=yes OLE=yes WINVER=0x0500]]
 local optflags = {
     user    = [[USERNAME=SW USERDOMAIN=SB_DiaoSi_Mo]],
@@ -16,6 +17,23 @@ local optflags = {
 }
 local uses = { "user", "sdkdir64", "lua", "perl", "python", "python3", "tcl" }
 -- end --
+
+if arg[1] == "copy" then
+   local runtimes = {
+      "autoload", "colors", "compiler",
+      "ftplugin", "indent",
+      "keymap", "lang", "macros",
+      "plugin", "print", "spell",
+      "syntax", "tools", "tutor",
+   }
+   for k, v in ipairs(runtimes) do
+      os.execute("xcopy>nul /i/s/q/y "..rtdir..v.." "..dstdir.."\\"..v)
+   end
+   os.execute("xcopy>nul /i/s/q/y "..rtdir.."doc\\*.txt".." "..dstdir.."\\doc")
+   os.execute("copy>nul /y "..rtdir.."*.vim".." "..dstdir)
+   os.execute("copy>nul /y "..rtdir.."rgb.txt".." "..dstdir)
+   return
+end
 
 -- parse argument options
 for i, curarg in ipairs(arg) do
@@ -56,3 +74,4 @@ if spawn("nmake -f Make_mvc.mak GUI=yes "..flags) then
         os.execute("copy "..srcdir.."vim.exe "..dstdir)
     end
 end
+
