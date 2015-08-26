@@ -8,7 +8,7 @@ syn match   cFunction "\<[a-zA-Z_][a-zA-Z_0-9]*\>\s*("me=e-1
 " Highlight All Math Operator
 "========================================================
 " C math operators
-syn match       cMathOperator     display "[-+\*/%=]"
+syn match       cMathOperator     display "[-+*/%=]"
 " C pointer operators
 syn match       cPointerOperator  display "->\|\."
 " C logical   operators - boolean results
