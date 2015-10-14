@@ -14,8 +14,9 @@ local optflags = {
     python3 = [[PYTHON3=\python34 DYNAMIC_PYTHON3=yes PYTHON3_VER=34]],
     ruby    = [[RUBY=\ruby192 DYNAMIC_RUBY=yes RUBY_VER=192 RUBY_VER_LONG=1.9.1]],
     tcl     = [[TCL=\Tcl DYNAMIC_TCL=yes TCL_VER=86 TCL_VER_LONG=8.6]],
+    vs2015  = [[DEFINES="/GL /GS- /O2 /Oy /Oi"]],
 }
-local uses = { "user", "sdkdir64", "lua", "perl", "python", "python3", "tcl" }
+local uses = { "vs2015", "user", "sdkdir64", "lua", "perl", "python", "python3", "tcl" }
 -- end --
 
 if arg[1] == "copy" then
