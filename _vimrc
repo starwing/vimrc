@@ -36,7 +36,7 @@ set completeopt=longest,menu
 set diffopt+=vertical
 set display=lastline
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,latin1
-set formatoptions=tcqjmB2
+set formatoptions=tcqmB2
 set grepprg=grep\ -rn\ 
 set history=1000
 set modeline " for debian.vim, changed the initial value
@@ -53,6 +53,9 @@ set wildmenu
 
 " new in Vim 7.3 {{{2
 
+if v:version >= 703
+    set formatoptions+=j
+endif
 if v:version >= 703 && has('persistent_undo')
     set undofile
 endif
