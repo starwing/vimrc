@@ -11,7 +11,7 @@ set cpo&vim
 
 " Common default info {{{1
 
-au FileType c,cpp,rust SetDefaultInfo!
+au FileType c,cpp,rust,nim SetDefaultInfo!
 	\ cmd='!$cc $flags $input $libs -o $output'
 	\ run='!$output $args' input='%:.' output='%:t:r'
 	\ asm_run=":pedit $output" args=''
@@ -116,6 +116,13 @@ au FileType moon SetCompilerInfo! moon
 au FileType m4 SetExtensionName m4
 au FileType m4 SetCompilerInfo! m4
 	    \ title='m4' cc='m4' src='-- %:.'
+
+" filetype nim {{{1
+
+au FileType nim SetExtensionName nim
+au FileType nim SetCompilerInfo! nim
+	    \ title='nim' cc='nim c' flags=''
+            \ cmd='!$cc $flags -o:$output $input'
 
 " filetype perl {{{1
 

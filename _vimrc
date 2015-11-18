@@ -212,6 +212,7 @@ if has('eval')
                     \  ['mingw',  'minGW/bin'        ],
                     \  ['minsys', 'minSYS/bin'       ],
                     \  ['mingw',  'minSYS/mingw/bin' ],
+                    \  ['nim',    'nim/bin'          ],
                     \  ['lua53',  'lua53'            ],
                     \  ['lua52',  'lua52'            ],
                     \  ['lua51',  'lua51'            ],
@@ -363,6 +364,7 @@ if has('autocmd')
                     \|      set sw=4 ts=8 sts=4 et sta nu fdc=2 fo-=t
                     \|  endif
         au FileType lua se sw=3 sts=3 ts=3 et
+        au FileType nim se sw=2 sts=2 ts=2 nu et fdm=marker fdc=2
         au FileType javascript se sw=2 sts=2 ts=2 et fdc=2 fdm=syntax
         au FileType cs se ai nu noet sw=4 sts=4 ts=4 fdc=2 fdm=syntax
         au FileType javascript if exists("*JavaScriptFold")
@@ -912,7 +914,7 @@ Plugin 'FuzzyFinder'
 
 " Language-spec
 Plugin 'wting/rust.vim'
-Plugin 'zah/nimrod.vim'
+Plugin 'zah/nim.vim'
 Plugin 'tikhomirov/vim-glsl'
 Plugin 'elzr/vim-json'
 Plugin 'thinca/vim-logcat'
