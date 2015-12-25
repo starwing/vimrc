@@ -141,7 +141,7 @@ if has("win32") " {{{2
     endif
 
     if has("directx")
-        set renderoptions=type:directx,geom:1
+        "set renderoptions=type:directx,geom:1
     endif
 
 elseif has('unix') " {{{2
@@ -919,6 +919,7 @@ Plugin 'tikhomirov/vim-glsl'
 Plugin 'elzr/vim-json'
 Plugin 'thinca/vim-logcat'
 Plugin 'leafo/moonscript-vim'
+Plugin 'raymond-w-ko/vim-lua-indent'
 
 "Plugin 'xolox/vim-misc'  " required by lua.vim
 "Plugin 'xolox/vim-lua-ftplugin'  " Lua file type plug-in for the Vim text editor
