@@ -1101,6 +1101,11 @@ let g:OmniCpp_MayCompleteArrow = 1
 let g:OmniCpp_MayCompleteScope = 1
 
 
+" multiple-cursors  {{{2
+
+let g:multi_cursor_exit_from_insert_mode = 0
+let g:multi_cursor_exit_from_visual_mode = 0
+
 " neocomplete {{{2
 
 let g:neocomplete#enable_at_startup = 1
