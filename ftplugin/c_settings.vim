@@ -70,7 +70,11 @@ call s:set_option('expandtab', '1')
 call s:set_option('foldcolumn', '=2')
 call s:set_option('foldlevel', '=99')
 call s:set_option('foldmethod', '=syntax')
-call s:set_option('formatoptions', '+=croqljmB')
+if v:version >= 703
+    call s:set_option('formatoptions', '+=croqljmB')
+else
+    call s:set_option('formatoptions', '+=croqlmB')
+endif
 call s:set_option('formatoptions', '-=t')
 call s:set_option('makeprg', '=gcc\ %\ -o%<\ -Wall')
 call s:set_option('number', '1')

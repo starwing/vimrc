@@ -1,3 +1,5 @@
+bundle
+!bundle/Vundle.vim
 swapfiles
 vim73
 vim74

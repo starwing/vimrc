@@ -36,7 +36,7 @@ set completeopt=longest,menu
 set diffopt+=vertical
 set display=lastline
 set fileencodings=ucs-bom,utf-8,cp936,gb18030,latin1
-set formatoptions=tcqjmB2
+set formatoptions=tcqmB2
 set grepprg=grep\ -rn\ 
 set history=1000
 set modeline " for debian.vim, changed the initial value
@@ -53,6 +53,9 @@ set wildmenu
 
 " new in Vim 7.3 {{{2
 
+if v:version >= 703
+    set formatoptions+=j
+endif
 if v:version >= 703 && has('persistent_undo')
     set undofile
 endif
@@ -138,7 +141,7 @@ if has("win32") " {{{2
     endif
 
     if has("directx")
-        set renderoptions=type:directx,geom:1
+        "set renderoptions=type:directx,geom:1
     endif
 
 elseif has('unix') " {{{2
@@ -209,6 +212,7 @@ if has('eval')
                     \  ['mingw',  'minGW/bin'        ],
                     \  ['minsys', 'minSYS/bin'       ],
                     \  ['mingw',  'minSYS/mingw/bin' ],
+                    \  ['nim',    'nim/bin'          ],
                     \  ['lua53',  'lua53'            ],
                     \  ['lua52',  'lua52'            ],
                     \  ['lua51',  'lua51'            ],
@@ -360,6 +364,7 @@ if has('autocmd')
                     \|      set sw=4 ts=8 sts=4 et sta nu fdc=2 fo-=t
                     \|  endif
         au FileType lua se sw=3 sts=3 ts=3 et
+        au FileType nim se sw=2 sts=2 ts=2 nu et fdm=marker fdc=2
         au FileType javascript se sw=2 sts=2 ts=2 et fdc=2 fdm=syntax
         au FileType cs se ai nu noet sw=4 sts=4 ts=4 fdc=2 fdm=syntax
         au FileType javascript if exists("*JavaScriptFold")
@@ -898,7 +903,7 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-surround'
 Plugin 'yegappan/mru'
-Plugin 'yianwillis/vimcdoc'
+Plugin 'asins/vimcdoc'
 Plugin 'scrooloose/syntastic'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'terryma/vim-multiple-cursors'
@@ -909,11 +914,12 @@ Plugin 'FuzzyFinder'
 
 " Language-spec
 Plugin 'wting/rust.vim'
-Plugin 'zah/nimrod.vim'
+Plugin 'zah/nim.vim'
 Plugin 'tikhomirov/vim-glsl'
 Plugin 'elzr/vim-json'
 Plugin 'thinca/vim-logcat'
 Plugin 'leafo/moonscript-vim'
+Plugin 'raymond-w-ko/vim-lua-indent'
 
 "Plugin 'xolox/vim-misc'  " required by lua.vim
 "Plugin 'xolox/vim-lua-ftplugin'  " Lua file type plug-in for the Vim text editor
