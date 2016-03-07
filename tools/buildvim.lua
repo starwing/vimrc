@@ -20,19 +20,19 @@ local uses = { "vs2015", "user", "sdkdir64", "lua", "perl", "python", "python3",
 -- end --
 
 if arg[1] == "copy" then
-   local runtimes = {
-      "autoload", "colors", "compiler",
-      "ftplugin", "indent",
-      "keymap", "lang", "macros",
-      "plugin", "print", "spell",
-      "syntax", "tools", "tutor",
-   }
+   local runtimes = {}
+   for dir in io.popen("dir /A:D /B "..rtdir, "r"):lines() do
+      if dir ~= 'icons' then
+         runtimes[#runtimes+1] = dir
+      end
+   end
    for k, v in ipairs(runtimes) do
       os.execute("xcopy>nul /i/s/q/y "..rtdir..v.." "..dstdir.."\\"..v)
    end
    os.execute("xcopy>nul /i/s/q/y "..rtdir.."doc\\*.txt".." "..dstdir.."\\doc")
    os.execute("copy>nul /y "..rtdir.."*.vim".." "..dstdir)
    os.execute("copy>nul /y "..rtdir.."rgb.txt".." "..dstdir)
+   os.execute([[vim --cmd "helptags ]]..dstdir..[[/doc|q"]])
    return
 end
 
