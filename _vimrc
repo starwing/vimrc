@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1901)
-" Last Change:  2013-06-29 18:43:36
+" Version:      0.5 (1902)
+" Last Change:  2016-03-24 19:02:06
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -53,7 +53,7 @@ set wildmenu
 
 " new in Vim 7.3 {{{2
 
-if v:version >= 703
+if v:version > 703
     set formatoptions+=j
 endif
 if v:version >= 703 && has('persistent_undo')
