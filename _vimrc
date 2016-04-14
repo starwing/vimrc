@@ -977,6 +977,7 @@ endif
 
 if has('lua')
     Plugin 'Shougo/neocomplete.vim' " need Lua
+    Plugin 'Konfekt/FastFold' " depend by neocomplete
 endif
 
 Plugin 'honza/vim-snippets' " snippets
