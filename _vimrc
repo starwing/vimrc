@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1902)
-" Last Change:  2016-03-24 19:02:06
+" Version:      0.5 (1924)
+" Last Change:  2016-04-14 02:00:28
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -115,6 +115,8 @@ if has('gui_running') " {{{2
         silent! set gfn=Consolas:h10:cANSI
         silent! set gfw=YaHei_Mono:h10:cGB2312
         "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
+    elseif has('mac')
+        set gfn=Monaco:h10
     else
         "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
         set gfn=Monospace\ 9
@@ -148,6 +150,39 @@ elseif has('unix') " {{{2
     if &term == 'linux'
         " lang C
     endif
+    if exists('$TMUX')
+        set term=screen-256color
+    endif
+    if exists('$ITERM_PROFILE')
+        if exists('$TMUX')
+            let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+            let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+        else
+            let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+            let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+        endif
+    end
+    function! WrapForTmux(s)
+        if !exists('$TMUX')
+            return a:s
+        endif
+
+        let tmux_start = "\<Esc>Ptmux;"
+        let tmux_end = "\<Esc>\\"
+
+        return tmux_start.substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g').tmux_end
+    endfunction
+
+    let &t_SI .= WrapForTmux("\<Esc>[?2004h")
+    let &t_EI .= WrapForTmux("\<Esc>[?2004l")
+
+    function! XTermPasteBegin()
+        set pastetoggle=<Esc>[201~
+        set paste
+        return ""
+    endfunction
+
+    inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
 endif " }}}2
 " swapfiles/undofiles settings {{{2
 
@@ -431,7 +466,8 @@ com! -nargs=1 -bang Qfdo :call QFDo(<bang>0,<q-args>)
 " EX, EV, EF, ES, EP {{{3
 
 function! s:open_explorer(fname)
-    let exec = has('win32') ? '!start explorer' : '!nautilus'
+    let exec = has('win32') ? '!start explorer'  :
+                \ has('mac') ? '!open -R' : '!nautilus'
     let fname = matchstr(glob(a:fname), '^\v.{-}\ze(\n|$)')
 
     if fname == ""
@@ -441,8 +477,11 @@ function! s:open_explorer(fname)
         if has('win32')
             "exec exec '/select,'.iconv(fname, &enc, &tenc)
             exec exec '/select,'.fname
+        elseif has('mac')
+            exec exec iconv(fnamemodify(fname, ':p'), &enc, &tenc)
         else
             exec exec iconv(fnamemodify(fname, ':h'), &enc, &tenc)
+            call feedkeys("\<CR>")
         endif
     else
         "exec exec iconv(fname, &enc, &tenc)
@@ -581,7 +620,7 @@ command! -bar -range=% DLN
   
 " Font Size {{{3
 
-let s:gf_pat = has('win32') ? 'h\zs\d\+' : '\d\+$'
+let s:gf_pat = has('win32') || has('mac') ? 'h\zs\d\+' : '\d\+$'
 command! -bar -count=10 FSIZE let &gfn = substitute(&gfn, s:gf_pat,
             \ <count>, '') | let &gfw = substitute(&gfw, s:gf_pat,
             \ <count>, '')
@@ -758,7 +797,7 @@ map <leader>qk :<C-U>cp!<CR>
 inor <m-n> <c-n>
 inor <m-p> <c-p>
 
-" vi?sual # and * operators {{{3
+" visual # and * operators {{{3
 
 xnor<silent> # "sy?\V<C-R>=substitute(escape(@s, '\?'), '\n', '\\n', 'g')<CR><CR>
 xnor<silent> * "sy/\V<C-R>=substitute(escape(@s, '\/'), '\n', '\\n', 'g')<CR><CR>
@@ -845,13 +884,16 @@ cnoremap <f1> <C-R>=escape(strftime("%Y-%m-%d %H:%M:%S"), '\ ')<CR>
 
 " f3: shell {{{4
 
-if !has('win32')
+if has('mac')
+    map <F3> :<C-U>!open -a terminal<CR>:call feedkeys("\<lt>CR>")<CR>
+elseif !has('win32')
     map <F3> :<C-U>!gnome-terminal &<CR>:call feedkeys("\<lt>CR>")<CR>
 elseif executable('sh.exe')
     map <F3> :<C-U>!start sh.exe --login -i<CR>
 else
     map <F3> :<C-U>!start cmd.exe<CR>
 endif
+map <leader>t <F3>
 imap <F3> <ESC><F3>a
 
 " f4: clear hlsearch and qf/loc window {{{4
