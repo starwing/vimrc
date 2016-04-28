@@ -79,7 +79,7 @@ au FileType dot SetCompilerInfo! dot
 	    \ cmd='$cc $flags $input -o $output.png'
 	    \ run='$output.png'
 
-" filetype lua {{{1
+" filetype haskell {{{1
 
 au FileType haskell SetExtensionName hs
 au FileType haskell SetCompilerInfo! ghci

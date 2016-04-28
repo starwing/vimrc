@@ -119,7 +119,7 @@ if has('gui_running') " {{{2
         set gfn=Monaco:h10
     else
         "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
-        set gfn=Monospace\ 9
+        set gfn=DejaVu\ Sans\ Mono\ 9
     endif
     if has('win32')
         silent! colorscheme evening
