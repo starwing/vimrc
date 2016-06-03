@@ -35,14 +35,23 @@ if !exists('g:loaded_ctk')
     if has('win32')
         call s:defopt('g:ctk_cmdenc', 'cp936')
         call s:defopt('g:ctk_envvarfmt', '%var%')
-        call s:defopt('g:ctk_execprg', executable('vimrun') ?
-                    \ 'start vimrun $exec' : 'start $exec')
+        if has('gui_running')
+            call s:defopt('g:ctk_execprg', executable('vimrun') ?
+                        \ ':silent !start vimrun $exec' : ':silent !start $exec')
+        else
+            call s:defopt('g:ctk_execprg', executable('vimrun') ?
+                        \ ':!start vimrun $exec' : ':!start $exec')
+        endif
+    elseif has('mac')
+        call s:defopt('g:ctk_cmdenc', 'utf-8')
+        call s:defopt('g:ctk_envvarfmt', '${var}')
+        call s:defopt('g:ctk_execprg', '')
     elseif has('unix')
         call s:defopt('g:ctk_cmdenc', 'utf-8')
         call s:defopt('g:ctk_envvarfmt', '${var}')
-        call s:defopt('g:ctk_execprg', has('gui_running') ? 'xterm -e "$exec; '.
+        call s:defopt('g:ctk_execprg', has('gui_running') ? ':silent !xterm -e "$exec; '.
                     \ 'echo \"$exec returned $?\";read -s -n1 '.
-                    \ '-p\"press any key to continue...\"" &' : '')
+                    \ '-p\"press any key to continue...\"" &' : ':!$exec')
     else
         call s:defopt('g:ctk_cmdenc', '')
         call s:defopt('g:ctk_envvarfmt', '')
@@ -565,7 +574,7 @@ function! s:make_cmd(cmd, entry, use_native) " {{{2
     return cmd
 endfunction
 
-function! s:exec_cmd(cmdarg) " {{{2
+function! s:exec_cmd(cmdarg, forrun) " {{{2
 "    call Dfunc('s:exec_cmd(cmdarg = '.a:cmdarg.')')
 
     let cmd = a:cmdarg
@@ -584,6 +593,8 @@ function! s:exec_cmd(cmdarg) " {{{2
             if &term != 'linux' | redraw! | endif
         endif
         let output = g:ctk_redir
+    elseif has('mac') && a:forrun
+        let output = s:mac_system(cmd[0] == '!' ? cmd[1:] : cmd)
     else
         silent! let output = system(cmd[0] == '!' ? cmd[1:] : cmd)
     endif
@@ -593,6 +604,26 @@ function! s:exec_cmd(cmdarg) " {{{2
     return output
 endfunction
 
+function! s:mac_system(cmd) " {{{2
+    if !has("mac") || !has('gui_running') | return system(cmd) | endif
+    let scpt = "
+        \ tell application \"iTerm\"\n
+        \   set curWin to (current window)\n
+        \   if curWin is missing value then\n
+        \     set curWin to (create window with default profile)\n
+        \   end if\n
+        \   tell current session of curWin\n
+        \     activate\n
+        \     write text \"cd $path ; $cmd\"\n
+        \   end tell\n
+        \ end tell\n"
+    let scpt = substitute(scpt, '\$path', shellescape(getcwd()), 'g')
+    let cmd = substitute(a:cmd, '"', '\\"', 'g')
+    let scpt = substitute(scpt, '\$cmd', cmd, 'g')
+
+    return system('osascript', scpt)
+endfunction
+
 function! s:call_dep(stat) " {{{2
     " don't use locale program
     let cmd = s:make_cmd(s:get_entry_val(a:stat.entry, 'dep', ''), a:stat.entry, 0)
@@ -600,7 +631,7 @@ function! s:call_dep(stat) " {{{2
         return [1, "", ""]
     endif
 
-    let res = s:exec_cmd(cmd)."\n"
+    let res = s:exec_cmd(cmd, 0)."\n"
 
     if v:shell_error == 0
         return [1, cmd, res]
@@ -912,7 +943,7 @@ function! s:compile(count, entry, bang) " {{{1
         endif
 
         let oldres = res
-        let res = s:exec_cmd(cmd)
+        let res = s:exec_cmd(cmd, 0)
         if oldres != ""
             let res = res."\n".buildcmd."\n".oldres
         endif
@@ -975,10 +1006,9 @@ function! s:run(count, entry, bang) " {{{1
             let cmd = substitute(g:ctk_execprg, s:pat_exectag,
                         \ '\=cmd', 'g')
         endif
-        let cmd = (has('gui_running') ? ':silent !' : ':!').cmd
     endif
 
-    let res = s:exec_cmd(cmd)
+    let res = s:exec_cmd(cmd, 1)
 
     if &term != 'linux'
         if res !~ '^\_s*$' && !has('gui_running')
