@@ -11,7 +11,7 @@ local optflags = {
     mz      = [[MZSCHEME=\Racket DYNAMIC_MZSCHEME=yes MZSCHEME_VER=3m_9x82yo]],
     perl    = [[PERL=\perl DYNAMIC_PERL=yes PERL_VER=522]],
     python  = [[PYTHON=\python27 DYNAMIC_PYTHON=yes PYTHON_VER=27]],
-    python3 = [[PYTHON3=\python34 DYNAMIC_PYTHON3=yes PYTHON3_VER=34]],
+    python3 = [[PYTHON3=\python35 DYNAMIC_PYTHON3=yes PYTHON3_VER=35]],
     ruby    = [[RUBY=\ruby192 DYNAMIC_RUBY=yes RUBY_VER=192 RUBY_VER_LONG=1.9.1]],
     tcl     = [[TCL=\Tcl DYNAMIC_TCL=yes TCL_VER=86 TCL_VER_LONG=8.6]],
     vs2015  = [[DEFINES="/GL /GS- /O2 /Oy /Oi"]],
