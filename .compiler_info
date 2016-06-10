@@ -11,7 +11,7 @@ set cpo&vim
 
 " Common default info {{{1
 
-au FileType c,cpp,rust,nim SetDefaultInfo!
+au FileType c,cpp,objc,rust,nim SetDefaultInfo!
 	\ cmd='!$cc $flags $input $libs -o $output'
 	\ run='!$output $args' input='%:.' output='%:t:r'
 	\ asm_run=":pedit $output" args=''
@@ -58,6 +58,13 @@ au FileType cpp SetCompilerInfo! vc++
     	\ cc='cl' flags='-W4' libs='' runmap='<m-2> <f6>'
     	\ asm_title='Microsoft VC++ to ASM'
     	\ asm_flags='/FAs $flags'
+
+" filetype Objective-C {{{1
+
+au FileType objc SetExtensionName m
+au FileType objc SetCompilerInfo! clang
+    	\ title='Clang Compiler - Objective-C'
+    	\ cc='clang' flags='-framework Cocoa' libs=''
 
 " filetype rust {{{1
 
