@@ -606,18 +606,23 @@ endfunction
 
 function! s:mac_system(cmd) " {{{2
     if !has("mac") || !has('gui_running') | return system(cmd) | endif
-    let scpt = "
-        \ tell application \"iTerm\"\n
-        \   set curWin to (current window)\n
-        \   if curWin is missing value then\n
-        \     set curWin to (create window with default profile)\n
-        \   end if\n
-        \   tell current session of curWin\n
-        \     activate\n
-        \     write text \"cd $path ; $cmd\"\n
-        \   end tell\n
-        \ end tell\n"
-    let scpt = substitute(scpt, '\$path', shellescape(getcwd()), 'g')
+    let scpt = '
+        \@> tell application "iTerm"
+        \@>   set curWin to (current window)
+        \@>   if curWin is missing value then
+        \@>     set curWin to (create window with default profile)
+        \@>   end if
+        \@>   tell current session of curWin
+        \@>     activate
+        \@>     if (variable named "session.path") is not "$path" then
+        \@>       write text "cd \"$path\"; " newline no
+        \@>     end if
+        \@>     write text "$cmd"
+        \@>   end tell
+        \@> end tell'
+    let scpt = substitute(scpt, '@> ', '\n', 'g')
+    let path = substitute(getcwd(), '[$"\\]', '\\\0', 'g')
+    let scpt = substitute(scpt, '\$path', path, 'g')
     let cmd = substitute(a:cmd, '"', '\\"', 'g')
     let scpt = substitute(scpt, '\$cmd', cmd, 'g')
 

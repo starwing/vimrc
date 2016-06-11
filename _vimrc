@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1924)
-" Last Change:  2016-04-14 02:00:28
+" Version:      0.5 (1926)
+" Last Change:  2016-06-11 16:20:58
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -480,6 +480,7 @@ function! s:open_explorer(fname)
             exec exec '/select,'.fname
         elseif has('mac')
             exec exec iconv(fnamemodify(fname, ':p'), &enc, &tenc)
+            call feedkeys("\<CR>")
         else
             exec exec iconv(fnamemodify(fname, ':h'), &enc, &tenc)
             call feedkeys("\<CR>")
@@ -886,7 +887,7 @@ cnoremap <f1> <C-R>=escape(strftime("%Y-%m-%d %H:%M:%S"), '\ ')<CR>
 " f3: shell {{{4
 
 if has('mac')
-    map <F3> :<C-U>!open -a terminal<CR>:call feedkeys("\<lt>CR>")<CR>
+    map <F3> :<C-U>!open -a iterm<CR>:call feedkeys("\<lt>CR>")<CR>
 elseif !has('win32')
     map <F3> :<C-U>!gnome-terminal &<CR>:call feedkeys("\<lt>CR>")<CR>
 elseif executable('sh.exe')
