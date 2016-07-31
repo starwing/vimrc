@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1926)
-" Last Change:  2016-06-11 16:20:58
+" Version:      0.5 (1943)
+" Last Change:  2016-07-31 17:56:10
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -928,7 +928,6 @@ if exists(':Plugin')
 Plugin 'EasyGrep'
 Plugin 'echofunc.vim'
 Plugin 'hexman.vim'
-Plugin 'taglist.vim'
 Plugin 'The-NERD-tree'
 Plugin 'VisIncr'
 Plugin 'winmanager'
@@ -936,7 +935,8 @@ Plugin 'minibufexplorerpp'
 
 Plugin 'Shutnik/jshint2.vim'
 Plugin 'Slashbunny/vim-colorsamplerpack'
-Plugin 'edsono/vim-matchit'
+Plugin 'Raimondi/delimitMate'
+Plugin 'easymotion/vim-easymotion'
 Plugin 'ervandew/supertab'
 "Plugin 'fholgado/minibufexpl.vim'
 Plugin 'gmarik/Vundle.vim'
@@ -949,8 +949,10 @@ Plugin 'tpope/vim-surround'
 Plugin 'yegappan/mru'
 Plugin 'asins/vimcdoc'
 Plugin 'scrooloose/syntastic'
+"Plugin 'kien/ctrlp.vim'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'majutsushi/tagbar'
 "Plugin 'bling/vim-airline'
 
 Plugin 'L9'
@@ -1031,6 +1033,23 @@ amenu 1.247 ToolBar.BuiltIn15 :RUN<CR>
 tmenu ToolBar.BuiltIn15 CTK Run
 amenu 1.248 ToolBar.-sep5-1- <Nop>
 
+
+" ctrlp {{{2
+"
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.png,*.jpg,*.jpeg,*.gif " MacOSX/Linux
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+
+if executable('ag')
+    " Use Ag over Grep
+    set grepprg=ag\ --nogroup\ --nocolor
+    " Use ag in CtrlP for listing files.
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    " Ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
+endif
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " EasyGrep {{{2
 
@@ -1249,7 +1268,7 @@ let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 
-" taglist {{{2
+" tagbar {{{2
 
 if !executable("ctags")
     let g:loaded_taglist = 'no'
@@ -1264,17 +1283,31 @@ let g:VCSCommandMapPrefix = "<leader>vc"
 
 " winmanager {{{2
 
-let g:NERDTree_title="[NERD Tree]" 
-let g:winManagerWindowLayout = 'NERDTree|TagList'
+let g:winManagerWindowLayout='NERDTree|Tagbar'
+let g:winManagerWidth=30
 
+let g:NERDTree_title = "[NERDTree]"
 function! NERDTree_Start()
-    exec 'NERDTree'
+    exe 'q' "执行一个退出命令，关闭自动出现的窗口"
+    exe 'NERDTree'
 endfunction
-
+ 
 function! NERDTree_IsValid()
     return 1
 endfunction
-
+ 
+"noremap <f5> :NERDTreeFind<cr>
+ 
+let g:Tagbar_title = "[Tagbar]"
+function! Tagbar_Start()
+    exe 'q' "执行一个退出命令，关闭自动出现的窗口"
+    exe 'TagbarOpen'
+endfunction
+ 
+function! Tagbar_IsValid()
+    return 1
+endfunction
+let g:tagbar_vertical = 30
 
 nmap <leader>wm :<c-u>if IsWinManagerVisible() <BAR> WMToggle<CR> <BAR> else <BAR> WMToggle<CR>:q<CR> endif <CR><CR>
 map <F2> <leader>wm
