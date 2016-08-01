@@ -80,7 +80,7 @@ set statusline+=%{&fileformat}] " file format
 set statusline+=%= " right align
 "set statusline+=\ %2*0x%-8B  " current char
 set statusline+=\ 0x%-8B  " current char
-set statusline+=\ %-12.(%l,%c%V%)\ %P " offset
+set statusline+=\ %-12.(%l,%c%V%)[%o]\ %P " offset
 
 if globpath(&rtp, "plugin/vimbuddy.vim") != ''
     set statusline+=\ %{VimBuddy()} " vim buddy
