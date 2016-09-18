@@ -796,8 +796,8 @@ map <leader>qk :<C-U>cp!<CR>
 
 " quick complete (against supertab) {{{3
 
-inor <m-n> <c-n>
-inor <m-p> <c-p>
+"inor <m-n> <c-n>
+"inor <m-p> <c-p>
 
 " visual # and * operators {{{3
 
@@ -942,7 +942,7 @@ Plugin 'ervandew/supertab'
 Plugin 'gmarik/Vundle.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'itchyny/calendar.vim'
-Plugin 'jiangmiao/auto-pairs'
+"Plugin 'jiangmiao/auto-pairs'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-surround'
@@ -1050,6 +1050,13 @@ endif
 
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+" delimitMate {{{2
+
+let g:delimitMate_expand_space = 1
+let g:delimitMate_expand_cr    = 2
+let g:delimitMate_jump_expansion = 1
+
 
 " EasyGrep {{{2
 
@@ -1245,7 +1252,7 @@ let lua_complete_omni = 0
 
 let g:SuperTabDefaultCompletionType = "<C-N>"
 let g:SuperTabNoCompleteAfter = [ '^', ',', '\s' ]
-"let g:SuperTabCrMapping = 0 " incompatible with autopairs
+"let g:SuperTabCrMapping = 0 " incompatible with autopairs/delimitMate
 "let g:SuperTabLongestEnhanced = 1
 "let g:SuperTabLongestHighlight = 1
 

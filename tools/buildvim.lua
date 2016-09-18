@@ -1,5 +1,5 @@
 -- options --
-local dstdir = [[\Vim\vim74]]
+local dstdir = [[\Vim\vim80]]
 local srcdir = [[\Work\Sources\Vim\src\]]
 local rtdir  = [[\Work\Sources\Vim\runtime\]]
 local flags  = [[DIRECTX=yes IME=yes CSCOPE=yes OLE=yes WINVER=0x0500]]
@@ -22,7 +22,7 @@ local uses = { "vs2015", "user", "sdkdir64", "lua", "perl", "python", "python3",
 if arg[1] == "copy" then
    local runtimes = {}
    for dir in io.popen("dir /A:D /B "..rtdir, "r"):lines() do
-      if dir ~= 'icons' then
+      if dir ~= 'icons' and dir ~= 'print' then
          runtimes[#runtimes+1] = dir
       end
    end

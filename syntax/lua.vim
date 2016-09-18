@@ -102,8 +102,8 @@ elseif lua_version > 5 || (lua_version == 5 && lua_subversion >= 1)
   syn match  luaSpecial contained "\\[\\abfnrtv\'\"]\|\\\d\{,3}"
   syn region luaString2 matchgroup=luaString start="\[\z(=*\)\[" end="\]\z1\]" contains=luaMarks,@Spell
 endif
-syn match luaMarks "<.\{-}>" contained
-syn match luaMarks "\${\w\+}" contained
+"syn match luaMarks "<.\{-}>" contained
+"syn match luaMarks "\${\w\+}" contained
 syn region luaString  start=+'+ end=+'+ skip=+\\\\\|\\'+ contains=luaSpecial,luaMarks,@Spell
 syn region luaString  start=+"+ end=+"+ skip=+\\\\\|\\"+ contains=luaSpecial,luaMarks,@Spell
 
