@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1943)
-" Last Change:  2016-07-31 17:56:10
+" Version:      0.5 (1945)
+" Last Change:  2016-09-04 06:36:50
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -124,7 +124,8 @@ if has('gui_running') " {{{2
     if has('win32')
         silent! colorscheme evening
     else
-        silent! colorscheme kaltex
+        "silent! colorscheme kaltex
+        silent! colorscheme evening
     end
 
 else " in terminal {{{2
@@ -701,6 +702,7 @@ map <leader>f+ :<C-U>setf cpp<CR>
 map <leader>fc :<C-U>setf c<CR>
 map <leader>fC :<C-U>setf clojure<CR>
 map <leader>fd :<C-U>setf dot<CR>
+map <leader>fg :<C-U>setf go<CR>
 map <leader>fh :<C-U>setf haskell<CR>
 map <leader>fj :<C-U>setf java<CR>
 map <leader>fl :<C-U>setf lua<CR>

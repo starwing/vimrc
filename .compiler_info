@@ -11,7 +11,7 @@ set cpo&vim
 
 " Common default info {{{1
 
-au FileType c,cpp,objc,rust,nim SetDefaultInfo!
+au FileType c,cpp,go,objc,rust,nim SetDefaultInfo!
 	\ cmd='!$cc $flags $input $libs -o $output'
 	\ run='!$output $args' input='%:.' output='%:t:r'
 	\ asm_run=":pedit $output" args=''
@@ -78,6 +78,13 @@ au FileType clojure SetExtensionName clj
 au FileType clojure SetCompilerInfo! clojure
 	    \ title='clojure' cc='java clojure.main'
  
+" filetype go {{{1
+
+au FileType go SetExtensionName go
+au FileType go SetCompilerInfo! go
+	\ cmd='!go build $flags -o $output $input'
+	\ run='!$output $args' input='%:.' output='%:t:r' args=''
+
 " filetype graphviz {{{1
 
 au FileType dot SetExtensionName dot
