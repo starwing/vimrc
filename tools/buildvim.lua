@@ -16,7 +16,7 @@ local optflags = {
     tcl     = [[TCL=\Tcl DYNAMIC_TCL=yes TCL_VER=86 TCL_VER_LONG=8.6]],
     vs2015  = [[DEFINES="/GL /GS- /O2 /Oy /Oi"]],
 }
-local uses = { "vs2015", "user", "sdkdir64", "lua", "perl", "python", "python3", "tcl" }
+local uses = { "vs2015", "user", "sdkdir64", "lua", "perl", "python3", "tcl" }
 -- end --
 
 if arg[1] == "copy" then

@@ -258,7 +258,7 @@ if has('eval')
                     \  ['perl',   'perl/perl/bin'    ],
                     \  ['python', 'Python'           ],
                     \  ['python', 'Python27'         ],
-                    \  ['python', 'Python31'         ],
+                    \  ['python', 'Python35'         ],
                     \  ['rust',   'Rust/bin'         ]]
         for [name, path] in s:tools
             if !isdirectory($VIM.'/../'.path) | continue | endif
@@ -948,6 +948,7 @@ Plugin 'itchyny/calendar.vim'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-endwise'
 Plugin 'yegappan/mru'
 Plugin 'asins/vimcdoc'
 Plugin 'scrooloose/syntastic'
@@ -961,6 +962,7 @@ Plugin 'L9'
 Plugin 'FuzzyFinder'
 
 " Language-spec
+Plugin 'OrangeT/vim-csharp'
 Plugin 'wting/rust.vim'
 Plugin 'zah/nim.vim'
 Plugin 'tikhomirov/vim-glsl'
