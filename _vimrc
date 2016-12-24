@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1945)
-" Last Change:  2016-09-04 06:36:50
+" Version:      0.5 (1988)
+" Last Change:  2016-11-27 00:25:12
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -148,8 +148,11 @@ if has("win32") " {{{2
     endif
 
 elseif has('unix') " {{{2
-    if &term == 'linux'
-        " lang C
+    if has('gui_running')
+        lang mes zh_CN.UTF-8
+        set langmenu=zh_CN.UTF-8
+        silent! so $VIMRUNTIME/delmenu.vim
+        silent! so $VIMRUNTIME/menu.vim
     endif
     if exists('$TMUX')
         set term=screen-256color
@@ -419,17 +422,17 @@ if has('autocmd')
             au VimLeave * cs kill -1
         endif
 
-    " Don't screw up folds when inserting text that might affect them, until
-    " leaving insert mode. Foldmethod is local to the window. Protect against
-    " screwing up folding when switching between windows.
-    autocmd InsertEnter *
-                \  if !exists('w:last_fdm')
-                \|     let w:last_fdm=&foldmethod | setlocal foldmethod=manual
-                \| endif
-    autocmd InsertLeave,WinLeave *
-                \  if exists('w:last_fdm')
-                \|     let &l:foldmethod=w:last_fdm | unlet w:last_fdm
-                \| endif
+        " Don't screw up folds when inserting text that might affect them, until
+        " leaving insert mode. Foldmethod is local to the window. Protect against
+        " screwing up folding when switching between windows.
+        autocmd InsertEnter *
+                    \  if !exists('w:last_fdm')
+                    \|     let w:last_fdm=&foldmethod | setlocal foldmethod=manual
+                    \| endif
+        autocmd InsertLeave,WinLeave *
+                    \  if exists('w:last_fdm')
+                    \|     let &l:foldmethod=w:last_fdm | unlet w:last_fdm
+                    \| endif
 
     augroup END
 endif
@@ -985,7 +988,11 @@ endif
 
 if has('lua')
     Plugin 'Shougo/neocomplete.vim' " need Lua
-    Plugin 'Konfekt/FastFold' " depend by neocomplete
+    " Plugin 'Konfekt/FastFold' " depend by neocomplete
+endif
+
+if has("mac")
+    Plugin 'ybian/smartim'
 endif
 
 Plugin 'honza/vim-snippets' " snippets
@@ -1186,6 +1193,16 @@ let g:OmniCpp_MayCompleteScope = 1
 
 let g:multi_cursor_exit_from_insert_mode = 0
 let g:multi_cursor_exit_from_visual_mode = 0
+
+if has("mac")
+    function! Multiple_cursors_before()
+        let g:smartim_disable = 1
+    endfunction
+    function! Multiple_cursors_after()
+        unlet g:smartim_disable
+    endfunction
+end
+
 
 " neocomplete {{{2
 

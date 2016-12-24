@@ -99,6 +99,12 @@ au FileType haskell SetExtensionName hs
 au FileType haskell SetCompilerInfo! ghci
 	    \ title='ghci' cc='ghci' cmdmap='<f5>'
 
+" filetype java {{{1
+au FileType java SetExtensionName java
+au FileType java SetCompilerInfo! java
+            \ cmd='!javac $flags $input' flags='-d . -g' input='%:.'
+	\ run='!java $class $args' class='Solution' args=''
+
 " filetype javascript {{{1
 au FileType javascript SetExtensionName js
 au FileType javascript SetCompilerInfo! js
