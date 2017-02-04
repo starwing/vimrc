@@ -2,7 +2,7 @@
 local dstdir = [[\Vim\vim80]]
 local srcdir = [[\Work\Sources\Vim\src\]]
 local rtdir  = [[\Work\Sources\Vim\runtime\]]
-local flags  = [[DIRECTX=yes IME=yes CSCOPE=yes OLE=yes WINVER=0x0500]]
+local flags  = [[DIRECTX=yes IME=yes CSCOPE=yes OLE=yes WINVER=0x0501]]
 local optflags = {
     user    = [[USERNAME=SW USERDOMAIN=SB_DiaoSi_Mo]],
     sdkdir   = [[SDK_INCLUDE_DIR="C:\Program Files\Microsoft SDKs\Windows\v7.1\Include"]],
