@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1988)
-" Last Change:  2016-11-27 00:25:12
+" Version:      0.5 (1993)
+" Last Change:  2017-03-10 14:22:43
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -394,7 +394,7 @@ if has('autocmd')
 
         au!
         au BufFilePost * filetype detect|redraw
-        au BufWritePre $MYVIMRC silent call s:vimrc_write()
+        au BufWritePre $MYVIMRC,_vimrc silent call s:vimrc_write()
         au BufReadPost * if getfsize(expand('%')) < 50000 | syn sync fromstart | endif
         "au BufWritePre * let &backup = (getfsize(expand('%')) > 500000)
         au BufNewFile,BufRead *.vba set noml
@@ -921,8 +921,10 @@ if has('eval')
 filetype off
 
 if has("win32")
-    set rtp+=$VIM/vimfiles/bundle/Vundle.vim
-    call vundle#begin("$VIM/vimfiles/bundle")
+    if isdirectory($VIM.'/vimfiles/bundle/Vundle.vim/autoload')
+        set rtp+=$VIM/vimfiles/bundle/Vundle.vim
+        call vundle#begin("$VIM/vimfiles/bundle")
+    end
 elseif isdirectory(expand("~/.vim/bundle/Vundle.vim/autoload"))
     set rtp+=~/.vim/bundle/Vundle.vim
     call vundle#begin("~/.vim/bundle")
