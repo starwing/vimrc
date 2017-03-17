@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1993)
-" Last Change:  2017-03-10 14:22:43
+" Version:      0.5 (1998)
+" Last Change:  2017-03-17 17:12:18
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -35,7 +35,7 @@ set complete-=i
 set completeopt=longest,menu
 set diffopt+=vertical
 set display=lastline
-set fileencodings=ucs-bom,utf-8,cp936,gb18030,latin1
+set fileencodings=ucs-bom,utf-8,cp932,cp936,gb18030,latin1
 set formatoptions=tcqmB2
 set grepprg=grep\ -rn\ 
 set history=1000
@@ -398,13 +398,15 @@ if has('autocmd')
         au BufReadPost * if getfsize(expand('%')) < 50000 | syn sync fromstart | endif
         "au BufWritePre * let &backup = (getfsize(expand('%')) > 500000)
         au BufNewFile,BufRead *.vba set noml
-        au FileType clojure,dot,lua,haskell,m4,perl,python,ruby,scheme,tcl,vim,javascript
+        au FileType clojure,dot,lua,haskell,m4,perl,python,ruby,scheme,tcl,vim,javascript,erlang
                     \   if !exists('b:ft') || b:ft != &ft
                     \|      let b:ft = &ft
-                    \|      set sw=4 ts=8 sts=4 et sta nu fdc=2 fo-=t
+                    \|      set sw=4 ts=8 sts=4 nu et sta fdc=2 fo-=t
                     \|  endif
         au FileType lua se sw=3 sts=3 ts=3 et
+        au FileType lua let b:syntastic_checkers=['luacheck', 'lua']
         au FileType nim se sw=2 sts=2 ts=2 nu et fdm=marker fdc=2
+        au FileType erlang se sw=2 sts=2 fdm=marker fdc=2
         au FileType javascript se sw=2 sts=2 ts=2 et fdc=2 fdm=syntax
         au FileType cs se ai nu noet sw=4 sts=4 ts=4 fdc=2 fdm=syntax
         au FileType javascript if exists("*JavaScriptFold")
@@ -934,7 +936,7 @@ endif
 if exists(':Plugin')
 Plugin 'EasyGrep'
 Plugin 'echofunc.vim'
-Plugin 'hexman.vim'
+"Plugin 'hexman.vim'
 Plugin 'The-NERD-tree'
 Plugin 'VisIncr'
 Plugin 'winmanager'
@@ -966,6 +968,8 @@ Plugin 'majutsushi/tagbar'
 Plugin 'L9'
 Plugin 'FuzzyFinder'
 
+Plugin 'fidian/hexmode'
+
 " Language-spec
 Plugin 'OrangeT/vim-csharp'
 Plugin 'wting/rust.vim'
@@ -975,6 +979,7 @@ Plugin 'elzr/vim-json'
 Plugin 'thinca/vim-logcat'
 Plugin 'leafo/moonscript-vim'
 Plugin 'raymond-w-ko/vim-lua-indent'
+Plugin 'vim-erlang/vim-erlang-runtime'
 
 "Plugin 'xolox/vim-misc'  " required by lua.vim
 "Plugin 'xolox/vim-lua-ftplugin'  " Lua file type plug-in for the Vim text editor

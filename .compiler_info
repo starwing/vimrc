@@ -144,6 +144,15 @@ au FileType nim SetCompilerInfo! nim
 	    \ title='nim' cc='nim c' flags=''
             \ cmd='!$cc $flags -o:$output $input'
 
+" filetype erlang {{{1
+
+au FileType erlang SetExtensionName erl
+au FileType erlang SetCompilerInfo! erlang
+            \ title='erlang erlc' input='%:.'
+            \ cc='erlc' flags='-Werror' outdir='.'
+            \ cmd='!$cc $flags -o $outdir $input'
+            \ run='!$output $args' args=''
+
 " filetype perl {{{1
 
 au FileType perl SetExtensionName pl
