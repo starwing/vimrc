@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (1998)
-" Last Change:  2017-03-17 17:12:18
+" Version:      0.5 (2009)
+" Last Change:  2017-04-10 17:13:38
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -936,22 +936,21 @@ endif
 if exists(':Plugin')
 Plugin 'EasyGrep'
 Plugin 'echofunc.vim'
-"Plugin 'hexman.vim'
 Plugin 'The-NERD-tree'
 Plugin 'VisIncr'
 Plugin 'winmanager'
-Plugin 'minibufexplorerpp'
+"Plugin 'minibufexplorerpp'
 
-Plugin 'Shutnik/jshint2.vim'
-Plugin 'Slashbunny/vim-colorsamplerpack'
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'vim-airline/vim-airline.vim'
+Plugin 'ctrlp/ctrlp.vim'
+
+Plugin 'flazz/vim-colorschemes'
+Plugin 'ervandew/supertab'
+Plugin 'godlygeek/tabular'
 Plugin 'Raimondi/delimitMate'
 Plugin 'easymotion/vim-easymotion'
-Plugin 'ervandew/supertab'
-"Plugin 'fholgado/minibufexpl.vim'
-Plugin 'gmarik/Vundle.vim'
-Plugin 'godlygeek/tabular'
 Plugin 'itchyny/calendar.vim'
-"Plugin 'jiangmiao/auto-pairs'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-surround'
@@ -959,18 +958,13 @@ Plugin 'tpope/vim-endwise'
 Plugin 'yegappan/mru'
 Plugin 'asins/vimcdoc'
 Plugin 'scrooloose/syntastic'
-"Plugin 'kien/ctrlp.vim'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'majutsushi/tagbar'
-"Plugin 'bling/vim-airline'
-
-Plugin 'L9'
-Plugin 'FuzzyFinder'
-
 Plugin 'fidian/hexmode'
 
 " Language-spec
+Plugin 'Shutnik/jshint2.vim'
 Plugin 'OrangeT/vim-csharp'
 Plugin 'wting/rust.vim'
 Plugin 'zah/nim.vim'
