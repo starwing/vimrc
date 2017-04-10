@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2009)
-" Last Change:  2017-04-10 17:13:38
+" Version:      0.5 (2026)
+" Last Change:  2017-04-10 22:21:59
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -942,8 +942,8 @@ Plugin 'winmanager'
 "Plugin 'minibufexplorerpp'
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'vim-airline/vim-airline.vim'
-Plugin 'ctrlp/ctrlp.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 Plugin 'flazz/vim-colorschemes'
 Plugin 'ervandew/supertab'
@@ -961,7 +961,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'majutsushi/tagbar'
-Plugin 'fidian/hexmode'
+Plugin 'Shougo/vinarise.vim'
 
 " Language-spec
 Plugin 'Shutnik/jshint2.vim'
@@ -1017,6 +1017,24 @@ let html_ignore_conceal = 1
 let html_no_pre = 1
 let html_use_css = 1
 
+" airline {{{2
+
+let g:airline_symbols_ascii=1
+
+let g:airline_mode_map = {
+            \ '__' : '-',
+            \ 'n'  : 'N',
+            \ 'i'  : 'I',
+            \ 'R'  : 'R',
+            \ 'c'  : 'C',
+            \ 'v'  : 'V',
+            \ 'V'  : 'VL',
+            \ '' : 'VB',
+            \ 's'  : 'S',
+            \ 'S'  : 'SL',
+            \ '' : 'SB',
+            \ }
+
 " calendar {{{2
 
 for dir in ['~', $VIM, $VIM.'/..', $PRJDIR, $PRJDIR.'/..']
@@ -1049,6 +1067,7 @@ amenu 1.248 ToolBar.-sep5-1- <Nop>
 " ctrlp {{{2
 "
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.png,*.jpg,*.jpeg,*.gif " MacOSX/Linux
+let g:ctrlp_map = '<c-p>'
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
 
 if executable('ag')
@@ -1057,7 +1076,7 @@ if executable('ag')
     " Use ag in CtrlP for listing files.
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
     " Ag is fast enough that CtrlP doesn't need to cache
-    let g:ctrlp_use_caching = 0
+    " let g:ctrlp_use_caching = 0
 endif
 
 " bind K to grep word under cursor
