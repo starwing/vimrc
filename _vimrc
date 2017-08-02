@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2026)
-" Last Change:  2017-04-10 22:21:59
+" Version:      0.5 (2033)
+" Last Change:  2017-04-12 20:15:11
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -961,7 +961,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'dyng/ctrlsf.vim'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'majutsushi/tagbar'
-Plugin 'Shougo/vinarise.vim'
+Plugin 'bling/vim-bufferline'
 
 " Language-spec
 Plugin 'Shutnik/jshint2.vim'
@@ -979,12 +979,14 @@ Plugin 'vim-erlang/vim-erlang-runtime'
 "Plugin 'xolox/vim-lua-ftplugin'  " Lua file type plug-in for the Vim text editor
 
 if has('python') || has('python3')
+    Plugin 'Shougo/vinarise.vim'
     Plugin 'SirVer/ultisnips'
     Plugin 'Gundo'
 else
     Plugin 'MarcWeber/vim-addon-mw-utils'
     Plugin 'tomtom/tlib_vim'
     Plugin 'garbas/vim-snipmate'
+    Plugin 'fidian/hexmode'
 endif
 
 if has('lua')

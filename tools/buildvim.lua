@@ -11,12 +11,12 @@ local optflags = {
     mz      = [[MZSCHEME=\Racket DYNAMIC_MZSCHEME=yes MZSCHEME_VER=3m_9x82yo]],
     perl    = [[PERL=\perl DYNAMIC_PERL=yes PERL_VER=522]],
     python  = [[PYTHON=\python27 DYNAMIC_PYTHON=yes PYTHON_VER=27]],
-    python3 = [[PYTHON3=\python35 DYNAMIC_PYTHON3=yes PYTHON3_VER=35]],
+    python3 = [[PYTHON3=\python36 DYNAMIC_PYTHON3=yes PYTHON3_VER=36]],
     ruby    = [[RUBY=\ruby192 DYNAMIC_RUBY=yes RUBY_VER=192 RUBY_VER_LONG=1.9.1]],
     tcl     = [[TCL=\Tcl DYNAMIC_TCL=yes TCL_VER=86 TCL_VER_LONG=8.6]],
-    vs2015  = [[DEFINES="/GL /GS- /O2 /Oy /Oi"]],
+    vs_def  = [[DEFINES="/GL /GS- /O2 /Oy /Oi"]],
 }
-local uses = { "vs2015", "user", "sdkdir64", "lua", "perl", "python3", "tcl" }
+local uses = { "vs_def", "sdkdir64", "user", "lua", "perl", "python3", "tcl" }
 -- end --
 
 if arg[1] == "copy" then
@@ -26,7 +26,7 @@ if arg[1] == "copy" then
          runtimes[#runtimes+1] = dir
       end
    end
-   for k, v in ipairs(runtimes) do
+   for _, v in ipairs(runtimes) do
       os.execute("xcopy>nul /i/s/q/y "..rtdir..v.." "..dstdir.."\\"..v)
    end
    os.execute("xcopy>nul /i/s/q/y "..rtdir.."doc\\*.txt".." "..dstdir.."\\doc")
@@ -37,7 +37,7 @@ if arg[1] == "copy" then
 end
 
 -- parse argument options
-for i, curarg in ipairs(arg) do
+for _, curarg in ipairs(arg) do
     if curarg == '--help' then
         print("usage: "..arg[0].." [options] [srcdir]")
         os.exit(1)
@@ -55,7 +55,7 @@ for i, curarg in ipairs(arg) do
 end
 
 -- apply vim build options
-for i, v in ipairs(uses) do
+for _, v in ipairs(uses) do
     if optflags[v] then
         flags = flags .. " " .. optflags[v]
         optflags[v] = nil
