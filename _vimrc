@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2033)
-" Last Change:  2017-04-12 20:15:11
+" Version:      0.5 (2066)
+" Last Change:  2017-08-01 12:06:11
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -36,6 +36,7 @@ set completeopt=longest,menu
 set diffopt+=vertical
 set display=lastline
 set fileencodings=ucs-bom,utf-8,cp932,cp936,gb18030,latin1
+set fileformats=unix,dos
 set formatoptions=tcqmB2
 set grepprg=grep\ -rn\ 
 set history=1000
@@ -731,8 +732,8 @@ map <leader>as :!astyle -oO -snwpYHU --style=kr --mode=c<CR>
 " run current line {{{3
 nmap <leader>rc :exec getline('.')[col('.')-1:]<CR>
 xmap <leader>rc y:exec @"<CR>
-nmap <leader>ec :echo eval(getline('.'))[col('.')-1:]<CR>
-xmap <leader>ec y:echo eval(@")<CR>
+nmap <leader>rv :echo eval(getline('.'))[col('.')-1:]<CR>
+xmap <leader>rv y:echo eval(@")<CR>
 
 " get syntax stack {{{3
 nmap<silent> <leader>gs :echo ""<bar>for id in synstack(line('.'),col('.'))
@@ -1070,13 +1071,35 @@ amenu 1.248 ToolBar.-sep5-1- <Nop>
 "
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.png,*.jpg,*.jpeg,*.gif " MacOSX/Linux
 let g:ctrlp_map = '<c-p>'
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/].(git|hg|svn|rvm)$',
+    \ 'file': '\v.(exe|so|dll|zip|tar|tar.gz|pyc|beam)$',
+    \ }
+nnoremap <leader>er :<C-U>CtrlP<CR>
+nnoremap <leader>ew :<C-U>cd Y:/trunk/server<BAR>CtrlP<CR>
+nnoremap <leader>ec :<C-U>CtrlPCurFile<CR>
+nnoremap <leader>eu :<C-U>CtrlPMRU<CR>
+nnoremap <leader>eb :<C-U>CtrlPBuffer<CR>
+nnoremap <leader>et :<C-U>CtrlPTag<CR>
+nnoremap <leader>ee :call <SID>tagsUnderCursor()<CR>
+
+function! <SID>tagsUnderCursor()
+    try
+        let default_input_save = get(g:, 'ctrlp_default_input', '')
+        let g:ctrlp_default_input = expand('<cword>')
+        CtrlPBufTagAll
+    finally
+        if exists('default_input_save')
+            let g:ctrlp_default_input = default_input_save
+        endif
+    endtry
+endfunction
 
 if executable('ag')
     " Use Ag over Grep
     set grepprg=ag\ --nogroup\ --nocolor
     " Use ag in CtrlP for listing files.
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g "\\.[he]rl"'
     " Ag is fast enough that CtrlP doesn't need to cache
     " let g:ctrlp_use_caching = 0
 endif
@@ -1095,53 +1118,6 @@ let g:delimitMate_jump_expansion = 0
 
 let g:EasyGrepMode=2 " TrackExt
 let g:EasyGrepCommand = 1
-
-
-" fuzzyfinder {{{2
-
-let g:fuf_modesDisable = []
-let g:fuf_mrufile_maxItem = 400
-let g:fuf_mrucmd_maxItem = 400
-nnoremap <silent> <leader>sj     :FufBuffer<CR>
-nnoremap <silent> <leader>sk     :FufFileWithCurrentBufferDir<CR>
-nnoremap <silent> <leader>sK     :FufFileWithFullCwd<CR>
-nnoremap <silent> <leader>s<C-k> :FufFile<CR>
-nnoremap <silent> <leader>sl     :FufCoverageFileChange<CR>
-nnoremap <silent> <leader>sL     :FufCoverageFileChange<CR>
-nnoremap <silent> <leader>s<C-l> :FufCoverageFileRegister<CR>
-nnoremap <silent> <leader>sd     :FufDirWithCurrentBufferDir<CR>
-nnoremap <silent> <leader>sD     :FufDirWithFullCwd<CR>
-nnoremap <silent> <leader>s<C-d> :FufDir<CR>
-nnoremap <silent> <leader>sn     :FufMruFile<CR>
-nnoremap <silent> <leader>sN     :FufMruFileInCwd<CR>
-nnoremap <silent> <leader>sm     :FufMruCmd<CR>
-nnoremap <silent> <leader>su     :FufBookmarkFile<CR>
-nnoremap <silent> <leader>s<C-u> :FufBookmarkFileAdd<CR>
-vnoremap <silent> <leader>s<C-u> :FufBookmarkFileAddAsSelectedText<CR>
-nnoremap <silent> <leader>si     :FufBookmarkDir<CR>
-nnoremap <silent> <leader>s<C-i> :FufBookmarkDirAdd<CR>
-nnoremap <silent> <leader>st     :FufTag<CR>
-nnoremap <silent> <leader>sT     :FufTag!<CR>
-nnoremap <silent> <leader>s<C-]> :FufTagWithCursorWord!<CR>
-nnoremap <silent> <leader>s,     :FufBufferTag<CR>
-nnoremap <silent> <leader>s<     :FufBufferTag!<CR>
-vnoremap <silent> <leader>s,     :FufBufferTagWithSelectedText!<CR>
-vnoremap <silent> <leader>s<     :FufBufferTagWithSelectedText<CR>
-nnoremap <silent> <leader>s}     :FufBufferTagWithCursorWord!<CR>
-nnoremap <silent> <leader>s.     :FufBufferTagAll<CR>
-nnoremap <silent> <leader>s>     :FufBufferTagAll!<CR>
-vnoremap <silent> <leader>s.     :FufBufferTagAllWithSelectedText!<CR>
-vnoremap <silent> <leader>s>     :FufBufferTagAllWithSelectedText<CR>
-nnoremap <silent> <leader>s]     :FufBufferTagAllWithCursorWord!<CR>
-nnoremap <silent> <leader>sg     :FufTaggedFile<CR>
-nnoremap <silent> <leader>sG     :FufTaggedFile!<CR>
-nnoremap <silent> <leader>so     :FufJumpList<CR>
-nnoremap <silent> <leader>sp     :FufChangeList<CR>
-nnoremap <silent> <leader>sq     :FufQuickfix<CR>
-nnoremap <silent> <leader>sy     :FufLine<CR>
-nnoremap <silent> <leader>sh     :FufHelp<CR>
-nnoremap <silent> <leader>se     :FufEditDataFile<CR>
-nnoremap <silent> <leader>sr     :FufRenewCache<CR>
 
 
 " indent guide {{{2
@@ -1182,10 +1158,6 @@ let g:MRU_Max_Entries = 1000
 
 menutrans Recent\ Files 最近使用的文件(&R)
 menutrans Refresh\ list 刷新列表(&R)
-
-map <leader>u :<C-U>MRU<CR>
-map <leader>ru :<C-U>MRU 
-
 
 " NERDTree {{{2
 
