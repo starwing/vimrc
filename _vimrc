@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2066)
-" Last Change:  2017-08-01 12:06:11
+" Version:      0.5 (2071)
+" Last Change:  2017-11-19 05:12:46
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -117,7 +117,7 @@ if has('gui_running') " {{{2
         silent! set gfw=YaHei_Mono:h10:cGB2312
         "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
     elseif has('mac')
-        set gfn=Monaco:h10
+        set gfn=Monaco:h14
     else
         "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
         set gfn=DejaVu\ Sans\ Mono\ 9
@@ -945,6 +945,7 @@ Plugin 'winmanager'
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'Konfekt/FoldText'
 
 Plugin 'flazz/vim-colorschemes'
 Plugin 'ervandew/supertab'
@@ -1119,6 +1120,55 @@ let g:delimitMate_jump_expansion = 0
 let g:EasyGrepMode=2 " TrackExt
 let g:EasyGrepCommand = 1
 
+
+" FoldText {{{2
+
+set foldmethod=syntax
+
+" { Syntax Folding
+  let g:vimsyn_folding='af'
+  let g:tex_fold_enabled=1
+  let g:xml_syntax_folding = 1
+  let g:clojure_fold = 1
+  let ruby_fold = 1
+  let perl_fold = 1
+  let perl_fold_blocks = 1
+" }
+
+set foldenable
+set foldlevel=0
+set foldlevelstart=0
+" specifies for which commands a fold will be opened
+set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
+
+nnoremap <silent> za za:<c-u>setlocal foldlevel?<CR>
+
+nnoremap <silent> zr zr:<c-u>setlocal foldlevel?<CR>
+nnoremap <silent> zm zm:<c-u>setlocal foldlevel?<CR>
+
+nnoremap <silent> zR zR:<c-u>setlocal foldlevel?<CR>
+nnoremap <silent> zM zM:<c-u>setlocal foldlevel?<CR>
+
+" Change Option Folds
+nnoremap zi  :<c-u>call <SID>ToggleFoldcolumn(1)<CR>
+nnoremap coz :<c-u>call <SID>ToggleFoldcolumn(0)<CR>
+nmap     cof coz
+
+function! s:ToggleFoldcolumn(fold)
+  if &foldcolumn
+    let w:foldcolumn = &foldcolumn
+    silent setlocal foldcolumn=0
+    if a:fold | silent setlocal nofoldenable | endif
+  else
+      if exists('w:foldcolumn') && (w:foldcolumn!=0)
+        silent let &l:foldcolumn=w:foldcolumn
+      else
+        silent setlocal foldcolumn=4
+      endif
+      if a:fold | silent setlocal foldenable | endif
+  endif
+  setlocal foldcolumn?
+endfunction
 
 " indent guide {{{2
 
