@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2071)
-" Last Change:  2017-11-19 05:12:46
+" Version:      0.5 (2072)
+" Last Change:  2017-12-08 14:52:57
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -113,8 +113,8 @@ if has('gui_running') " {{{2
     set co=120 lines=35
 
     if has('win32')
-        silent! set gfn=Consolas:h10:cANSI
-        silent! set gfw=YaHei_Mono:h10:cGB2312
+        silent! set gfn=Consolas:h16:cANSI
+        silent! set gfw=YaHei_Mono:h16:cGB2312
         "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
     elseif has('mac')
         set gfn=Monaco:h14
@@ -396,6 +396,7 @@ if has('autocmd')
         au!
         au BufFilePost * filetype detect|redraw
         au BufWritePre $MYVIMRC,_vimrc silent call s:vimrc_write()
+        au BufWritePre Y:/* set noundofile
         au BufReadPost * if getfsize(expand('%')) < 50000 | syn sync fromstart | endif
         "au BufWritePre * let &backup = (getfsize(expand('%')) > 500000)
         au BufNewFile,BufRead *.vba set noml
@@ -677,6 +678,8 @@ end
 " cd to current file folder {{{3
 
 map <leader>cd :<C-U>cd %:h<CR>
+map <leader>cw :<C-U>cd Y:/trunk/server<CR>
+map <leader>c1 :<C-U>call feedkeys(":\<lt>C-U>cd Y:/1.\<lt>Tab>", 't')<CR>
 
 " cmdline edit key, emacs style {{{3
 
@@ -976,6 +979,7 @@ Plugin 'thinca/vim-logcat'
 Plugin 'leafo/moonscript-vim'
 Plugin 'raymond-w-ko/vim-lua-indent'
 Plugin 'vim-erlang/vim-erlang-runtime'
+Plugin 'chrisbra/csv.vim'
 
 "Plugin 'xolox/vim-misc'  " required by lua.vim
 "Plugin 'xolox/vim-lua-ftplugin'  " Lua file type plug-in for the Vim text editor
@@ -1100,7 +1104,7 @@ if executable('ag')
     " Use Ag over Grep
     set grepprg=ag\ --nogroup\ --nocolor
     " Use ag in CtrlP for listing files.
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g "\\.[he]rl"'
+    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g "\\.[he]rl"'
     " Ag is fast enough that CtrlP doesn't need to cache
     " let g:ctrlp_use_caching = 0
 endif

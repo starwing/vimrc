@@ -147,7 +147,14 @@ au FileType nim SetCompilerInfo! nim
 " filetype erlang {{{1
 
 au FileType erlang SetExtensionName erl
-au FileType erlang SetCompilerInfo! erlang
+
+au FileType erlang SetCompilerInfo! escript
+            \ cmd='#RUN_DIRECT' runmap='<f5>'
+            \ run='!$cc $flags $src $args' src='%:.'
+            \ flags='' args=''
+            \ title='escript' cc='escript' src='-- %:.' cmdmap='<f5>'
+
+au FileType erlang SetCompilerInfo! erlc
             \ title='erlang erlc' input='%:.'
             \ cc='erlc' flags='-Werror' outdir='.'
             \ cmd='!$cc $flags -o $outdir $input'
