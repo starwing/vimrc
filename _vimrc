@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2072)
-" Last Change:  2017-12-08 14:52:57
+" Version:      0.5 (2114)
+" Last Change:  2017-12-29 16:34:55
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -29,7 +29,7 @@ set cpo&vim " set cpo-=C cpo-=b
 
 " generic Settings {{{2
 
-set ambiwidth=double
+set ambiwidth=single
 set bsdir=buffer
 set complete-=i
 set completeopt=longest,menu
@@ -113,7 +113,8 @@ if has('gui_running') " {{{2
     set co=120 lines=35
 
     if has('win32')
-        silent! set gfn=Consolas:h16:cANSI
+        "silent! set gfn=Consolas:h16:cANSI
+        silent! set gfn=Monaco_for_Powerline:h16:cANSI:qDRAFT
         silent! set gfw=YaHei_Mono:h16:cGB2312
         "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
     elseif has('mac')
@@ -893,7 +894,10 @@ imap <F1> <ESC><F1>
 " in cmode, it means print time
 cnoremap <f1> <C-R>=escape(strftime("%Y-%m-%d %H:%M:%S"), '\ ')<CR>
 
-" f2: winmanager {{{4
+" f2: ctrlp {{{4
+
+nnoremap <F2> :<C-U>CtrlP<CR>
+inoremap <F2> <C-\><C-N>:<C-U>CtrlP<CR>
 
 " f3: shell {{{4
 
@@ -927,87 +931,77 @@ if has('eval')
 filetype off
 
 if has("win32")
-    if isdirectory($VIM.'/vimfiles/bundle/Vundle.vim/autoload')
-        set rtp+=$VIM/vimfiles/bundle/Vundle.vim
-        call vundle#begin("$VIM/vimfiles/bundle")
-    end
-elseif isdirectory(expand("~/.vim/bundle/Vundle.vim/autoload"))
-    set rtp+=~/.vim/bundle/Vundle.vim
-    call vundle#begin("~/.vim/bundle")
+    call plug#begin("$VIM/vimfiles/bundle")
+else
+    call plug#begin("~/.vim/bundle")
 endif
 
 
-if exists(':Plugin')
-Plugin 'EasyGrep'
-Plugin 'echofunc.vim'
-Plugin 'The-NERD-tree'
-Plugin 'VisIncr'
-Plugin 'winmanager'
-"Plugin 'minibufexplorerpp'
+if exists(':Plug')
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'Konfekt/FoldText'
+Plug 'flazz/vim-colorschemes'
+Plug 'asins/vimcdoc'
 
-Plugin 'flazz/vim-colorschemes'
-Plugin 'ervandew/supertab'
-Plugin 'godlygeek/tabular'
-Plugin 'Raimondi/delimitMate'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'itchyny/calendar.vim'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-endwise'
-Plugin 'yegappan/mru'
-Plugin 'asins/vimcdoc'
-Plugin 'scrooloose/syntastic'
-Plugin 'dyng/ctrlsf.vim'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'majutsushi/tagbar'
-Plugin 'bling/vim-bufferline'
+Plug 'vim-airline/vim-airline'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'dyng/ctrlsf.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'easymotion/vim-easymotion'
+Plug 'Konfekt/FoldText'
+Plug 'Raimondi/delimitMate'
+Plug 'ervandew/supertab'
+Plug 'godlygeek/tabular'
+Plug 'itchyny/calendar.vim'
+Plug 'mbbill/echofunc'
+Plug 'mkitt/tabline.vim'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/syntastic'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+Plug 'triglav/vim-visual-increment'
+Plug 'yegappan/mru'
 
 " Language-spec
-Plugin 'Shutnik/jshint2.vim'
-Plugin 'OrangeT/vim-csharp'
-Plugin 'wting/rust.vim'
-Plugin 'zah/nim.vim'
-Plugin 'tikhomirov/vim-glsl'
-Plugin 'elzr/vim-json'
-Plugin 'thinca/vim-logcat'
-Plugin 'leafo/moonscript-vim'
-Plugin 'raymond-w-ko/vim-lua-indent'
-Plugin 'vim-erlang/vim-erlang-runtime'
-Plugin 'chrisbra/csv.vim'
-
-"Plugin 'xolox/vim-misc'  " required by lua.vim
-"Plugin 'xolox/vim-lua-ftplugin'  " Lua file type plug-in for the Vim text editor
+Plug 'Shutnik/jshint2.vim'
+Plug 'OrangeT/vim-csharp'
+Plug 'wting/rust.vim'
+Plug 'zah/nim.vim'
+Plug 'tikhomirov/vim-glsl'
+Plug 'elzr/vim-json'
+Plug 'thinca/vim-logcat'
+Plug 'leafo/moonscript-vim'
+Plug 'raymond-w-ko/vim-lua-indent'
+Plug 'vim-erlang/vim-erlang-runtime'
+Plug 'chrisbra/csv.vim'
 
 if has('python') || has('python3')
-    Plugin 'Shougo/vinarise.vim'
-    Plugin 'SirVer/ultisnips'
-    Plugin 'Gundo'
+    Plug 'Shougo/vinarise.vim'
+    Plug 'SirVer/ultisnips'
+    Plug 'sjl/gundo.vim'
 else
-    Plugin 'MarcWeber/vim-addon-mw-utils'
-    Plugin 'tomtom/tlib_vim'
-    Plugin 'garbas/vim-snipmate'
-    Plugin 'fidian/hexmode'
+    Plug 'MarcWeber/vim-addon-mw-utils'
+    Plug 'tomtom/tlib_vim'
+    Plug 'garbas/vim-snipmate'
+    Plug 'fidian/hexmode'
 endif
 
 if has('lua')
-    Plugin 'Shougo/neocomplete.vim' " need Lua
-    " Plugin 'Konfekt/FastFold' " depend by neocomplete
+    Plug 'Shougo/neocomplete.vim' " need Lua
+    " Plug 'Konfekt/FastFold' " depend by neocomplete
 endif
 
 if has("mac")
-    Plugin 'ybian/smartim'
+    Plug 'ybian/smartim'
 endif
 
-Plugin 'honza/vim-snippets' " snippets
+Plug 'honza/vim-snippets' " snippets
 
 
-call vundle#end()
+call plug#end()
 endif
 filetype plugin indent on
 
@@ -1027,7 +1021,8 @@ let html_use_css = 1
 
 " airline {{{2
 
-let g:airline_symbols_ascii=1
+let g:airline_powerline_fonts = 1
+"let g:airline_symbols_ascii=1
 
 let g:airline_mode_map = {
             \ '__' : '-',
@@ -1075,6 +1070,7 @@ amenu 1.248 ToolBar.-sep5-1- <Nop>
 " ctrlp {{{2
 "
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.png,*.jpg,*.jpeg,*.gif " MacOSX/Linux
+let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/].(git|hg|svn|rvm)$',
@@ -1119,11 +1115,13 @@ let g:delimitMate_expand_cr    = 2
 let g:delimitMate_jump_expansion = 0
 
 
-" EasyGrep {{{2
+" EasyAlign {{{2
 
-let g:EasyGrepMode=2 " TrackExt
-let g:EasyGrepCommand = 1
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
 
+" Start interactive EasyAlign for a motion/text object (e.g. ,=ip)
+nmap <leader>a <Plug>(EasyAlign)
 
 " FoldText {{{2
 
