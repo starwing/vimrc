@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2188)
-" Last Change:  2018-01-12 16:13:52
+" Version:      0.5 (2190)
+" Last Change:  2018-01-12 16:21:10
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -118,7 +118,7 @@ if has('gui_running') " {{{2
         silent! set gfw=YaHei_Mono:h16:cGB2312
         "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
     elseif has('mac')
-        set gfn=Monaco:h14
+        set gfn=Monaco\ for\ Powerline:h14
     else
         "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
         set gfn=DejaVu\ Sans\ Mono\ 9
@@ -901,7 +901,7 @@ end
 " plugin settings {{{1
 if has('eval')
 
-" Vundle {{{2
+" vim-plug {{{2
 
 filetype off
 
@@ -938,7 +938,6 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'triglav/vim-visual-increment'
-Plug 'yegappan/mru'
 
 " Language-spec
 Plug 'Shutnik/jshint2.vim'
@@ -980,12 +979,6 @@ call plug#end()
 endif
 filetype plugin indent on
 
-
-" Easy Vim {{{2
-
-if &insertmode
-    run! evim.vim
-endif
 
 " 2html {{{2
 
@@ -1093,6 +1086,12 @@ vmap <Enter> <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. ,=ip)
 nmap <leader>a <Plug>(EasyAlign)
 
+" EasyVim {{{2
+
+if &insertmode
+    run! evim.vim
+endif
+
 " FoldText {{{2
 
 set foldmethod=syntax
@@ -1147,62 +1146,26 @@ endfunction
 let g:indent_guides_guide_size=1
 
 
-" minibufexpl {{{2
+" Lua {{{2
 
-" If you like control + vim direction key to navigate
-" windows then perform the remapping
-noremap <C-J>     <C-W>j
-noremap <C-K>     <C-W>k
-noremap <C-H>     <C-W>h
-noremap <C-L>     <C-W>l
+if exists('$QUICK_V3_ROOT')
+    let g:lua_path = $QUICK_V3_ROOT."quick/cocos/?.lua;".
+                   \ $QUICK_V3_ROOT."quick/cocos/?/init.lua;".
+                   \ $QUICK_V3_ROOT."quick/framework/?.lua;".
+                   \ $QUICK_V3_ROOT."quick/framework/?/init.lua;".
+                   \ $LUA_PATH
 
-" If you like control + arrow key to navigate windows
-" then perform the remapping
-noremap <C-Down>  <C-W>j
-noremap <C-Up>    <C-W>k
-noremap <C-Left>  <C-W>h
-noremap <C-Right> <C-W>l
-
-nnoremap <leader>on :on<BAR>MBEOpen<CR>
-xnoremap <leader>on <ESC>:on<BAR>MBEOpen<CR>
-
-
-" mru {{{2
-
-let g:MRU_Check_File = 1
-let g:MRU_Exclude_Files = '\c\v(\\|\/)%(Temp|Tmp)\1'
-if has('win32')
-    let g:MRU_File = expand($VIM.'/_vim_mru_files')
-else
-    let g:MRU_File = expand('~/.vim/_vim_mru_files')
+    if has('lua')
+        lua package.path=vim.eval('g:lua_path')..';'..package.path
+    endif
 endif
-let g:MRU_Max_Entries = 1000
 
-menutrans Recent\ Files 最近使用的文件(&R)
-menutrans Refresh\ list 刷新列表(&R)
+"let lua_complete_keywords = 1
+"let lua_complete_globals = 1
+"let lua_complete_library = 1
+"let lua_complete_dynamic = 1
+let lua_complete_omni = 0
 
-" NERDTree {{{2
-
-nmap <leader>nn :NERDTreeToggle<CR>
-xmap <leader>nn :<C-U>NERDTreeToggle<CR>
-map <leader>nf :<C-U>NERDTree %:h<CR>
-map <leader>np :<C-U>NERDTree $VIMDOR<CR>
-map <leader>ns :<C-U>NERDTree $PRJDIR<CR>
-map <leader>nv :<C-U>NERDTree $VIM<CR>
-nmap <leader>nx :NERDTree .<CR>
-xmap <leader>nx "ey:NERDTree <C-R>e<CR>
-
-" omnicppcomplete {{{2
-
-let g:OmniCpp_GlobalScopeSearch = 1  " 0 or 1
-let g:OmniCpp_NamespaceSearch = 1   " 0 ,  1 or 2
-let g:OmniCpp_DisplayMode = 1
-let g:OmniCpp_ShowScopeInAbbr = 0
-let g:OmniCpp_ShowPrototypeInAbbr = 1
-let g:OmniCpp_ShowAccess = 1
-let g:OmniCpp_MayCompleteDot = 1
-let g:OmniCpp_MayCompleteArrow = 1
-let g:OmniCpp_MayCompleteScope = 1
 
 
 " multiple-cursors  {{{2
@@ -1239,51 +1202,33 @@ function! Multiple_cursors_after()
   endif
 endfunction
 
-" UltiSnips {{{2
+" NERDTree {{{2
 
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger = '<Tab>'
-let g:UltiSnipsListSnippets = '<C-Tab>'
-let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+nmap <leader>nn :NERDTreeToggle<CR>
+xmap <leader>nn :<C-U>NERDTreeToggle<CR>
+map <leader>nf :<C-U>NERDTree %:h<CR>
+map <leader>np :<C-U>NERDTree $VIMDOR<CR>
+map <leader>ns :<C-U>NERDTree $PRJDIR<CR>
+map <leader>nv :<C-U>NERDTree $VIM<CR>
+nmap <leader>nx :NERDTree .<CR>
+xmap <leader>nx "ey:NERDTree <C-R>e<CR>
 
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
+" omnicppcomplete {{{2
 
-let g:UltiSnipsSnippetDirectories=['UltiSnips']
-
-if has('win32')
-    let g:UltiSnipsSnippetsDir = expand("$VIM/vimfiles/UltiSnips")
-else
-    let g:UltiSnipsSnippetsDir = expand("~/.vim/UltiSnips")
-endif
+let g:OmniCpp_GlobalScopeSearch = 1  " 0 or 1
+let g:OmniCpp_NamespaceSearch = 1   " 0 ,  1 or 2
+let g:OmniCpp_DisplayMode = 1
+let g:OmniCpp_ShowScopeInAbbr = 0
+let g:OmniCpp_ShowPrototypeInAbbr = 1
+let g:OmniCpp_ShowAccess = 1
+let g:OmniCpp_MayCompleteDot = 1
+let g:OmniCpp_MayCompleteArrow = 1
+let g:OmniCpp_MayCompleteScope = 1
 
 
 " perl {{{2
 
 let g:perl_fold = 1
-
-" Lua {{{2
-
-if exists('$QUICK_V3_ROOT')
-    let g:lua_path = $QUICK_V3_ROOT."quick/cocos/?.lua;".
-                   \ $QUICK_V3_ROOT."quick/cocos/?/init.lua;".
-                   \ $QUICK_V3_ROOT."quick/framework/?.lua;".
-                   \ $QUICK_V3_ROOT."quick/framework/?/init.lua;".
-                   \ $LUA_PATH
-
-    if has('lua')
-        lua package.path=vim.eval('g:lua_path')..';'..package.path
-    endif
-endif
-
-"let lua_complete_keywords = 1
-"let lua_complete_globals = 1
-"let lua_complete_library = 1
-"let lua_complete_dynamic = 1
-let lua_complete_omni = 0
-
-
 
 " supertab {{{2
 
@@ -1312,14 +1257,25 @@ let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 
-" tagbar {{{2
+" UltiSnips {{{2
 
-if !executable("ctags")
-    let g:loaded_taglist = 'no'
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger = '<Tab>'
+let g:UltiSnipsListSnippets = '<C-Tab>'
+let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+let g:UltiSnipsSnippetDirectories=['UltiSnips']
+
+if has('win32')
+    let g:UltiSnipsSnippetsDir = expand("$VIM/vimfiles/UltiSnips")
 else
-    let g:Tlist_Show_One_File = 1
-    let g:Tlist_Exit_OnlyWindow = 1
+    let g:UltiSnipsSnippetsDir = expand("~/.vim/UltiSnips")
 endif
+
 
 " vcscommand {{{2
 
