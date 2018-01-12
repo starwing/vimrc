@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2114)
-" Last Change:  2017-12-29 16:34:55
+" Version:      0.5 (2188)
+" Last Change:  2018-01-12 16:13:52
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -263,7 +263,7 @@ if has('eval')
                     \  ['perl',   'perl/perl/bin'    ],
                     \  ['python', 'Python'           ],
                     \  ['python', 'Python27'         ],
-                    \  ['python', 'Python35'         ],
+                    \  ['python', 'Python36'         ],
                     \  ['rust',   'Rust/bin'         ]]
         for [name, path] in s:tools
             if !isdirectory($VIM.'/../'.path) | continue | endif
@@ -642,50 +642,7 @@ endif
 
 " Generic maps {{{2
 
-" explorer invoke {{{3
-
-map <leader>ef :<C-U>vsp %:h<CR>
-map <leader>ep :<C-U>vsp $VIMDOR<CR>
-map <leader>es :<C-U>vsp $PRJDIR<CR>
-map <leader>ev :<C-U>vsp $VIM<CR>
-nmap <leader>ex :vsp .<CR>
-xmap <leader>ex "ey:vsp <C-R>e<CR>
-
-" vim invoke {{{3
-
-if has('eval')
-    function! s:get_restart_arg()
-        if has('win32')
-            let cmdline = '!start '.v:progname.' -c "cd '
-        else
-            let cmdline = '!'.v:progname.' -c "cd '
-            call feedkeys("\<CR>")
-        end
-        if exists(":NERDTreeToggle") == 2
-            return cmdline.fnameescape(getcwd()).'|NERDTreeToggle|wincmd l"'
-        else
-            return cmdline.fnameescape(getcwd()).'"'
-        endif
-    endfunction
-    map <leader>vn :<C-U>exec <SID>get_restart_arg()<CR>
-    map <leader>vr :<C-U>exec <SID>get_restart_arg()<BAR>qa!<CR>
-    if has('win32')
-        map <leader>vi :<C-U>!start gvim<CR>
-    else
-        map <leader>vi :<C-U>!gvim<CR><CR>
-    end
-end
-
-" cd to current file folder {{{3
-
-map <leader>cd :<C-U>cd %:h<CR>
-map <leader>cw :<C-U>cd Y:/trunk/server<CR>
-map <leader>c1 :<C-U>call feedkeys(":\<lt>C-U>cd Y:/1.\<lt>Tab>", 't')<CR>
-
 " cmdline edit key, emacs style {{{3
-
-nnoremap <Space> :
-xnoremap <Space> :
 
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
@@ -706,52 +663,6 @@ inoremap <C-B> <Left>
 "inoremap <C-P> <Up>
 inoremap <M-F> <S-Right>
 inoremap <M-B> <S-Left>
-
-" filetype settings {{{3
-map <leader>f+ :<C-U>setf cpp<CR>
-map <leader>fc :<C-U>setf c<CR>
-map <leader>fC :<C-U>setf clojure<CR>
-map <leader>fd :<C-U>setf dot<CR>
-map <leader>fg :<C-U>setf go<CR>
-map <leader>fh :<C-U>setf haskell<CR>
-map <leader>fj :<C-U>setf java<CR>
-map <leader>fl :<C-U>setf lua<CR>
-map <leader>fL :<C-U>setf lisp<CR>
-map <leader>fm :<C-U>setf markdown<CR>
-map <leader>fM :<C-U>setf m4<CR>
-map <leader>fP :<C-U>setf perl<CR>
-map <leader>fp :<C-U>setf python<CR>
-map <leader>fT :<C-U>setf tex<CR>
-map <leader>fr :<C-U>setf rust<CR>
-map <leader>fR :<C-U>setf rest<CR>
-map <leader>fs :<C-U>setf scheme<CR>
-map <leader>fT :<C-U>setf tcl<CR>
-map <leader>ft :<C-U>setf text<CR>
-map <leader>fv :<C-U>setf vim<CR>
-
-" filter {{{3
-
-map <leader>as :!astyle -oO -snwpYHU --style=kr --mode=c<CR>
-
-" run current line {{{3
-nmap <leader>rc :exec getline('.')[col('.')-1:]<CR>
-xmap <leader>rc y:exec @"<CR>
-nmap <leader>rv :echo eval(getline('.'))[col('.')-1:]<CR>
-xmap <leader>rv y:echo eval(@")<CR>
-
-" get syntax stack {{{3
-nmap<silent> <leader>gs :echo ""<bar>for id in synstack(line('.'),col('.'))
-            \\|echo synIDattr(id, "name")
-            \\|endfor<CR>
-
-" vimrc edit {{{3
-if has("win32")
-    map <leader>re :drop $VIM/vimfiles/_vimrc<CR>
-    map <leader>rr :so $VIM/vimfiles/_vimrc<CR>
-else
-    map <leader>re :drop $MYVIMRC<CR>
-    map <leader>rr :so $MYVIMRC<CR>
-endif
 
 " clipboard operations {{{3
 if has('eval')
@@ -780,7 +691,7 @@ if has('eval')
     " get Global
     nor gG :norm! ggVG<CR>
     sunm gG
-    " Build buffer with zip
+    " Build buffer with zp
     nmap zB gGzp
     " get text zipped
     nmap gz zyaa``
@@ -789,65 +700,23 @@ if has('eval')
     map Y y$
 endif
 
-" set buffer tabstop and sw and et
-
-map <leader>1 :<C-U>setl ts=8 sw=4 et nu fdm=syntax fdc=2<CR>
-map <leader>2 :<C-U>setl ts=4 sw=4 noet nu fdm=syntax fdc=2<CR>
-
-" indent {{{3
-
-xmap > >gv
-xmap < <gv
-nmap g= gg=G
-xmap g= gg=G
-
-" quickfix error jumps {{{3
-
-map <leader>qj :<C-U>cn!<CR>
-map <leader>qk :<C-U>cp!<CR>
-
-" quick complete (against supertab) {{{3
-
-"inor <m-n> <c-n>
-"inor <m-p> <c-p>
-
 " visual # and * operators {{{3
 
 xnor<silent> # "sy?\V<C-R>=substitute(escape(@s, '\?'), '\n', '\\n', 'g')<CR><CR>
 xnor<silent> * "sy/\V<C-R>=substitute(escape(@s, '\/'), '\n', '\\n', 'g')<CR><CR>
 
-" redo {{{3
-
-map <m-r> <c-r>
-
-" diff get/put {{{3
-
-map <leader>dg :diffget
-map <leader>dp :diffput
-map <leader>du :diffupdate
-
-" window navigating {{{3
+" window navigating/sizing {{{3
 
 nmap <C-+> <C-W>+
 nmap <C-,> <C-W><
 nmap <C--> <C-W>-
 nmap <C-.> <C-W>>
 nmap <C-=> <C-W>=
-nmap <C-h> <C-W>h
-nmap <C-j> <C-W>j
-nmap <C-k> <C-W>k
-nmap <C-l> <C-W>l
 xmap <C-+> <C-W>+
 xmap <C-,> <C-W><
 xmap <C--> <C-W>-
 xmap <C-.> <C-W>>
 xmap <C-=> <C-W>=
-xmap <C-h> <C-W>h
-xmap <C-j> <C-W>j
-xmap <C-k> <C-W>k
-xmap <C-l> <C-W>l
-
-" window resizing {{{3
 
 if has('eval')
     nmap Z8 :call <SID>wresize()<CR>
@@ -872,52 +741,158 @@ map <M-k> <C-k>Z8
 map <M-h> <C-h>Z8
 map <M-l> <C-l>Z8
 
-" window moving {{{3
+" <leader># set buffer tabstop and sw and et
 
+map <leader>1 :<C-U>setl ts=8 sw=4 et nu fdm=syntax fdc=2<CR>
+map <leader>2 :<C-U>setl ts=4 sw=4 noet nu fdm=syntax fdc=2<CR>
 
-map <M-S-J> <C-W>J
-map <M-S-K> <C-W>K
-map <M-S-H> <C-W>H
-map <M-S-L> <C-W>L
+" <leader>a filter {{{3
 
+map <leader>a :!astyle -oO -snwpYHU --style=kr --mode=c<CR>
 
-" save {{{3
+" <leader>b ctrlp buffer list {{{3
 
-map <C-S> :<C-U>w<CR>
+map <leader>b <leader>ib
 
-" Function Key maps {{{3
+" <leader>c cd to current file folder {{{3
 
-" f1: show the wildmenu {{{4
-map <F1> :<C-U>emenu <C-Z>
-imap <F1> <ESC><F1>
+map <leader>cd :<C-U>cd %:h<CR>
+map <leader>cw :<C-U>cd Y:/trunk/server<CR>
+map <leader>c1 :<C-U>call feedkeys(":\<lt>C-U>cd Y:/1.\<lt>Tab>", 't')<CR>
 
-" in cmode, it means print time
-cnoremap <f1> <C-R>=escape(strftime("%Y-%m-%d %H:%M:%S"), '\ ')<CR>
+" <leader>d diff get/put {{{3
 
-" f2: ctrlp {{{4
+map <leader>dd :<C-U>noh\|pcl\|ccl\|lcl<CR>
+map <leader>dg :diffget
+map <leader>dp :diffput
+map <leader>du :diffupdate
 
-nnoremap <F2> :<C-U>CtrlP<CR>
-inoremap <F2> <C-\><C-N>:<C-U>CtrlP<CR>
+" <leader>e explorer invoke {{{3
 
-" f3: shell {{{4
+nmap <leader>ef :<C-U>vsp %:h<CR>
+nmap <leader>ep :<C-U>vsp $VIMDOR<CR>
+nmap <leader>es :<C-U>vsp $PRJDIR<CR>
+nmap <leader>ev :<C-U>vsp $VIM<CR>
+nmap <leader>ex :vsp .<CR>
+xmap <leader>ex "ey:vsp <C-R>e<CR>
+
+" <leader>f filetype settings {{{3
+map <leader>f+ :<C-U>setf cpp<CR>
+map <leader>fc :<C-U>setf c<CR>
+map <leader>fC :<C-U>setf clojure<CR>
+map <leader>fd :<C-U>setf dot<CR>
+map <leader>fg :<C-U>setf go<CR>
+map <leader>fh :<C-U>setf haskell<CR>
+map <leader>fj :<C-U>setf java<CR>
+map <leader>fl :<C-U>setf lua<CR>
+map <leader>fL :<C-U>setf lisp<CR>
+map <leader>fm :<C-U>setf markdown<CR>
+map <leader>fM :<C-U>setf m4<CR>
+map <leader>fP :<C-U>setf perl<CR>
+map <leader>fp :<C-U>setf python<CR>
+map <leader>fT :<C-U>setf tex<CR>
+map <leader>fr :<C-U>setf rust<CR>
+map <leader>fR :<C-U>setf rest<CR>
+map <leader>fs :<C-U>setf scheme<CR>
+map <leader>fT :<C-U>setf tcl<CR>
+map <leader>ft :<C-U>setf text<CR>
+map <leader>fv :<C-U>setf vim<CR>
+
+" <leader>g get syntax stack {{{3
+nmap<silent> <leader>g :echo ""<bar>for id in synstack(line('.'),col('.'))
+            \\|echo synIDattr(id, "name")
+            \\|endfor<CR>
+
+" <leader>hjkl window navigating and moving {{{3
+
+nmap <leader>h <C-W>h
+nmap <leader>j <C-W>j
+nmap <leader>k <C-W>k
+nmap <leader>l <C-W>l
+nmap <leader>H <C-W>H
+nmap <leader>J <C-W>J
+nmap <leader>K <C-W>K
+nmap <leader>L <C-W>L
+
+" <leader>i ctrlp {{{3
+
+nnoremap <leader>ii :<C-U>CtrlP<CR>
+nnoremap <leader>ib :<C-U>CtrlPBuffer<CR>
+nnoremap <leader>ic :<C-U>CtrlPCurFile<CR>
+nnoremap <leader>ie :call <SID>tagsUnderCursor()<CR>
+nnoremap <leader>is :<C-U>cd Y:/trunk/server<BAR>CtrlP<CR>
+nnoremap <leader>it :<C-U>CtrlPTag<CR>
+nnoremap <leader>iu :<C-U>CtrlPMRU<CR>
+
+function! <SID>tagsUnderCursor()
+    try
+        let default_input_save = get(g:, 'ctrlp_default_input', '')
+        let g:ctrlp_default_input = expand('<cword>')
+        CtrlPBufTagAll
+    finally
+        if exists('default_input_save')
+            let g:ctrlp_default_input = default_input_save
+        endif
+    endtry
+endfunction
+
+" <leader>q quickfix error jumps {{{3
+
+map <leader>qj :<C-U>cn!<CR>
+map <leader>qk :<C-U>cp!<CR>
+
+" <leader>r run current line {{{3
+
+" vimrc edit
+if has("win32")
+    map <leader>re :drop $VIM/vimfiles/_vimrc<CR>
+    map <leader>rr :so $VIM/vimfiles/_vimrc<CR>
+else
+    map <leader>re :drop $MYVIMRC<CR>
+    map <leader>rr :so $MYVIMRC<CR>
+endif
+
+nmap <leader>rc :exec getline('.')[col('.')-1:]<CR>
+xmap <leader>rc y:exec @"<CR>
+nmap <leader>rv :echo eval(getline('.'))[col('.')-1:]<CR>
+xmap <leader>rv y:echo eval(@")<CR>
+
+" <leader>t terminal {{{3
 
 if has('mac')
-    map <F3> :<C-U>!open -a iterm<CR>:call feedkeys("\<lt>CR>")<CR>
+    map <leader>t :<C-U>!open -a iterm<CR>:call feedkeys("\<lt>CR>")<CR>
 elseif !has('win32')
-    map <F3> :<C-U>!gnome-terminal &<CR>:call feedkeys("\<lt>CR>")<CR>
+    map <leader>t :<C-U>!gnome-terminal &<CR>:call feedkeys("\<lt>CR>")<CR>
 elseif executable('sh.exe')
-    map <F3> :<C-U>!start sh.exe --login -i<CR>
+    map <leader>t :<C-U>!start sh.exe --login -i<CR>
 else
-    map <F3> :<C-U>!start cmd.exe<CR>
+    map <leader>t :<C-U>!start cmd.exe<CR>
 endif
-map <leader>t <F3>
-imap <F3> <ESC><F3>a
 
-" f4: clear hlsearch and qf/loc window {{{4
-map <F4> :<C-U>noh\|pcl\|ccl\|lcl<CR>
-imap <F4> <ESC><F4>a
+" <leader>v vim invoke {{{3
 
-" }}}4
+if has('eval')
+    function! s:get_restart_arg()
+        if has('win32')
+            let cmdline = '!start '.v:progname.' -c "cd '
+        else
+            let cmdline = '!'.v:progname.' -c "cd '
+            call feedkeys("\<CR>")
+        end
+        if exists(":NERDTreeToggle") == 2
+            return cmdline.fnameescape(getcwd()).'|NERDTreeToggle|wincmd l"'
+        else
+            return cmdline.fnameescape(getcwd()).'"'
+        endif
+    endfunction
+    map <leader>vn :<C-U>exec <SID>get_restart_arg()<CR>
+    map <leader>vr :<C-U>exec <SID>get_restart_arg()<BAR>qa!<CR>
+    if has('win32')
+        map <leader>vi :<C-U>!start gvim<CR>
+    else
+        map <leader>vi :<C-U>!gvim<CR><CR>
+    end
+end
 
 " }}}3
 
@@ -939,7 +914,7 @@ endif
 
 if exists(':Plug')
 
-Plug 'flazz/vim-colorschemes'
+"Plug 'flazz/vim-colorschemes'
 Plug 'asins/vimcdoc'
 
 Plug 'vim-airline/vim-airline'
@@ -1076,27 +1051,12 @@ let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/].(git|hg|svn|rvm)$',
     \ 'file': '\v.(exe|so|dll|zip|tar|tar.gz|pyc|beam)$',
     \ }
-nnoremap <leader>er :<C-U>CtrlP<CR>
-nnoremap <leader>ew :<C-U>cd Y:/trunk/server<BAR>CtrlP<CR>
-nnoremap <leader>ec :<C-U>CtrlPCurFile<CR>
-nnoremap <leader>eu :<C-U>CtrlPMRU<CR>
-nnoremap <leader>eb :<C-U>CtrlPBuffer<CR>
-nnoremap <leader>et :<C-U>CtrlPTag<CR>
-nnoremap <leader>ee :call <SID>tagsUnderCursor()<CR>
 
-function! <SID>tagsUnderCursor()
-    try
-        let default_input_save = get(g:, 'ctrlp_default_input', '')
-        let g:ctrlp_default_input = expand('<cword>')
-        CtrlPBufTagAll
-    finally
-        if exists('default_input_save')
-            let g:ctrlp_default_input = default_input_save
-        endif
-    endtry
-endfunction
+if executable('rg')
+    set grepprg=rg\ --vimgrep
+    let g:ctrlp_user_command = 'rg %s -g "!*.beam" -g "!*.html" -g "!*.prof_output" --files'
 
-if executable('ag')
+elseif executable('ag')
     " Use Ag over Grep
     set grepprg=ag\ --nogroup\ --nocolor
     " Use ag in CtrlP for listing files.
@@ -1106,7 +1066,17 @@ if executable('ag')
 endif
 
 " bind K to grep word under cursor
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+nnoremap K :<C-U>silent! :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+nmap <F1> :<C-U>CtrlPBuffer<CR>
+nmap <F2> :<C-U>CtrlPMRU<CR>
+nmap <F3> :<C-U>CtrlPTag<CR>
+nmap <F4> :<C-U>CtrlP<CR>
+
+imap <F1> <C-\><C-N><F1>
+imap <F2> <C-\><C-N><F2>
+imap <F3> <C-\><C-N><F3>
+imap <F4> <C-\><C-N><F4>
 
 " delimitMate {{{2
 
@@ -1354,38 +1324,6 @@ endif
 " vcscommand {{{2
 
 let g:VCSCommandMapPrefix = "<leader>vc"
-
-" winmanager {{{2
-
-let g:winManagerWindowLayout='NERDTree|Tagbar'
-let g:winManagerWidth=30
-
-let g:NERDTree_title = "[NERDTree]"
-function! NERDTree_Start()
-    exe 'q' "执行一个退出命令，关闭自动出现的窗口"
-    exe 'NERDTree'
-endfunction
- 
-function! NERDTree_IsValid()
-    return 1
-endfunction
- 
-"noremap <f5> :NERDTreeFind<cr>
- 
-let g:Tagbar_title = "[Tagbar]"
-function! Tagbar_Start()
-    exe 'q' "执行一个退出命令，关闭自动出现的窗口"
-    exe 'TagbarOpen'
-endfunction
- 
-function! Tagbar_IsValid()
-    return 1
-endfunction
-let g:tagbar_vertical = 30
-
-nmap <leader>wm :<c-u>if IsWinManagerVisible() <BAR> WMToggle<CR> <BAR> else <BAR> WMToggle<CR>:q<CR> endif <CR><CR>
-map <F2> <leader>wm
-imap <F2> <ESC><leader>wm
 
 " zip {{{2
 let g:loaded_zipPlugin= 1
