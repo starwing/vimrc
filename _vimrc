@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2190)
-" Last Change:  2018-01-12 16:21:10
+" Version:      0.5 (2191)
+" Last Change:  2018-01-13 16:07:43
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -989,7 +989,9 @@ let html_use_css = 1
 
 " airline {{{2
 
-let g:airline_powerline_fonts = 1
+if has("gui_running")
+    let g:airline_powerline_fonts = 1
+endif
 "let g:airline_symbols_ascii=1
 
 let g:airline_mode_map = {
