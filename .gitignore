@@ -10,3 +10,4 @@ _fullscreen
 *.tar.gz
 *.tar.bz2
 *~
+*.old

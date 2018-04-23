@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2191)
-" Last Change:  2018-01-13 16:07:43
+" Version:      0.5 (2192)
+" Last Change:  2018-04-12 15:33:33
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -951,6 +951,7 @@ Plug 'leafo/moonscript-vim'
 Plug 'raymond-w-ko/vim-lua-indent'
 Plug 'vim-erlang/vim-erlang-runtime'
 Plug 'chrisbra/csv.vim'
+Plug 'leafgarland/typescript-vim'
 
 if has('python') || has('python3')
     Plug 'Shougo/vinarise.vim'
