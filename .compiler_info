@@ -144,6 +144,12 @@ au FileType nim SetCompilerInfo! nim
 	    \ title='nim' cc='nim c' flags=''
             \ cmd='!$cc $flags -o:$output $input'
 
+" filletype ocaml {{{1
+
+au FileType ml SetExtensionName ml
+au FileType ml SetCompilerInfo! ml
+	    \ title='ocaml' cc='ocamlc' src='-- %:.'
+
 " filetype erlang {{{1
 
 au FileType erlang SetExtensionName erl

@@ -24,7 +24,11 @@ endif
 
 if has('eval')
     let s:cpo_save = &cpo
+    if !exists('g:gui_running')
+        let g:gui_running = has('gui_running')
+    endif
 endif
+
 set cpo&vim " set cpo-=C cpo-=b
 
 " generic Settings {{{2
@@ -109,19 +113,21 @@ if has('eval')
     endfunction
 endif
 
-if has('gui_running') " {{{2
+if g:gui_running " {{{2
     set co=120 lines=35
 
-    if has('win32')
-        "silent! set gfn=Consolas:h16:cANSI
-        silent! set gfn=Monaco_for_Powerline:h16:cANSI:qDRAFT
-        silent! set gfw=YaHei_Mono:h16:cGB2312
-        "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
-    elseif has('mac')
-        set gfn=Monaco\ for\ Powerline:h14
-    else
-        "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
-        set gfn=DejaVu\ Sans\ Mono\ 9
+    if exists('+gfn')
+        if has('win32')
+            "silent! set gfn=Consolas:h16:cANSI
+            silent! set gfn=Monaco_for_Powerline:h16:cANSI:qDRAFT
+            silent! set gfw=YaHei_Mono:h16:cGB2312
+            "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
+        elseif has('mac')
+            set gfn=Monaco\ for\ Powerline:h14
+        else
+            "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
+            set gfn=DejaVu\ Sans\ Mono\ 9
+        endif
     endif
     if has('win32')
         silent! colorscheme evening
@@ -150,7 +156,7 @@ if has("win32") " {{{2
     endif
 
 elseif has('unix') " {{{2
-    if has('gui_running')
+    if g:gui_running
         lang mes zh_CN.UTF-8
         set langmenu=zh_CN.UTF-8
         silent! so $VIMRUNTIME/delmenu.vim
@@ -163,7 +169,7 @@ elseif has('unix') " {{{2
         if exists('$TMUX')
             let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
             let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-        elseif has('gui_running')
+        elseif g:gui_running
             let &t_SI = "\<Esc>]50;CursorShape=1\x7"
             let &t_EI = "\<Esc>]50;CursorShape=0\x7"
         endif
@@ -185,7 +191,7 @@ elseif has('unix') " {{{2
         return ""
     endfunction
 
-    if !has('gui_running')
+    if !g:gui_running
         let &t_SI .= WrapForTmux("\<Esc>[?2004h")
         let &t_EI .= WrapForTmux("\<Esc>[?2004l")
         inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
@@ -524,7 +530,7 @@ endif
 
 " Full GUI {{{3
 
-if has('gui_running')
+if g:gui_running
     let s:has_mt = glob("$VIM/_fullscreen") == "" &&
                 \  glob("$VIM/vimfiles/_fullscreen") == "" &&
                 \  glob("$HOME/.vim/_fullscreen") == ""
@@ -1003,7 +1009,7 @@ let html_use_css = 1
 
 " airline {{{2
 
-if has("gui_running")
+if g:gui_running
     let g:airline_powerline_fonts = 1
 endif
 "let g:airline_symbols_ascii=1
