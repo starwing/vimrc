@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2192)
-" Last Change:  2018-04-12 15:33:33
+" Version:      0.5 (2231)
+" Last Change:  2018-05-27 19:05:13
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -914,17 +914,31 @@ endif
 
 if exists(':Plug')
 
-"Plug 'flazz/vim-colorschemes'
-Plug 'asins/vimcdoc'
+" Plug 'flazz/vim-colorschemes'
+" Plug 'scrooloose/syntastic'
 
-Plug 'vim-airline/vim-airline'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'dyng/ctrlsf.vim'
+Plug 'asins/vimcdoc'       " chinese document
+Plug 'w0rp/ale'            " live lint
+Plug 'mhinz/vim-signify'   " show difference
+Plug 'metakirby5/codi.vim' " on-the-fly coding
+
+" textobj
 Plug 'junegunn/vim-easy-align'
-Plug 'easymotion/vim-easymotion'
+Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'java'] }
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-syntax'
+Plug 'kana/vim-textobj-user'
+Plug 'sgur/vim-textobj-parameter'
+Plug 'tpope/vim-surround'
+
+
 Plug 'Konfekt/FoldText'
 Plug 'Raimondi/delimitMate'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'dyng/ctrlsf.vim'
+Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
+Plug 'fidian/hexmode'
 Plug 'godlygeek/tabular'
 Plug 'itchyny/calendar.vim'
 Plug 'mbbill/echofunc'
@@ -932,36 +946,35 @@ Plug 'mkitt/tabline.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'triglav/vim-visual-increment'
+Plug 'vim-airline/vim-airline'
 
 " Language-spec
-Plug 'Shutnik/jshint2.vim'
-Plug 'OrangeT/vim-csharp'
-Plug 'wting/rust.vim'
-Plug 'zah/nim.vim'
-Plug 'tikhomirov/vim-glsl'
-Plug 'elzr/vim-json'
-Plug 'thinca/vim-logcat'
-Plug 'leafo/moonscript-vim'
-Plug 'raymond-w-ko/vim-lua-indent'
-Plug 'vim-erlang/vim-erlang-runtime'
-Plug 'chrisbra/csv.vim'
-Plug 'leafgarland/typescript-vim'
+Plug 'OrangeT/vim-csharp', { 'for': 'csharp' }
+Plug 'Shutnik/jshint2.vim', { 'for': 'javascript' }
+Plug 'chrisbra/csv.vim', { 'for': 'csv' }
+Plug 'elzr/vim-json', { 'for': 'json' }
+Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+Plug 'leafo/moonscript-vim', { 'for': 'moonscript' }
+Plug 'raymond-w-ko/vim-lua-indent', { 'for': 'lua' }
+Plug 'tikhomirov/vim-glsl', { 'for': 'glsl' }
+Plug 'vim-erlang/vim-erlang-runtime', { 'for': 'erlang' }
+Plug 'wting/rust.vim', { 'for': 'rust' }
+Plug 'zah/nim.vim', { 'for': 'nim' }
+"Plug 'thinca/vim-logcat'
 
 if has('python') || has('python3')
     Plug 'Shougo/vinarise.vim'
     Plug 'SirVer/ultisnips'
     Plug 'sjl/gundo.vim'
+    "Plug 'Shougo/denite.nvim'
 else
     Plug 'MarcWeber/vim-addon-mw-utils'
     Plug 'tomtom/tlib_vim'
     Plug 'garbas/vim-snipmate'
-    Plug 'fidian/hexmode'
 endif
 
 if has('lua')
@@ -1008,6 +1021,22 @@ let g:airline_mode_map = {
             \ 'S'  : 'SL',
             \ '' : 'SB',
             \ }
+
+" ale {{{2
+
+let g:ale_linters_explicit = 1
+let g:ale_completion_delay = 500
+let g:ale_echo_delay = 20
+let g:ale_lint_delay = 500
+let g:ale_echo_msg_format = '[%linter%] %code: %%s'
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
+let g:airline#extensions#ale#enabled = 1
+ 
+let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
+let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
+let g:ale_c_cppcheck_options = ''
+let g:ale_cpp_cppcheck_options = ''
 
 " calendar {{{2
 
@@ -1147,6 +1176,35 @@ endfunction
 " indent guide {{{2
 
 let g:indent_guides_guide_size=1
+
+
+" LeaderF {{{2
+
+let g:Lf_ShortcutF = '<c-p>'
+let g:Lf_ShortcutB = '<m-n>'
+"noremap <c-n> :LeaderfMru<cr>
+"noremap <m-p> :LeaderfFunction<cr>
+"noremap <m-n> :LeaderfBuffer<cr>
+"noremap <m-m> :LeaderfTag<cr>
+let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
+ 
+let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
+let g:Lf_WorkingDirectoryMode = 'Ac'
+let g:Lf_WindowHeight = 0.30
+let g:Lf_ShowRelativePath = 0
+let g:Lf_HideHelp = 1
+let g:Lf_StlColorscheme = 'powerline'
+ 
+let g:Lf_NormalMap = {
+    \ "File":   [["<ESC>", ':exec g:Lf_py "fileExplManager.quit()"<CR>'],
+    \            ["<F6>", ':exec g:Lf_py "fileExplManager.quit()"<CR>'] ],
+    \ "Buffer": [["<ESC>", ':exec g:Lf_py "bufExplManager.quit()"<CR>'],
+    \            ["<F6>", ':exec g:Lf_py "bufExplManager.quit()"<CR>'] ],
+    \ "Mru":    [["<ESC>", ':exec g:Lf_py "mruExplManager.quit()"<CR>']],
+    \ "Tag":    [["<ESC>", ':exec g:Lf_py "tagExplManager.quit()"<CR>']],
+    \ "Function":    [["<ESC>", ':exec g:Lf_py "functionExplManager.quit()"<CR>']],
+    \ "Colorscheme":    [["<ESC>", ':exec g:Lf_py "colorschemeExplManager.quit()"<CR>']],
+    \ }
 
 
 " Lua {{{2

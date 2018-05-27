@@ -1,5 +1,5 @@
 -- options --
-local dstdir = [[\Vim\vim80]]
+local dstdir = [[\Vim\vim81]]
 local srcdir = [[\Work\Sources\Vim\src\]]
 local rtdir  = [[\Work\Sources\Vim\runtime\]]
 local flags  = [[DIRECTX=yes IME=yes CSCOPE=yes OLE=yes WINVER=0x0501]]
