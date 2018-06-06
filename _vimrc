@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2242)
-" Last Change:  2018-05-31 10:36:56
+" Version:      0.5 (2257)
+" Last Change:  2018-06-06 15:03:16
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -985,6 +985,11 @@ else
     Plug 'garbas/vim-snipmate'
 endif
 
+if has('nvim')
+    Plug 'equalsraf/neovim-gui-shim'
+    Plug 'dzhou121/gonvim-fuzzy'
+endif
+
 if has('lua')
     Plug 'Shougo/neocomplete.vim' " need Lua
     " Plug 'Konfekt/FastFold' " depend by neocomplete
@@ -1285,6 +1290,22 @@ function! Multiple_cursors_after()
     exe 'NeoCompleteUnlock'
   endif
 endfunction
+
+" Neovim {{{2
+
+function! g:NvimGUISetting()
+    let g:gui_running = 1
+    if exists(':GuiFont')
+        GuiFont Monaco for Powerline:h16
+        let g:airline_powerline_fonts = 1
+        "GuiLinespace 8
+    endif
+    colors evening
+endfunction
+
+if has('nvim')
+    call NvimGUISetting()
+endif
 
 " NERDTree {{{2
 
