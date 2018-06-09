@@ -2,7 +2,7 @@
 " File Name:    vimrc
 " Author:       StarWing
 " Version:      0.5 (2257)
-" Last Change:  2018-06-06 15:03:16
+" Last Change:  2018-06-09 23:28:21
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -950,7 +950,6 @@ Plug 'fidian/hexmode'
 Plug 'godlygeek/tabular'
 Plug 'itchyny/calendar.vim'
 Plug 'mbbill/echofunc'
-Plug 'mkitt/tabline.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
@@ -959,6 +958,7 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-repeat'
 Plug 'triglav/vim-visual-increment'
 Plug 'vim-airline/vim-airline'
+Plug 'Chiel92/vim-autoformat'
 
 " Language-spec
 Plug 'OrangeT/vim-csharp', { 'for': 'csharp' }
@@ -1057,8 +1057,9 @@ let g:ale_completion_delay = 500
 let g:ale_echo_delay = 20
 let g:ale_lint_delay = 500
 let g:ale_echo_msg_format = '[%linter%] %code: %%s'
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_insert_leave = 1
+let g:ale_lint_on_save = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 0
 let g:airline#extensions#ale#enabled = 1
  
 let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
@@ -1118,9 +1119,6 @@ elseif executable('ag')
     " let g:ctrlp_use_caching = 0
 endif
 
-" bind K to grep word under cursor
-nnoremap K :<C-U>silent! :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-
 nmap <F1> :<C-U>CtrlPBuffer<CR>
 nmap <F2> :<C-U>CtrlPMRU<CR>
 nmap <F3> :<C-U>CtrlPTag<CR>
@@ -1130,6 +1128,11 @@ imap <F1> <C-\><C-N><F1>
 imap <F2> <C-\><C-N><F2>
 imap <F3> <C-\><C-N><F3>
 imap <F4> <C-\><C-N><F4>
+
+" CtrlSF {{{2
+
+" bind K to grep word under cursor
+nnoremap K :<C-U>silent! :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " delimitMate {{{2
 
