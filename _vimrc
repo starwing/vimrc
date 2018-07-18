@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2257)
-" Last Change:  2018-06-09 23:28:21
+" Version:      0.5 (2261)
+" Last Change:  2018-07-18 14:19:00
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -415,7 +415,7 @@ if has('autocmd')
         au FileType lua se sw=3 sts=3 ts=3 et
         au FileType lua let b:syntastic_checkers=['luacheck', 'lua']
         au FileType nim se sw=2 sts=2 ts=2 nu et fdm=marker fdc=2
-        au FileType erlang se sw=2 sts=2 fdm=marker fdc=2
+        au FileType erlang se sw=2 sts=2 fdm=marker fdc=2 ff=unix
         au FileType javascript se sw=2 sts=2 ts=2 et fdc=2 fdm=syntax
         au FileType cs se ai nu noet sw=4 sts=4 ts=4 fdc=2 fdm=syntax
         au FileType javascript if exists("*JavaScriptFold")
@@ -926,8 +926,9 @@ if exists(':Plug')
 " Plug 'scrooloose/syntastic'
 
 Plug 'asins/vimcdoc'       " chinese document
-Plug 'w0rp/ale'            " live lint
+"Plug 'w0rp/ale'            " live lint
 "Plug 'mhinz/vim-signify'   " show difference
+Plug 'neomake/neomake'     " live lint/build
 Plug 'metakirby5/codi.vim' " on-the-fly coding
 
 " textobj
@@ -1293,6 +1294,12 @@ function! Multiple_cursors_after()
     exe 'NeoCompleteUnlock'
   endif
 endfunction
+
+" neomake {{{2
+
+" When reading a buffer (after 1s), and when writing (no delay).
+silent!  call neomake#configure#automake('rw', 1000)
+
 
 " Neovim {{{2
 
