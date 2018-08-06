@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2262)
-" Last Change:  2018-07-22 17:40:43
+" Version:      0.5 (2288)
+" Last Change:  2018-07-31 10:09:00
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -428,6 +428,14 @@ if has('autocmd')
         au BufReadPost log.txt syn clear
                     \|         syn region Table start='{' end='}' contains=Table fold
                     \|         se fdc=5 fdm=syntax autoread
+
+        for fn in glob('C:/Devel/Projects/tgame/versions/*', 0, 1)
+            exec "au BufNewFile,BufRead "
+                        \ substitute(fn.'\server\**\*.[he]rl', '\\', '/', 'g')
+                        \ "let b:neomake_erlang_erlc_root='".fn."\\server\\'" "|"
+                        \ "let b:neomake_erlang_erlc_flags=['-I', '".fn."\\server']"
+        endfor
+
 
         if has("cscope")
             au VimLeave * cs kill -1
@@ -928,7 +936,7 @@ if exists(':Plug')
 Plug 'asins/vimcdoc'       " chinese document
 "Plug 'w0rp/ale'            " live lint
 "Plug 'mhinz/vim-signify'   " show difference
-Plug 'neomake/neomake'     " live lint/build
+Plug 'starwing/neomake'     " live lint/build
 Plug 'metakirby5/codi.vim' " on-the-fly coding
 
 " textobj
