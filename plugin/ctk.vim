@@ -224,7 +224,7 @@ let s:pat_exectag = '$exec\>'
 let s:pat_filespec = '\v\\@<!%(\%|#%(\d+)=|##|<cword>|<cWORD>)%(:[p8~.htre]|g=s(.).\{-}\1.\{-}\1)*'
 let s:pat_filespec_escape = '\\\ze'.s:pat_filespec
 let s:pat_filespec_nonescape = '\\\@<!'.s:pat_filespec
-let s:pat_fname_escape = "[ \t\n*?[{`$\\%#''\"|!<]"
+let s:pat_fname_escape = "[ \t\n*?[{`$\\\\%#''\"|!<]"
 let s:pat_info ='\v^\s*(.{-})%(\s+(.{-})\s*)=$' 
 let s:pat_info_var = '\v(\w+)\s*(\+)=\=\s*(\S)(.{-})\3'
 let s:pat_modeline = '\v<([a-z0-9_]+)=cc%(-([^:]*))=:\s*(.*)'
@@ -360,6 +360,7 @@ function! s:expand_fname(fname, mode) " {{{2
     if fname =~ s:pat_fname_escape
         if v:version > 702 || v:version == 702 && has('patch111')
             let fname = shellescape(fname)
+            let fname = substitute(fname, '\ze\\\@<![!]', '\\', 'g')
 
         " I hope it can work... but maybe you should update your version :-)
         elseif has('win32')

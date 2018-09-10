@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2288)
-" Last Change:  2018-07-31 10:09:00
+" Version:      0.5 (2301)
+" Last Change:  2018-09-06 17:18:05
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -429,13 +429,16 @@ if has('autocmd')
                     \|         syn region Table start='{' end='}' contains=Table fold
                     \|         se fdc=5 fdm=syntax autoread
 
-        for fn in glob('C:/Devel/Projects/tgame/versions/*', 0, 1)
-            exec "au BufNewFile,BufRead "
-                        \ substitute(fn.'\server\**\*.[he]rl', '\\', '/', 'g')
-                        \ "let b:neomake_erlang_erlc_root='".fn."\\server\\'" "|"
-                        \ "let b:neomake_erlang_erlc_flags=['-I', '".fn."\\server']"
-        endfor
-
+        func! s:reg_tgame(path)
+            for fn in glob(a:path.'/*', 0, 1)
+                exec "au BufNewFile,BufRead "
+                            \ substitute(fn.'\server\**\*.[he]rl', '\\', '/', 'g')
+                            \ "let b:neomake_erlang_erlc_root='".fn."\\server\\'" "|"
+                            \ "let b:neomake_erlang_erlc_flags=['-I', '".fn."\\server']"
+            endfor
+        endfunc
+        call s:reg_tgame("C:/Devel/Projects/tgame/versions")
+        call s:reg_tgame("Y:/Work")
 
         if has("cscope")
             au VimLeave * cs kill -1
@@ -938,6 +941,8 @@ Plug 'asins/vimcdoc'       " chinese document
 "Plug 'mhinz/vim-signify'   " show difference
 Plug 'starwing/neomake'     " live lint/build
 Plug 'metakirby5/codi.vim' " on-the-fly coding
+Plug 'Shougo/deol.nvim'
+"Plug 'luochen1990/rainbow'
 
 " textobj
 Plug 'junegunn/vim-easy-align'
@@ -981,6 +986,7 @@ Plug 'tikhomirov/vim-glsl', { 'for': 'glsl' }
 Plug 'vim-erlang/vim-erlang-runtime', { 'for': 'erlang' }
 Plug 'wting/rust.vim', { 'for': 'rust' }
 Plug 'zah/nim.vim', { 'for': 'nim' }
+Plug 'idris-hackers/idris-vim', { 'for': 'idris' }
 "Plug 'thinca/vim-logcat'
 
 if has('python') || has('python3')
@@ -1170,6 +1176,32 @@ vmap <Enter> <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. ,=ip)
 nmap <leader>a <Plug>(EasyAlign)
+
+let g:easy_align_delimiters = {
+            \ 's': { 'pattern': '::' },
+            \ '>': { 'pattern': '>>\|=>\|->\|>' },
+            \ '/': {
+            \     'pattern':         '//\+\|/\*\|\*/',
+            \     'delimiter_align': 'l',
+            \     'ignore_groups':   ['!Comment'] },
+            \ ']': {
+            \     'pattern':       '[[\]]',
+            \     'left_margin':   0,
+            \     'right_margin':  0,
+            \     'stick_to_left': 0
+            \   },
+            \ ')': {
+            \     'pattern':       '[()]',
+            \     'left_margin':   0,
+            \     'right_margin':  0,
+            \     'stick_to_left': 0
+            \   },
+            \ 'd': {
+            \     'pattern':      ' \(\S\+\s*[;=]\)\@=',
+            \     'left_margin':  0,
+            \     'right_margin': 0
+            \   }
+            \ }
 
 " EasyVim {{{2
 
@@ -1365,6 +1397,10 @@ let g:OmniCpp_MayCompleteScope = 1
 " perl {{{2
 
 let g:perl_fold = 1
+
+" rainbow
+
+let g:rainbow_active = 1
 
 " supertab {{{2
 
