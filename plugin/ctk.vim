@@ -606,7 +606,7 @@ function! s:exec_cmd(cmdarg, forrun) " {{{2
 endfunction
 
 function! s:mac_system(cmd) " {{{2
-    if !has("mac") || !has('gui_running') | return system(cmd) | endif
+    if !has("mac") || !has('gui_running') | return system(a:cmd) | endif
     let scpt = '
         \@> tell application "iTerm"
         \@>   set curWin to (current window)

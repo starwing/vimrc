@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2301)
-" Last Change:  2018-09-06 17:18:05
+" Version:      0.5 (2305)
+" Last Change:  2018-09-14 00:13:29
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -433,12 +433,17 @@ if has('autocmd')
             for fn in glob(a:path.'/*', 0, 1)
                 exec "au BufNewFile,BufRead "
                             \ substitute(fn.'\server\**\*.[he]rl', '\\', '/', 'g')
-                            \ "let b:neomake_erlang_erlc_root='".fn."\\server\\'" "|"
-                            \ "let b:neomake_erlang_erlc_flags=['-I', '".fn."\\server']"
+                            \ "let b:neomake_erlang_erlc_root='".fn."/server'" "|"
+                            \ "let b:neomake_erlang_erlc_flags=['-I', '".fn."/server']"
             endfor
         endfunc
-        call s:reg_tgame("C:/Devel/Projects/tgame/versions")
-        call s:reg_tgame("Y:/Work")
+        if has('win32')
+            call s:reg_tgame("C:/Devel/Projects/tgame/versions")
+            call s:reg_tgame("Y:/Work")
+        endif
+        if has('mac')
+            call s:reg_tgame("/Users/sw/Work/Code/tgame/versions")
+        end
 
         if has("cscope")
             au VimLeave * cs kill -1
