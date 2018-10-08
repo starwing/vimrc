@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2305)
-" Last Change:  2018-09-14 00:13:29
+" Version:      0.5 (2307)
+" Last Change:  2018-10-08 11:38:34
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -434,7 +434,8 @@ if has('autocmd')
                 exec "au BufNewFile,BufRead "
                             \ substitute(fn.'\server\**\*.[he]rl', '\\', '/', 'g')
                             \ "let b:neomake_erlang_erlc_root='".fn."/server'" "|"
-                            \ "let b:neomake_erlang_erlc_flags=['-I', '".fn."/server']"
+                            \ "let b:neomake_erlang_erlc_flags=["
+                            \ "'+{parse_transform,do}', '-I', '".fn."/server']"
             endfor
         endfunc
         if has('win32')
@@ -948,6 +949,7 @@ Plug 'starwing/neomake'     " live lint/build
 Plug 'metakirby5/codi.vim' " on-the-fly coding
 Plug 'Shougo/deol.nvim'
 "Plug 'luochen1990/rainbow'
+Plug 'andymass/vim-matchup'
 
 " textobj
 Plug 'junegunn/vim-easy-align'
@@ -1184,6 +1186,7 @@ nmap <leader>a <Plug>(EasyAlign)
 
 let g:easy_align_delimiters = {
             \ 's': { 'pattern': '::' },
+            \ '<': { 'pattern': '<<\|<=\|<-\|<' },
             \ '>': { 'pattern': '>>\|=>\|->\|>' },
             \ '/': {
             \     'pattern':         '//\+\|/\*\|\*/',
