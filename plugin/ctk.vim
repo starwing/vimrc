@@ -360,7 +360,11 @@ function! s:expand_fname(fname, mode) " {{{2
     if fname =~ s:pat_fname_escape
         if v:version > 702 || v:version == 702 && has('patch111')
             let fname = shellescape(fname)
-            let fname = substitute(fname, '\ze\\\@<![!]', '\\', 'g')
+            if has('win32')
+                let fname = substitute(fname, '\ze[!]', '\\', 'g')
+            else
+                let fname = substitute(fname, '\ze\\\@<![!]', '\\', 'g')
+            end
 
         " I hope it can work... but maybe you should update your version :-)
         elseif has('win32')
@@ -568,6 +572,7 @@ function! s:make_cmd(cmd, entry, use_native) " {{{2
             let cmd = '!'.(cmd[0] == '!' ? cmd[3:] : cmd[2:])
         endif
 
+        "let cmd = '!'.escape(cmd[0] == '!' ? cmd[1:] : cmd, '!')
         let cmd = cmd[0] != '!' ? '!'.cmd : cmd
     endif
 
