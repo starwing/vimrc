@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2321)
-" Last Change:  2018-10-16 19:56:14
+" Version:      0.5 (2329)
+" Last Change:  2018-10-16 20:38:21
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -113,33 +113,6 @@ if has('eval')
     endfunction
 endif
 
-if g:gui_running " {{{2
-    set co=120 lines=35
-
-    if exists('+gfn')
-        if has('win32')
-            "silent! set gfn=Consolas:h16:cANSI
-            silent! set gfn=Monaco_for_Powerline:h16:cANSI:qDRAFT
-            silent! set gfw=YaHei_Mono:h16:cGB2312
-            "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
-        elseif has('mac')
-            set gfn=Monaco\ for\ Powerline:h14
-        else
-            "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
-            set gfn=DejaVu\ Sans\ Mono\ 9
-        endif
-    endif
-    if has('win32')
-        silent! colorscheme evening
-    else
-        "silent! colorscheme kaltex
-        silent! colorscheme evening
-    end
-
-else " in terminal {{{2
-    "silent! colorscheme kaltex
-    silent! colorscheme evening
-endif " }}}2
 if has("win32") " {{{2
     if $LANG =~? 'zh_CN' && &encoding !=? "cp936"
         set termencoding=cp936
@@ -177,28 +150,33 @@ elseif has('unix') " {{{2
         let &t_SI = "\e[5 q"
         let &t_EI = "\e[2 q"
     endif
-    function! WrapForTmux(s)
-        if !exists('$TMUX')
-            return a:s
+endif " }}}2
+if g:gui_running " {{{2
+    set co=120 lines=35
+
+    if exists('+gfn')
+        if has('win32')
+            "silent! set gfn=Consolas:h16:cANSI
+            silent! set gfn=Monaco_for_Powerline:h16:cANSI:qDRAFT
+            silent! set gfw=YaHei_Mono:h16:cGB2312
+            "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
+        elseif has('mac')
+            set gfn=Monaco\ for\ Powerline:h14
+        else
+            "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
+            set gfn=DejaVu\ Sans\ Mono\ 9
         endif
-
-        let tmux_start = "\<Esc>Ptmux;"
-        let tmux_end = "\<Esc>\\"
-
-        return tmux_start.substitute(a:s, "\<Esc>", "\<Esc>\<Esc>", 'g').tmux_end
-    endfunction
-
-    function! XTermPasteBegin()
-        set pastetoggle=<Esc>[201~
-        set paste
-        return ""
-    endfunction
-
-    if !g:gui_running
-        let &t_SI .= WrapForTmux("\<Esc>[?2004h")
-        let &t_EI .= WrapForTmux("\<Esc>[?2004l")
-        inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
     endif
+    if has('win32')
+        silent! colorscheme evening
+    else
+        "silent! colorscheme kaltex
+        silent! colorscheme evening
+    end
+
+else " in terminal {{{2
+    "silent! colorscheme kaltex
+    silent! colorscheme evening
 endif " }}}2
 " swapfiles/undofiles settings {{{2
 
@@ -1045,7 +1023,8 @@ let g:airline_powerline_fonts = 1
 "let g:airline_symbols_ascii=1
 
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#buffer_nr_format = '%s: '
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
@@ -1056,7 +1035,7 @@ nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
 nmap <leader>- <Plug>AirlineSelectPrevTab
-nmap <leader>+ <Plug>AirlineSelectNextTab
+nmap <leader>= <Plug>AirlineSelectNextTab
 
 let g:airline#extensions#tabline#buffer_idx_format = {
             \ '0': '0 ',
