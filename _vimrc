@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2307)
-" Last Change:  2018-10-08 11:38:34
+" Version:      0.5 (2321)
+" Last Change:  2018-10-16 19:56:14
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -137,8 +137,8 @@ if g:gui_running " {{{2
     end
 
 else " in terminal {{{2
-    silent! colorscheme kaltex
-    "silent! colorscheme evening
+    "silent! colorscheme kaltex
+    silent! colorscheme evening
 endif " }}}2
 if has("win32") " {{{2
     if $LANG =~? 'zh_CN' && &encoding !=? "cp936"
@@ -162,18 +162,21 @@ elseif has('unix') " {{{2
         silent! so $VIMRUNTIME/delmenu.vim
         silent! so $VIMRUNTIME/menu.vim
     endif
-    if exists('$TMUX')
-        set term=screen-256color
+    if has("termguicolors")
+        " fix bug for vim
+        let &t_8f="\<ESC>[38;2;%lu;%lu;%lum"
+        let &t_8b="\<ESC>[48;2;%lu;%lu;%lum"
+
+        " enable true color
+        set termguicolors
     endif
-    if exists('$ITERM_PROFILE')
-        if exists('$TMUX')
-            let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-            let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-        elseif g:gui_running
-            let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-            let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-        endif
-    end
+    if exists('$TMUX')
+        let &t_SI = "\<Esc>Ptmux;\<Esc>\e[5 q\<Esc>\\"
+        let &t_EI = "\<Esc>Ptmux;\<Esc>\e[2 q\<Esc>\\"
+    else
+        let &t_SI = "\e[5 q"
+        let &t_EI = "\e[2 q"
+    endif
     function! WrapForTmux(s)
         if !exists('$TMUX')
             return a:s
@@ -1038,9 +1041,7 @@ let html_use_css = 1
 
 " airline {{{2
 
-if g:gui_running
-    let g:airline_powerline_fonts = 1
-endif
+let g:airline_powerline_fonts = 1
 "let g:airline_symbols_ascii=1
 
 let g:airline#extensions#tabline#enabled = 1
