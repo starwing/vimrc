@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2333)
-" Last Change:  2018-10-19 23:37:06
+" Version:      0.5 (2334)
+" Last Change:  2018-10-19 23:42:54
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -416,15 +416,17 @@ if has('autocmd')
                             \ substitute(fn.'\server\**\*.[he]rl', '\\', '/', 'g')
                             \ "let b:neomake_erlang_erlc_root='".fn."/server'" "|"
                             \ "let b:neomake_erlang_erlc_flags=["
-                            \ "'+{parse_transform,do}', '-I', '".fn."/server']"
+                            \ "'-I', '".fn."/server']"
             endfor
         endfunc
         if has('win32')
             call s:reg_tgame("C:/Devel/Projects/tgame/versions")
             call s:reg_tgame("Y:/Work")
-        endif
-        if has('mac')
+        elseif has('mac')
             call s:reg_tgame("/Users/sw/Work/Code/tgame/versions")
+        else
+            call s:reg_tgame("/home/wx/Work")
+            call s:reg_tgame("/home/*/tgame/versions")
         end
 
         if has("cscope")
