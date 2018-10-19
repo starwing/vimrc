@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2330)
-" Last Change:  2018-10-17 14:18:43
+" Version:      0.5 (2333)
+" Last Change:  2018-10-19 23:37:06
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1342,6 +1342,20 @@ endfunction
 " When reading a buffer (after 1s), and when writing (no delay).
 silent!  call neomake#configure#automake('rw', 1000)
 
+if has('win32') || !g:gui_running
+
+let g:neomake_error_sign = {'text': 'E>', 'texthl': 'NeomakeErrorSign'}
+let g:neomake_warning_sign = {
+            \   'text': 'W>',
+            \   'texthl': 'NeomakeWarningSign',
+            \ }
+let g:neomake_message_sign = {
+            \   'text': 'M>',
+            \   'texthl': 'NeomakeMessageSign',
+            \ }
+let g:neomake_info_sign = {'text': 'I>', 'texthl': 'NeomakeInfoSign'}
+
+endif
 
 " Neovim {{{2
 
