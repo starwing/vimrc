@@ -611,7 +611,13 @@ function! s:exec_cmd(cmdarg, forrun) " {{{2
 endfunction
 
 function! s:mac_system(cmd) " {{{2
-    if !has("mac") || !has('gui_running') | return system(a:cmd) | endif
+    if !has("mac") || !has('gui_running') 
+        let old = &shellcmdflag
+        let &shellcmdflags = "-ic"
+        exec "!" a:cmd
+        let &shellcmdflag = old
+        return ""
+    endif
     let scpt = '
         \@> tell application "iTerm"
         \@>   set curWin to (current window)
@@ -1013,7 +1019,6 @@ function! s:run(count, entry, bang) " {{{1
     if cmd[0] != ':'
         let cmd = cmd[0] == '!' ? cmd[1:] : cmd
         if g:ctk_execprg != ''
-            "echomsg "cmd = " cmd
             let cmd = substitute(g:ctk_execprg, s:pat_exectag,
                         \ '\=cmd', 'g')
         endif
