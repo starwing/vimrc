@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2365)
-" Last Change:  2018-12-04 17:37:09
+" Version:      0.5 (2367)
+" Last Change:  2018-12-15 01:34:33
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1481,6 +1481,10 @@ let g:perl_fold = 1
 " rainbow
 
 let g:rainbow_active = 1
+
+" smartim {{{2
+
+let g:smartim_default = "com.apple.keylayout.ABC"
 
 " supertab {{{2
 
