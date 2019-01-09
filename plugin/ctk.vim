@@ -980,7 +980,9 @@ function! s:compile(count, entry, bang) " {{{1
 
         let cmdres = [msg, cmd, ''] + split(res, "\<NL>")
                     \ + [cmdname.' returned '.ret_val]
-        cgetexpr cmdres
+        let tfile = tempname()
+        call writefile(cmdres, tfile)
+        exec "cgetfile" tfile
         exec v:shell_error == 0 ? 'cwindow' : 
                     \ (res == '' ? 'cclose' : 'copen')
 

@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2367)
-" Last Change:  2018-12-15 01:34:33
+" Version:      0.5 (2368)
+" Last Change:  2019-01-10 01:00:32
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -979,7 +979,7 @@ Plug 'leafo/moonscript-vim', { 'for': 'moonscript' }
 Plug 'raymond-w-ko/vim-lua-indent', { 'for': 'lua' }
 Plug 'tikhomirov/vim-glsl', { 'for': 'glsl' }
 Plug 'vim-erlang/vim-erlang-runtime', { 'for': 'erlang' }
-Plug 'wting/rust.vim', { 'for': 'rust' }
+Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'zah/nim.vim', { 'for': 'nim' }
 Plug 'idris-hackers/idris-vim', { 'for': 'idris' }
 "Plug 'thinca/vim-logcat'
