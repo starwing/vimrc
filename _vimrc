@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2368)
-" Last Change:  2019-01-10 01:00:32
+" Version:      0.5 (2369)
+" Last Change:  2019-01-30 15:25:34
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -437,7 +437,7 @@ if has('autocmd')
                             \ substitute(fn.'\server\**\*.[he]rl', '\\', '/', 'g')
                             \ "let b:neomake_erlang_erlc_root='".fn."/server'" "|"
                             \ "let b:neomake_erlang_erlc_flags=["
-                            \ "'-I', '".fn."/server']|echomsg 'setvar!'"
+                            \ "'-I', '".fn."/server']"
             endfor
         endfunc
         if has('win32')
@@ -1426,7 +1426,6 @@ endfunction
 
 function! s:neomake_Erlang_InitForJob(jobinfo) abort dict
     let args = s:neomake_Erlang_GlobPaths()
-    echomsg string(args)
     let self.args = args
 endfunction
 
