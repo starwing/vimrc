@@ -6,12 +6,14 @@
 " ==========================================================
 " Only do this when not done yet for this buffer {{{1
 
-if exists("b:did_ftplugin") || !has('eval')
-    finish
-endif
+"if exists("b:did_ftplugin") || !has('eval')
+"    finish
+"endif
 
 " Don't load another plugin for this buffer
-let b:did_ftplugin = 1
+"let b:did_ftplugin = 1
+
+if !has('eval') | finish | endif
 
 let s:cpo_save = &cpo
 set cpo-=C

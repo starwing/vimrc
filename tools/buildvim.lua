@@ -33,7 +33,7 @@ if arg[1] == "copy" then
    os.execute("xcopy>nul /i/s/q/y "..rtdir.."doc\\*.txt".." "..dstdir.."\\doc")
    os.execute("copy>nul /y "..rtdir.."*.vim".." "..dstdir)
    os.execute("copy>nul /y "..rtdir.."rgb.txt".." "..dstdir)
-   os.execute([[vim --cmd "helptags ]]..dstdir..[[/doc|q"]])
+   os.execute(dstdir..[[\\vim.exe --cmd "helptags ]]..dstdir..[[/doc|q"]])
    return
 end
 

@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2369)
-" Last Change:  2019-01-30 15:25:34
+" Version:      0.5 (2370)
+" Last Change:  2019-02-26 16:16:14
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -937,7 +937,7 @@ Plug 'metakirby5/codi.vim' " on-the-fly coding
 Plug 'Shougo/deol.nvim'
 "Plug 'luochen1990/rainbow'
 Plug 'andymass/vim-matchup'
-Plug 'roman/golden-ratio'
+"Plug 'roman/golden-ratio'
 
 " textobj
 Plug 'junegunn/vim-easy-align'
