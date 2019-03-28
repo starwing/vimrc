@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2370)
-" Last Change:  2019-02-26 16:16:14
+" Version:      0.5 (2371)
+" Last Change:  2019-03-27 14:38:09
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -125,7 +125,7 @@ if has("win32") " {{{2
     endif
 
     if has("directx")
-        set renderoptions=type:directx,geom:1
+        "set renderoptions=type:directx,geom:1
     endif
 
 elseif has('unix') " {{{2
@@ -149,6 +149,11 @@ elseif has('unix') " {{{2
     else
         let &t_SI = "\e[5 q"
         let &t_EI = "\e[2 q"
+    endif
+    se mouse=a
+    if &term =~ '^screen'
+        " tmux knows the extended mouse mode
+        set ttymouse=xterm2
     endif
 endif " }}}2
 if g:gui_running " {{{2
