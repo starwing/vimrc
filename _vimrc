@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2372)
-" Last Change:  2019-04-01 17:44:37
+" Version:      0.5 (2395)
+" Last Change:  2019-04-01 19:30:00
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -439,10 +439,19 @@ if has('autocmd')
         func! s:reg_tgame(path)
             for fn in glob(a:path.'/*', 0, 1)
                 exec "au BufNewFile,BufRead "
-                            \ substitute(fn.'\server\**\*.[he]rl', '\\', '/', 'g')
+                            \ substitute(fn.'/server/**/*.[he]rl', '\\', '/', 'g')
                             \ "let b:neomake_erlang_erlc_root='".fn."/server'" "|"
                             \ "let b:neomake_erlang_erlc_flags=["
                             \ "'-I', '".fn."/server']"
+            endfor
+        endfunc
+        func! s:reg_im_erl(path)
+            for fn in glob(a:path.'/im-erlang/*/', 0, 1)
+                exec "au BufNewFile,BufRead "
+                            \ substitute(fn.'**/*.[he]rl', '\\', '/', 'g')
+                            \ "let b:neomake_erlang_erlc_root='".fn."' |"
+                            \ "let b:neomake_erlang_erlc_extra_deps="
+                            \ "[" "'".fn."/..'" "]"
             endfor
         endfunc
         if has('win32')
@@ -451,8 +460,8 @@ if has('autocmd')
         elseif has('mac')
             call s:reg_tgame("/Users/sw/Work/Code/tgame/versions")
         else
-            call s:reg_tgame("/home/wx/Work")
             call s:reg_tgame("/home/*/tgame/versions")
+            call s:reg_im_erl("/home/*/Work/Projects")
         end
     augroup END
 endif
@@ -1372,7 +1381,7 @@ if !exists('g:neomake_erlang_erlc_target_dir')
     let g:neomake_erlang_erlc_target_dir = tempname()
 endif
 
-function! s:neomake_Erlang_GlobPaths() abort
+function! Neomake_Erlang_GlobPaths() abort
     " Find project root directory.
     let root = get(b:, 'neomake_erlang_erlc_root',
              \ get(g:, 'neomake_erlang_erlc_root'))
@@ -1430,7 +1439,7 @@ function! s:neomake_Erlang_GlobPaths() abort
 endfunction
 
 function! s:neomake_Erlang_InitForJob(jobinfo) abort dict
-    let args = s:neomake_Erlang_GlobPaths()
+    let args = Neomake_Erlang_GlobPaths()
     let self.args = args
 endfunction
 
