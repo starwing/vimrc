@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2371)
-" Last Change:  2019-03-27 14:38:09
+" Version:      0.5 (2372)
+" Last Change:  2019-04-01 17:44:37
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1434,7 +1434,7 @@ function! s:neomake_Erlang_InitForJob(jobinfo) abort dict
     let self.args = args
 endfunction
 
-call neomake#config#set('ft.erlang.InitForJob',
+silent!  call neomake#config#set('ft.erlang.InitForJob',
             \ function('s:neomake_Erlang_InitForJob'))
 
 
