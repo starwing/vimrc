@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2395)
-" Last Change:  2019-04-01 19:30:00
+" Version:      0.5 (2399)
+" Last Change:  2019-04-23 18:28:15
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -431,7 +431,7 @@ if has('autocmd')
                     \|     let &l:foldmethod=w:last_fdm | unlet w:last_fdm
                     \| endif
 
-    augroup end
+    augroup END
 
     augroup NEOMAKE_ERL
         au!
@@ -451,17 +451,19 @@ if has('autocmd')
                             \ substitute(fn.'**/*.[he]rl', '\\', '/', 'g')
                             \ "let b:neomake_erlang_erlc_root='".fn."' |"
                             \ "let b:neomake_erlang_erlc_extra_deps="
-                            \ "[" "'".fn."/..'" "]"
+                            \ "[" "'".fn."/..', '".fn."/../im_common/deps/']"
             endfor
         endfunc
         if has('win32')
             call s:reg_tgame("C:/Devel/Projects/tgame/versions")
             call s:reg_tgame("Y:/Work")
+            call s:reg_im_erl("Y:/Work/Projects")
         elseif has('mac')
             call s:reg_tgame("/Users/sw/Work/Code/tgame/versions")
         else
             call s:reg_tgame("/home/*/tgame/versions")
             call s:reg_im_erl("/home/*/Work/Projects")
+            call s:reg_im_erl("/opt/work")
         end
     augroup END
 endif
