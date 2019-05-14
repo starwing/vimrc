@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2400)
-" Last Change:  2019-05-11 14:17:50
+" Version:      0.5 (2408)
+" Last Change:  2019-05-14 10:13:11
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -166,7 +166,12 @@ if g:gui_running " {{{2
             silent! set gfw=YaHei_Mono:h16:cGB2312
             "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
         elseif has('mac')
-            set gfn=Monaco\ for\ Powerline:h14
+            if exists('&macligatures')
+                set macligatures
+                set gfn=FiraCode-Regular:h18
+            else
+                set gfn=Monaco\ for\ Powerline:h18
+            endif
         else
             "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
             set gfn=DejaVu\ Sans\ Mono\ 9
@@ -393,7 +398,8 @@ if has('autocmd')
         au BufReadPost * if getfsize(expand('%')) < 50000 | syn sync fromstart | endif
         "au BufWritePre * let &backup = (getfsize(expand('%')) > 500000)
         au BufNewFile,BufRead *.vba set noml
-        au FileType clojure,dot,lua,haskell,m4,perl,python,ruby,scheme,tcl,vim,javascript,erlang,rust
+        au FileType clojure,dot,lua,haskell,m4,perl,python,ruby,scheme,
+                    \tcl,vim,javascript,erlang,rust,elixir
                     \   if !exists('b:ft') || b:ft != &ft
                     \|      let b:ft = &ft
                     \|      set sw=4 ts=8 sts=4 nu et sta fdc=2 fo-=t
@@ -401,7 +407,7 @@ if has('autocmd')
         au FileType lua se sw=3 sts=3 ts=3 et
         au FileType lua let b:syntastic_checkers=['luacheck', 'lua']
         au FileType nim se sw=2 sts=2 ts=2 nu et fdm=marker fdc=2
-        au FileType erlang se sw=2 sts=2 fdm=marker fdc=2 ff=unix
+        au FileType erlang,elixir se sw=2 sts=2 fdm=marker fdc=2 ff=unix
         au FileType javascript se sw=2 sts=2 ts=2 et fdc=2 fdm=syntax
         au FileType cs se ai nu noet sw=4 sts=4 ts=4 fdc=2 fdm=syntax
         au FileType javascript if exists("*JavaScriptFold")
@@ -998,6 +1004,7 @@ Plug 'vim-erlang/vim-erlang-runtime', { 'for': 'erlang' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'zah/nim.vim', { 'for': 'nim' }
 Plug 'idris-hackers/idris-vim', { 'for': 'idris' }
+Plug 'elixir-editors/vim-elixir', { 'for': 'elixir' }
 "Plug 'thinca/vim-logcat'
 
 if has('python') || has('python3')
@@ -1313,7 +1320,7 @@ if exists('$QUICK_V3_ROOT')
                    \ $LUA_PATH
 
     if has('lua')
-        lua package.path=vim.eval('g:lua_path')..';'..package.path
+        silent! lua package.path=vim.eval('g:lua_path')..';'..package.path
     endif
 endif
 
