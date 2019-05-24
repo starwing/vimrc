@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2408)
-" Last Change:  2019-05-14 10:13:11
+" Version:      0.5 (2415)
+" Last Change:  2019-05-21 16:29:20
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -961,6 +961,16 @@ Plug 'Shougo/deol.nvim'
 Plug 'andymass/vim-matchup'
 "Plug 'roman/golden-ratio'
 
+"if v:version >= 801
+"    if has('win32')
+"        Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.bat'}
+"    else
+"        Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+"    endif
+"else
+"    Plug 'w0rp/ale'
+"endif
+
 " textobj
 Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-textobj-function', { 'for':['c', 'cpp', 'vim', 'java'] }
@@ -992,19 +1002,20 @@ Plug 'vim-airline/vim-airline'
 Plug 'Chiel92/vim-autoformat'
 
 " Language-spec
-Plug 'OrangeT/vim-csharp', { 'for': 'csharp' }
-Plug 'Shutnik/jshint2.vim', { 'for': 'javascript' }
-Plug 'chrisbra/csv.vim', { 'for': 'csv' }
-Plug 'elzr/vim-json', { 'for': 'json' }
-Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-Plug 'leafo/moonscript-vim', { 'for': 'moonscript' }
-Plug 'raymond-w-ko/vim-lua-indent', { 'for': 'lua' }
-Plug 'tikhomirov/vim-glsl', { 'for': 'glsl' }
-Plug 'vim-erlang/vim-erlang-runtime', { 'for': 'erlang' }
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-Plug 'zah/nim.vim', { 'for': 'nim' }
-Plug 'idris-hackers/idris-vim', { 'for': 'idris' }
-Plug 'elixir-editors/vim-elixir', { 'for': 'elixir' }
+Plug 'sheerun/vim-polyglot'
+"Plug 'OrangeT/vim-csharp', { 'for': 'csharp' }
+"Plug 'Shutnik/jshint2.vim', { 'for': 'javascript' }
+"Plug 'chrisbra/csv.vim', { 'for': 'csv' }
+"Plug 'elzr/vim-json', { 'for': 'json' }
+"Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+"Plug 'leafo/moonscript-vim', { 'for': 'moonscript' }
+"Plug 'raymond-w-ko/vim-lua-indent', { 'for': 'lua' }
+"Plug 'tikhomirov/vim-glsl', { 'for': 'glsl' }
+"Plug 'vim-erlang/vim-erlang-runtime', { 'for': 'erlang' }
+"Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+"Plug 'zah/nim.vim', { 'for': 'nim' }
+"Plug 'idris-hackers/idris-vim', { 'for': 'idris' }
+"Plug 'elixir-editors/vim-elixir', { 'for': 'elixir' }
 "Plug 'thinca/vim-logcat'
 
 if has('python') || has('python3')
