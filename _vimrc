@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2479)
-" Last Change:  2019-05-29 13:10:45
+" Version:      0.5 (2480)
+" Last Change:  2019-05-29 23:08:44
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -938,10 +938,13 @@ Plug 'asins/vimcdoc'       " chinese document
 "Plug 'mhinz/vim-signify'   " show difference
 Plug 'neomake/neomake'     " live lint/build
 Plug 'metakirby5/codi.vim' " on-the-fly coding
-Plug 'Shougo/deol.nvim'
 Plug 'luochen1990/rainbow'
 Plug 'andymass/vim-matchup'
 "Plug 'roman/golden-ratio'
+
+if has('terminal')
+    Plug 'Shougo/deol.nvim'
+endif
 
 "if v:version >= 801
 "    if has('win32')
