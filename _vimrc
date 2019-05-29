@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2415)
-" Last Change:  2019-05-21 16:29:20
+" Version:      0.5 (2479)
+" Last Change:  2019-05-29 13:10:45
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -42,7 +42,6 @@ set display=lastline
 set fileencodings=ucs-bom,utf-8,cp932,cp936,gb18030,latin1
 set fileformats=unix,dos
 set formatoptions=tcqmB2
-set grepprg=grep\ -rn\ 
 set history=1000
 set modeline " for debian.vim, changed the initial value
 set shiftwidth=4
@@ -172,6 +171,7 @@ if g:gui_running " {{{2
             else
                 set gfn=Monaco\ for\ Powerline:h18
             endif
+            set co=100 lines=30
         else
             "set gfn=Consolas\ 10 gfw=WenQuanYi\ Bitmap\ Song\ 10
             set gfn=DejaVu\ Sans\ Mono\ 9
@@ -215,6 +215,16 @@ if isdirectory(s:tprefix.'/swapfiles/backupfiles')
 endif
 if v:version >= 703 && isdirectory(s:tprefix.'/swapfiles/undofiles')
     let &undodir=s:tprefix."/swapfiles/undofiles,."
+endif
+
+" grep settings {{{2
+
+if executable('rg')
+    set grepprg=rg\ --vimgrep
+elseif executable('ag')
+    set grepprg=ag\ --nogroup\ --nocolor
+else
+    set grepprg=grep\ -rn\ 
 endif
 
 "}}}2
@@ -768,10 +778,6 @@ else
 endif
 
 xmap Z8 <ESC>Z8
-map <M-j> <C-j>Z8
-map <M-k> <C-k>Z8
-map <M-h> <C-h>Z8
-map <M-l> <C-l>Z8
 
 " <leader># set buffer tabstop and sw and et
 
@@ -782,9 +788,7 @@ map <leader>2 :<C-U>setl ts=4 sw=4 noet nu fdm=syntax fdc=2<CR>
 
 map <leader>a :!astyle -oO -snwpYHU --style=kr --mode=c<CR>
 
-" <leader>b ctrlp buffer list {{{3
-
-map <leader>b <leader>ib
+" <leader>b ctrlp {{{3
 
 " <leader>c cd to current file folder {{{3
 
@@ -847,26 +851,6 @@ nmap <leader>K <C-W>K
 nmap <leader>L <C-W>L
 
 " <leader>i ctrlp {{{3
-
-nnoremap <leader>ii :<C-U>CtrlP<CR>
-nnoremap <leader>ib :<C-U>CtrlPBuffer<CR>
-nnoremap <leader>ic :<C-U>CtrlPCurFile<CR>
-nnoremap <leader>ie :call <SID>tagsUnderCursor()<CR>
-nnoremap <leader>is :<C-U>cd Y:/trunk/server<BAR>CtrlP<CR>
-nnoremap <leader>it :<C-U>CtrlPTag<CR>
-nnoremap <leader>iu :<C-U>CtrlPMRU<CR>
-
-function! <SID>tagsUnderCursor()
-    try
-        let default_input_save = get(g:, 'ctrlp_default_input', '')
-        let g:ctrlp_default_input = expand('<cword>')
-        CtrlPBufTagAll
-    finally
-        if exists('default_input_save')
-            let g:ctrlp_default_input = default_input_save
-        endif
-    endtry
-endfunction
 
 " <leader>q quickfix error jumps {{{3
 
@@ -949,15 +933,13 @@ endif
 if exists(':Plug')
 
 " Plug 'flazz/vim-colorschemes'
-" Plug 'scrooloose/syntastic'
 
 Plug 'asins/vimcdoc'       " chinese document
-"Plug 'w0rp/ale'            " live lint
 "Plug 'mhinz/vim-signify'   " show difference
 Plug 'neomake/neomake'     " live lint/build
 Plug 'metakirby5/codi.vim' " on-the-fly coding
 Plug 'Shougo/deol.nvim'
-"Plug 'luochen1990/rainbow'
+Plug 'luochen1990/rainbow'
 Plug 'andymass/vim-matchup'
 "Plug 'roman/golden-ratio'
 
@@ -979,11 +961,25 @@ Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
 Plug 'tpope/vim-surround'
+Plug 'AndrewRadev/splitjoin.vim'
 
+if !has('win32') && executable("fzf")
+    if isdirectory('/usr/local/opt/fzf')
+        Plug '/usr/local/opt/fzf'
+    else
+        let fzf_dir = system('which fzf')
+        let fzf_dir = simplify(fnamemodify(fzf_dir, ':p:h') . "/..")
+        let fzf_dir = "'".fzf_dir."'"
+        exec 'Plug' fzf_dir
+    endif
+    Plug 'junegunn/fzf.vim'
+    Plug 'tweekmonster/fzf-filemru'
+    "Plug 'pbogut/fzf-mru.vim'
+endif
+Plug 'ctrlpvim/ctrlp.vim'
 
 Plug 'Konfekt/FoldText'
 Plug 'Raimondi/delimitMate'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'ervandew/supertab'
@@ -1003,26 +999,11 @@ Plug 'Chiel92/vim-autoformat'
 
 " Language-spec
 Plug 'sheerun/vim-polyglot'
-"Plug 'OrangeT/vim-csharp', { 'for': 'csharp' }
-"Plug 'Shutnik/jshint2.vim', { 'for': 'javascript' }
-"Plug 'chrisbra/csv.vim', { 'for': 'csv' }
-"Plug 'elzr/vim-json', { 'for': 'json' }
-"Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-"Plug 'leafo/moonscript-vim', { 'for': 'moonscript' }
-"Plug 'raymond-w-ko/vim-lua-indent', { 'for': 'lua' }
-"Plug 'tikhomirov/vim-glsl', { 'for': 'glsl' }
-"Plug 'vim-erlang/vim-erlang-runtime', { 'for': 'erlang' }
-"Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-"Plug 'zah/nim.vim', { 'for': 'nim' }
-"Plug 'idris-hackers/idris-vim', { 'for': 'idris' }
-"Plug 'elixir-editors/vim-elixir', { 'for': 'elixir' }
-"Plug 'thinca/vim-logcat'
 
 if has('python') || has('python3')
     Plug 'Shougo/vinarise.vim'
     Plug 'SirVer/ultisnips'
     Plug 'sjl/gundo.vim'
-    "Plug 'Shougo/denite.nvim'
 else
     Plug 'MarcWeber/vim-addon-mw-utils'
     Plug 'tomtom/tlib_vim'
@@ -1154,6 +1135,27 @@ amenu 1.248 ToolBar.-sep5-1- <Nop>
 
 " ctrlp {{{2
 "
+nnoremap <leader>ii :<C-U>CtrlP<CR>
+nnoremap <leader>ib :<C-U>CtrlPBuffer<CR>
+nnoremap <leader>ic :<C-U>CtrlPCurFile<CR>
+nnoremap <leader>ie :call <SID>tagsUnderCursor()<CR>
+nnoremap <leader>is :<C-U>cd Y:/trunk/server<BAR>CtrlP<CR>
+nnoremap <leader>it :<C-U>CtrlPTag<CR>
+nnoremap <leader>iu :<C-U>CtrlPMRU<CR>
+
+function! <SID>tagsUnderCursor()
+    try
+        let default_input_save = get(g:, 'ctrlp_default_input', '')
+        let g:ctrlp_default_input = expand('<cword>')
+        CtrlPBufTagAll
+    finally
+        if exists('default_input_save')
+            let g:ctrlp_default_input = default_input_save
+        endif
+    endtry
+endfunction
+
+
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.png,*.jpg,*.jpeg,*.gif " MacOSX/Linux
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_map = '<c-p>'
@@ -1162,17 +1164,18 @@ let g:ctrlp_custom_ignore = {
     \ 'file': '\v.(exe|so|dll|zip|tar|tar.gz|pyc|beam)$',
     \ }
 
-if executable('rg')
-    set grepprg=rg\ --vimgrep
+" Use fd for ctrlp.
+if executable('fd')
+    let g:ctrlp_user_command = 'fd -c never "" %s'
+    "let g:ctrlp_use_caching = 0
+
+elseif executable('rg')
     let g:ctrlp_user_command = 'rg %s -g "!*.beam" -g "!*.html" -g "!*.prof_output" --files'
+    "let g:ctrlp_use_caching = 0
 
 elseif executable('ag')
-    " Use Ag over Grep
-    set grepprg=ag\ --nogroup\ --nocolor
-    " Use ag in CtrlP for listing files.
-    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g "\\.[he]rl"'
-    " Ag is fast enough that CtrlP doesn't need to cache
-    " let g:ctrlp_use_caching = 0
+    let g:ctrlp_user_command = 'ag %s -l --nocolor'
+    "let g:ctrlp_use_caching = 0
 endif
 
 nmap <F1> :<C-U>CtrlPBuffer<CR>
@@ -1232,6 +1235,10 @@ let g:easy_align_delimiters = {
             \   }
             \ }
 
+" EasyMotion {{{2
+
+map <Leader>m <Plug>(easymotion-prefix)
+
 " EasyVim {{{2
 
 if &insertmode
@@ -1287,38 +1294,89 @@ function! s:ToggleFoldcolumn(fold)
   setlocal foldcolumn?
 endfunction
 
+" fzf {{{2
+
+if has('nvim') || has('gui_running')
+  let $FZF_DEFAULT_OPTS .= ' --inline-info'
+endif
+
+" Hide statusline of terminal buffer
+autocmd! FileType fzf
+autocmd  FileType fzf set laststatus=0 noshowmode noruler
+  \| autocmd BufLeave <buffer> set laststatus=2 showmode ruler
+
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+" nnoremap <silent> <Leader><Leader> :Files<CR>
+nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Files\<cr>"
+nnoremap <silent> <Leader>C        :Colors<CR>
+nnoremap <silent> <Leader>F        :Files<CR>
+nnoremap <silent> <Leader><Enter>  :Buffers<CR>
+nnoremap <silent> <Leader>B        :Buffers<CR>
+nnoremap <silent> <Leader>L        :Lines<CR>
+nnoremap <silent> <Leader>M        :FilesMru<CR>
+nnoremap <silent> <Leader>`        :Marks<CR>
+
+if executable('rg')
+    nnoremap <silent> <Leader>R        :Rg <C-R><C-W><CR>
+    nnoremap <silent> <Leader>R        :Rg <C-R><C-A><CR>
+    xnoremap <silent> <Leader>R        y:Rg <C-R>"<CR>
+elseif executable('ag')
+    nnoremap <silent> <Leader>R        :Ag <C-R><C-W><CR>
+    nnoremap <silent> <Leader>R        :Ag <C-R><C-A><CR>
+    xnoremap <silent> <Leader>R        y:Ag <C-R>"<CR>
+endif
+
+" nnoremap <silent> q: :History:<CR>
+" nnoremap <silent> q/ :History/<CR>
+
+inoremap <expr> <c-x><c-t> fzf#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+inoremap <expr> <c-x><c-d> fzf#vim#complete#path('blsd')
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" nmap <leader><tab> <plug>(fzf-maps-n)
+" xmap <leader><tab> <plug>(fzf-maps-x)
+" omap <leader><tab> <plug>(fzf-maps-o)
+
+function! s:plug_help_sink(line)
+  let dir = g:plugs[a:line].dir
+  for pat in ['doc/*.txt', 'README.md']
+    let match = get(split(globpath(dir, pat), "\n"), 0, '')
+    if len(match)
+      execute 'tabedit' match
+      return
+    endif
+  endfor
+  tabnew
+  execute 'Explore' dir
+endfunction
+
+command! PlugHelp call fzf#run(fzf#wrap({
+  \ 'source': sort(keys(g:plugs)),
+  \ 'sink':   function('s:plug_help_sink')}))
+
 " indent guide {{{2
 
 let g:indent_guides_guide_size=1
-
-
-" LeaderF {{{2
-
-let g:Lf_ShortcutF = '<c-p>'
-let g:Lf_ShortcutB = '<m-n>'
-"noremap <c-n> :LeaderfMru<cr>
-"noremap <m-p> :LeaderfFunction<cr>
-"noremap <m-n> :LeaderfBuffer<cr>
-"noremap <m-m> :LeaderfTag<cr>
-let g:Lf_StlSeparator = { 'left': '', 'right': '', 'font': '' }
- 
-let g:Lf_RootMarkers = ['.project', '.root', '.svn', '.git']
-let g:Lf_WorkingDirectoryMode = 'Ac'
-let g:Lf_WindowHeight = 0.30
-let g:Lf_ShowRelativePath = 0
-let g:Lf_HideHelp = 1
-let g:Lf_StlColorscheme = 'powerline'
- 
-let g:Lf_NormalMap = {
-    \ "File":   [["<ESC>", ':exec g:Lf_py "fileExplManager.quit()"<CR>'],
-    \            ["<F6>", ':exec g:Lf_py "fileExplManager.quit()"<CR>'] ],
-    \ "Buffer": [["<ESC>", ':exec g:Lf_py "bufExplManager.quit()"<CR>'],
-    \            ["<F6>", ':exec g:Lf_py "bufExplManager.quit()"<CR>'] ],
-    \ "Mru":    [["<ESC>", ':exec g:Lf_py "mruExplManager.quit()"<CR>']],
-    \ "Tag":    [["<ESC>", ':exec g:Lf_py "tagExplManager.quit()"<CR>']],
-    \ "Function":    [["<ESC>", ':exec g:Lf_py "functionExplManager.quit()"<CR>']],
-    \ "Colorscheme":    [["<ESC>", ':exec g:Lf_py "colorschemeExplManager.quit()"<CR>']],
-    \ }
 
 
 " Lua {{{2
@@ -1511,7 +1569,7 @@ let g:OmniCpp_MayCompleteScope = 1
 
 let g:perl_fold = 1
 
-" rainbow
+" rainbow {{{2
 
 let g:rainbow_active = 1
 
@@ -1532,20 +1590,6 @@ let g:SuperTabNoCompleteAfter = [ '^', ',', '\s' ]
 let g:surround_{char2nr("c")} = "/* \r */"
 
 
-" syntastic {{{2
-
-if exists(':SyntasticStatuslineFlag')
-    set statusline+=%#warningmsg#
-    set statusline+=%{SyntasticStatuslineFlag()}
-    set statusline+=%*
-endif
-let g:syntastic_cpp_compiler_options='-std=c++11'
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 1
-
 " UltiSnips {{{2
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
@@ -1565,10 +1609,6 @@ else
     let g:UltiSnipsSnippetsDir = expand("~/.vim/UltiSnips")
 endif
 
-
-" vcscommand {{{2
-
-let g:VCSCommandMapPrefix = "<leader>vc"
 
 " zip {{{2
 let g:loaded_zipPlugin= 1
