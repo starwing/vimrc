@@ -1,0 +1,126 @@
+[submodule "bundle/vimcdoc"]
+	path = bundle/vimcdoc
+	url = https://github.com/asins/vimcdoc.git
+[submodule "bundle/vim-textobj-syntax"]
+	path = bundle/vim-textobj-syntax
+	url = https://github.com/kana/vim-textobj-syntax.git
+[submodule "bundle/neocomplete.vim"]
+	path = bundle/neocomplete.vim
+	url = https://github.com/Shougo/neocomplete.vim.git
+[submodule "bundle/deol.nvim"]
+	path = bundle/deol.nvim
+	url = https://github.com/Shougo/deol.nvim.git
+[submodule "bundle/vim-textobj-function"]
+	path = bundle/vim-textobj-function
+	url = https://github.com/kana/vim-textobj-function.git
+[submodule "bundle/hexmode"]
+	path = bundle/hexmode
+	url = https://github.com/fidian/hexmode.git
+[submodule "bundle/vim-easy-align"]
+	path = bundle/vim-easy-align
+	url = https://github.com/junegunn/vim-easy-align.git
+[submodule "bundle/vim-multiple-cursors"]
+	path = bundle/vim-multiple-cursors
+	url = https://github.com/terryma/vim-multiple-cursors.git
+[submodule "bundle/fzf-filemru"]
+	path = bundle/fzf-filemru
+	url = https://github.com/tweekmonster/fzf-filemru.git
+[submodule "bundle/vinarise.vim"]
+	path = bundle/vinarise.vim
+	url = https://github.com/Shougo/vinarise.vim.git
+[submodule "bundle/vim-surround"]
+	path = bundle/vim-surround
+	url = https://github.com/tpope/vim-surround.git
+[submodule "bundle/vim-airline"]
+	path = bundle/vim-airline
+	url = https://github.com/vim-airline/vim-airline.git
+[submodule "bundle/vim-endwise"]
+	path = bundle/vim-endwise
+	url = https://github.com/tpope/vim-endwise.git
+[submodule "bundle/tabular"]
+	path = bundle/tabular
+	url = https://github.com/godlygeek/tabular.git
+[submodule "bundle/supertab"]
+	path = bundle/supertab
+	url = https://github.com/ervandew/supertab.git
+[submodule "bundle/fzf.vim"]
+	path = bundle/fzf.vim
+	url = https://github.com/junegunn/fzf.vim.git
+[submodule "bundle/vim-visual-increment"]
+	path = bundle/vim-visual-increment
+	url = https://github.com/triglav/vim-visual-increment.git
+[submodule "bundle/vim-repeat"]
+	path = bundle/vim-repeat
+	url = https://github.com/tpope/vim-repeat.git
+[submodule "bundle/vim-textobj-user"]
+	path = bundle/vim-textobj-user
+	url = https://github.com/kana/vim-textobj-user.git
+[submodule "bundle/ultisnips"]
+	path = bundle/ultisnips
+	url = https://github.com/SirVer/ultisnips.git
+[submodule "bundle/vim-indent-guides"]
+	path = bundle/vim-indent-guides
+	url = https://github.com/nathanaelkane/vim-indent-guides.git
+[submodule "bundle/vim-polyglot"]
+	path = bundle/vim-polyglot
+	url = https://github.com/sheerun/vim-polyglot.git
+[submodule "bundle/delimitMate"]
+	path = bundle/delimitMate
+	url = https://github.com/Raimondi/delimitMate.git
+[submodule "bundle/smartim"]
+	path = bundle/smartim
+	url = https://github.com/ybian/smartim.git
+[submodule "bundle/codi.vim"]
+	path = bundle/codi.vim
+	url = https://github.com/metakirby5/codi.vim.git
+[submodule "bundle/gundo.vim"]
+	path = bundle/gundo.vim
+	url = https://github.com/sjl/gundo.vim.git
+[submodule "bundle/splitjoin.vim"]
+	path = bundle/splitjoin.vim
+	url = https://github.com/AndrewRadev/splitjoin.vim.git
+[submodule "bundle/neomake"]
+	path = bundle/neomake
+	url = https://github.com/neomake/neomake.git
+[submodule "bundle/rainbow"]
+	path = bundle/rainbow
+	url = https://github.com/luochen1990/rainbow.git
+[submodule "bundle/vim-autoformat"]
+	path = bundle/vim-autoformat
+	url = https://github.com/Chiel92/vim-autoformat.git
+[submodule "bundle/ctrlsf.vim"]
+	path = bundle/ctrlsf.vim
+	url = https://github.com/dyng/ctrlsf.vim.git
+[submodule "bundle/calendar.vim"]
+	path = bundle/calendar.vim
+	url = https://github.com/itchyny/calendar.vim.git
+[submodule "bundle/nerdcommenter"]
+	path = bundle/nerdcommenter
+	url = https://github.com/scrooloose/nerdcommenter.git
+[submodule "bundle/vim-textobj-indent"]
+	path = bundle/vim-textobj-indent
+	url = https://github.com/kana/vim-textobj-indent.git
+[submodule "bundle/echofunc"]
+	path = bundle/echofunc
+	url = https://github.com/mbbill/echofunc.git
+[submodule "bundle/vim-textobj-parameter"]
+	path = bundle/vim-textobj-parameter
+	url = https://github.com/sgur/vim-textobj-parameter.git
+[submodule "bundle/vim-matchup"]
+	path = bundle/vim-matchup
+	url = https://github.com/andymass/vim-matchup.git
+[submodule "bundle/vim-snippets"]
+	path = bundle/vim-snippets
+	url = https://github.com/honza/vim-snippets.git
+[submodule "bundle/nerdtree"]
+	path = bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "bundle/FoldText"]
+	path = bundle/FoldText
+	url = https://github.com/Konfekt/FoldText.git
+[submodule "bundle/ctrlp.vim"]
+	path = bundle/ctrlp.vim
+	url = https://github.com/ctrlpvim/ctrlp.vim.git
+[submodule "bundle/vim-easymotion"]
+	path = bundle/vim-easymotion
+	url = https://github.com/easymotion/vim-easymotion.git

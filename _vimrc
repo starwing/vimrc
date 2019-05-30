@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2509)
-" Last Change:  2019-05-30 12:14:39
+" Version:      0.5 (2514)
+" Last Change:  2019-05-30 12:23:49
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1304,7 +1304,8 @@ nnoremap <silent> <Leader>F        :<C-U>Files<CR>
 nnoremap <silent> <Leader>L        :<C-U>Lines<CR>
 nnoremap <silent> <Leader>M        :<C-U>FilesMru<CR>
 nnoremap <silent> <Leader>T        :<C-U>Tags<CR>
-nnoremap <silent> <Leader>W        :<C-U>BTags <cword><CR>
+"nnoremap <silent><expr> <Leader>W  ":<C-U>BTags ".expand('<cword>')."<CR>"
+nnoremap <silent><expr> <Leader>W  ":<C-U>Tags ".expand('<cword>')."<CR>"
 nnoremap <silent> <Leader>`        :<C-U>Marks<CR>
 nmap <F1> :<C-U>Buffers<CR>
 nmap <F2> :<C-U>FilesMru<CR>
