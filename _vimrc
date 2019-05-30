@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2480)
-" Last Change:  2019-05-29 23:08:44
+" Version:      0.5 (2509)
+" Last Change:  2019-05-30 12:14:39
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -788,8 +788,6 @@ map <leader>2 :<C-U>setl ts=4 sw=4 noet nu fdm=syntax fdc=2<CR>
 
 map <leader>a :!astyle -oO -snwpYHU --style=kr --mode=c<CR>
 
-" <leader>b ctrlp {{{3
-
 " <leader>c cd to current file folder {{{3
 
 map <leader>cd :<C-U>cd %:h<CR>
@@ -849,8 +847,6 @@ nmap <leader>H <C-W>H
 nmap <leader>J <C-W>J
 nmap <leader>K <C-W>K
 nmap <leader>L <C-W>L
-
-" <leader>i ctrlp {{{3
 
 " <leader>q quickfix error jumps {{{3
 
@@ -938,7 +934,7 @@ Plug 'asins/vimcdoc'       " chinese document
 "Plug 'mhinz/vim-signify'   " show difference
 Plug 'neomake/neomake'     " live lint/build
 Plug 'metakirby5/codi.vim' " on-the-fly coding
-Plug 'luochen1990/rainbow'
+"Plug 'luochen1990/rainbow'
 Plug 'andymass/vim-matchup'
 "Plug 'roman/golden-ratio'
 
@@ -978,8 +974,9 @@ if !has('win32') && executable("fzf")
     Plug 'junegunn/fzf.vim'
     Plug 'tweekmonster/fzf-filemru'
     "Plug 'pbogut/fzf-mru.vim'
+else
+    Plug 'ctrlpvim/ctrlp.vim'
 endif
-Plug 'ctrlpvim/ctrlp.vim'
 
 Plug 'Konfekt/FoldText'
 Plug 'Raimondi/delimitMate'
@@ -1137,14 +1134,25 @@ amenu 1.248 ToolBar.-sep5-1- <Nop>
 
 
 " ctrlp {{{2
-"
-nnoremap <leader>ii :<C-U>CtrlP<CR>
-nnoremap <leader>ib :<C-U>CtrlPBuffer<CR>
-nnoremap <leader>ic :<C-U>CtrlPCurFile<CR>
-nnoremap <leader>ie :call <SID>tagsUnderCursor()<CR>
-nnoremap <leader>is :<C-U>cd Y:/trunk/server<BAR>CtrlP<CR>
-nnoremap <leader>it :<C-U>CtrlPTag<CR>
-nnoremap <leader>iu :<C-U>CtrlPMRU<CR>
+if has_key(g:plugs, "ctrlp.vim")
+
+nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":CtrlP\<cr>"
+nnoremap <silent> <Leader><Enter>  :<C-U>CtrlPBuffer<CR>
+nnoremap <leader>B :<C-U>CtrlPBuffer<CR>
+nnoremap <leader>C :<C-U>CtrlPCurFile<CR>
+nnoremap <leader>F :<C-U>CtrlP<CR>
+nnoremap <leader>M :<C-U>CtrlPMRU<CR>
+nnoremap <leader>T :<C-U>CtrlPTag<CR>
+nnoremap <leader>W :call <SID>tagsUnderCursor()<CR>
+nmap <F1> :<C-U>CtrlPBuffer<CR>
+nmap <F2> :<C-U>CtrlPMRU<CR>
+nmap <F3> :<C-U>CtrlPTag<CR>
+nmap <F4> :<C-U>CtrlP<CR>
+imap <F1> <C-\><C-N><F1>
+imap <F2> <C-\><C-N><F2>
+imap <F3> <C-\><C-N><F3>
+imap <F4> <C-\><C-N><F4>
+
 
 function! <SID>tagsUnderCursor()
     try
@@ -1181,21 +1189,7 @@ elseif executable('ag')
     "let g:ctrlp_use_caching = 0
 endif
 
-nmap <F1> :<C-U>CtrlPBuffer<CR>
-nmap <F2> :<C-U>CtrlPMRU<CR>
-nmap <F3> :<C-U>CtrlPTag<CR>
-nmap <F4> :<C-U>CtrlP<CR>
-
-imap <F1> <C-\><C-N><F1>
-imap <F2> <C-\><C-N><F2>
-imap <F3> <C-\><C-N><F3>
-imap <F4> <C-\><C-N><F4>
-
-" CtrlSF {{{2
-
-" bind K to grep word under cursor
-nnoremap K :<C-U>silent! :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-
+endif
 " delimitMate {{{2
 
 let g:delimitMate_expand_space = 1
@@ -1298,6 +1292,52 @@ function! s:ToggleFoldcolumn(fold)
 endfunction
 
 " fzf {{{2
+if has_key(g:plugs, "fzf.vim")
+
+" nnoremap <silent> <Leader><Leader> :Files<CR>
+nnoremap <silent> <C-P> :<C-U>Files<CR>
+nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Files\<cr>"
+nnoremap <silent> <Leader><Enter>  :<C-U>Buffers<CR>
+nnoremap <silent> <Leader>B        :<C-U>Buffers<CR>
+nnoremap <silent> <Leader>C        :<C-U>Colors<CR>
+nnoremap <silent> <Leader>F        :<C-U>Files<CR>
+nnoremap <silent> <Leader>L        :<C-U>Lines<CR>
+nnoremap <silent> <Leader>M        :<C-U>FilesMru<CR>
+nnoremap <silent> <Leader>T        :<C-U>Tags<CR>
+nnoremap <silent> <Leader>W        :<C-U>BTags <cword><CR>
+nnoremap <silent> <Leader>`        :<C-U>Marks<CR>
+nmap <F1> :<C-U>Buffers<CR>
+nmap <F2> :<C-U>FilesMru<CR>
+nmap <F3> :<C-U>Tags<CR>
+nmap <F4> :<C-U>Files<CR>
+imap <F1> <C-\><C-N><F1>
+imap <F2> <C-\><C-N><F2>
+imap <F3> <C-\><C-N><F3>
+imap <F4> <C-\><C-N><F4>
+
+if executable('rg')
+    nnoremap <silent> <Leader>R        :Rg <C-R><C-W><CR>
+    nnoremap <silent> <Leader>R        :Rg <C-R><C-A><CR>
+    xnoremap <silent> <Leader>R        y:Rg <C-R>"<CR>
+elseif executable('ag')
+    nnoremap <silent> <Leader>R        :Ag <C-R><C-W><CR>
+    nnoremap <silent> <Leader>R        :Ag <C-R><C-A><CR>
+    xnoremap <silent> <Leader>R        y:Ag <C-R>"<CR>
+endif
+
+" nnoremap <silent> q: :History:<CR>
+" nnoremap <silent> q/ :History/<CR>
+
+inoremap <expr> <c-x><c-t> fzf#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+inoremap <expr> <c-x><c-d> fzf#vim#complete#path('blsd')
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" nmap <leader><tab> <plug>(fzf-maps-n)
+" xmap <leader><tab> <plug>(fzf-maps-x)
+" omap <leader><tab> <plug>(fzf-maps-o)
 
 if has('nvim') || has('gui_running')
   let $FZF_DEFAULT_OPTS .= ' --inline-info'
@@ -1326,40 +1366,6 @@ let g:fzf_colors =
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
-" nnoremap <silent> <Leader><Leader> :Files<CR>
-nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":Files\<cr>"
-nnoremap <silent> <Leader>C        :Colors<CR>
-nnoremap <silent> <Leader>F        :Files<CR>
-nnoremap <silent> <Leader><Enter>  :Buffers<CR>
-nnoremap <silent> <Leader>B        :Buffers<CR>
-nnoremap <silent> <Leader>L        :Lines<CR>
-nnoremap <silent> <Leader>M        :FilesMru<CR>
-nnoremap <silent> <Leader>`        :Marks<CR>
-
-if executable('rg')
-    nnoremap <silent> <Leader>R        :Rg <C-R><C-W><CR>
-    nnoremap <silent> <Leader>R        :Rg <C-R><C-A><CR>
-    xnoremap <silent> <Leader>R        y:Rg <C-R>"<CR>
-elseif executable('ag')
-    nnoremap <silent> <Leader>R        :Ag <C-R><C-W><CR>
-    nnoremap <silent> <Leader>R        :Ag <C-R><C-A><CR>
-    xnoremap <silent> <Leader>R        y:Ag <C-R>"<CR>
-endif
-
-" nnoremap <silent> q: :History:<CR>
-" nnoremap <silent> q/ :History/<CR>
-
-inoremap <expr> <c-x><c-t> fzf#complete('tmuxwords.rb --all-but-current --scroll 500 --min 5')
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-inoremap <expr> <c-x><c-d> fzf#vim#complete#path('blsd')
-imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-imap <c-x><c-l> <plug>(fzf-complete-line)
-
-" nmap <leader><tab> <plug>(fzf-maps-n)
-" xmap <leader><tab> <plug>(fzf-maps-x)
-" omap <leader><tab> <plug>(fzf-maps-o)
-
 function! s:plug_help_sink(line)
   let dir = g:plugs[a:line].dir
   for pat in ['doc/*.txt', 'README.md']
@@ -1377,6 +1383,7 @@ command! PlugHelp call fzf#run(fzf#wrap({
   \ 'source': sort(keys(g:plugs)),
   \ 'sink':   function('s:plug_help_sink')}))
 
+endif
 " indent guide {{{2
 
 let g:indent_guides_guide_size=1
