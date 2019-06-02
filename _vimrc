@@ -178,7 +178,7 @@ if g:gui_running " {{{2
         endif
     endif
     if has('win32')
-        silent! colorscheme evening
+       silent! colorscheme evening
     else
         "silent! colorscheme kaltex
         silent! colorscheme evening
@@ -1545,7 +1545,7 @@ function! g:NvimGUISetting()
         let g:airline_powerline_fonts = 1
         "GuiLinespace 8
     endif
-    colors evening
+    colorscheme kaltex
 endfunction
 
 if has('nvim')
