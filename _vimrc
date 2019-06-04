@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2514)
-" Last Change:  2019-05-30 12:23:49
+" Version:      0.5 (2516)
+" Last Change:  2019-06-04 15:37:00
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -960,6 +960,9 @@ Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-fugitive'
 Plug 'AndrewRadev/splitjoin.vim'
 
 if !has('win32') && executable("fzf")
@@ -991,8 +994,6 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-repeat'
 Plug 'triglav/vim-visual-increment'
 Plug 'vim-airline/vim-airline'
 Plug 'Chiel92/vim-autoformat'

@@ -166,3 +166,7 @@
 	path = bundle/vim-easymotion
 	url = https://github.com/easymotion/vim-easymotion.git
 	ignore = untracked
+[submodule "bundle/vim-fugitive"]
+	path = bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+	ignore = untracked
