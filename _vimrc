@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2516)
-" Last Change:  2019-06-04 15:37:00
+" Version:      0.5 (2550)
+" Last Change:  2019-06-19 00:48:09
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -981,6 +981,7 @@ else
     Plug 'ctrlpvim/ctrlp.vim'
 endif
 
+Plug 'rhysd/vim-clang-format'
 Plug 'Konfekt/FoldText'
 Plug 'Raimondi/delimitMate'
 Plug 'dyng/ctrlsf.vim'
@@ -1124,6 +1125,24 @@ nmap <leader>da <leader>cal<CR>Go<CR><C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR><CR>
 nmap <leader>DA <leader>caL<CR>Go<CR><C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR><CR>
 xmap <leader>da "dy<leader>da<BS> - 摘要：<CR><ESC>"dP
 xmap <leader>DA "dy<leader>DA<BS> - 摘要：<CR><ESC>"dP
+
+" clang-format {{{2
+
+if executable('clang-format')
+let g:clang_format#style_options = {
+            \ "AccessModifierOffset": -4,
+            \ "AlignConsecutiveAssignments": v:true,
+            \ "AlignEscapedNewlines": "Left",
+            \ "AlignOperands": v:true,
+            \ "AllowShortLoopsOnASingleLine": v:false,
+            \ "AlignTrailingComments": v:true,
+            \ "Standard" : "C++11" }
+
+onoremap = :ClangFormat<CR>
+vnoremap = :ClangFormat<CR>
+nmap <Leader>S :ClangFormatAutoToggle<CR>
+
+endif
 
 " ctk {{{2
 
