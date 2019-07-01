@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2550)
-" Last Change:  2019-06-19 00:48:09
+" Version:      0.5 (2560)
+" Last Change:  2019-07-02 00:48:21
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -161,7 +161,7 @@ if g:gui_running " {{{2
     if exists('+gfn')
         if has('win32')
             "silent! set gfn=Consolas:h16:cANSI
-            silent! set gfn=Monaco_for_Powerline:h16:cANSI:qDRAFT
+            silent! set gfn=Fira_Code:h16:cANSI:qDRAFT
             silent! set gfw=YaHei_Mono:h16:cGB2312
             "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
         elseif has('mac')
@@ -224,7 +224,7 @@ if executable('rg')
 elseif executable('ag')
     set grepprg=ag\ --nogroup\ --nocolor
 else
-    set grepprg=grep\ -rn\ 
+    exec 'set grepprg=grep\ -rn\ '
 endif
 
 "}}}2
@@ -657,8 +657,8 @@ if exists("$VIMDIR")
 endif
 
 " Add Linenumber {{{3
-  
-command! -bar -range=% LN 
+
+command! -bar -range=% LN
             \|silent <line1>,<line2>s/  /　/ge
             \|silent <line1>,<line2>s/^/\=printf(
             \           "|%0.*d| ", strlen(<line2>), line('.'))/ge
@@ -670,7 +670,7 @@ command! -bar -range=% DLN
             \|silent <line1>,<line2>s/　/  /ge
             \|silent <line1>,<line2>s/^|\=\d\+\%(| \|:\)\=//ge
             \|nohl
-  
+
 " Font Size {{{3
 
 let s:gf_pat = has('win32') || has('mac') ? 'h\zs\d\+' : '\d\+$'
@@ -1100,7 +1100,7 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 let g:airline#extensions#ale#enabled = 1
- 
+
 let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
 let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
 let g:ale_c_cppcheck_options = ''
