@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2560)
-" Last Change:  2019-07-02 00:48:21
+" Version:      0.5 (2561)
+" Last Change:  2019-07-06 00:06:34
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1136,11 +1136,12 @@ let g:clang_format#style_options = {
             \ "AlignOperands": v:true,
             \ "AllowShortLoopsOnASingleLine": v:false,
             \ "AlignTrailingComments": v:true,
+            \ "BreakBeforeBinaryOperators": "NonAssignment",
+            \ "ColumnLimit": 79,
             \ "Standard" : "C++11" }
 
-onoremap = :ClangFormat<CR>
-vnoremap = :ClangFormat<CR>
-nmap <Leader>S :ClangFormatAutoToggle<CR>
+onoremap <leader>S :ClangFormat<CR>
+vnoremap <leader>S :ClangFormat<CR>
 
 endif
 
