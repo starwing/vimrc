@@ -30,6 +30,10 @@
 	path = bundle/vim-multiple-cursors
 	url = https://github.com/terryma/vim-multiple-cursors.git
 	ignore = untracked
+[submodule "bundle/fzf-mru"]
+	path = bundle/fzf-mru
+	url = https://github.com/pbogut/fzf-mru.vim.git
+	ignore = untracked
 [submodule "bundle/fzf-filemru"]
 	path = bundle/fzf-filemru
 	url = https://github.com/tweekmonster/fzf-filemru.git
@@ -173,3 +177,4 @@
 [submodule "bundle/vim-clang-format"]
 	path = bundle/vim-clang-format
 	url = https://github.com/rhysd/vim-clang-format.git
+	ignore = untracked

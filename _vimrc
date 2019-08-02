@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2561)
-" Last Change:  2019-07-06 00:06:34
+" Version:      0.5 (2562)
+" Last Change:  2019-08-02 14:30:41
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -193,7 +193,7 @@ endif " }}}2
 if has('win32')
     let s:tprefix = $VIM
 elseif has('unix')
-    let s:tprefix = expand("~/.vim")
+    let s:tprefix = expand("~/.cache/vim")
 end
 
 for dir in ['/swapfiles', '/swapfiles/backupfiles', '/swapfiles/undofiles']
@@ -848,6 +848,11 @@ nmap <leader>J <C-W>J
 nmap <leader>K <C-W>K
 nmap <leader>L <C-W>L
 
+" <leader>p paste {{{3
+
+nmap <leader>p :<C-U>set paste!<CR>
+
+
 " <leader>q quickfix error jumps {{{3
 
 map <leader>qj :<C-U>cn!<CR>
@@ -975,8 +980,8 @@ if !has('win32') && executable("fzf")
         exec 'Plug' fzf_dir
     endif
     Plug 'junegunn/fzf.vim'
-    Plug 'tweekmonster/fzf-filemru'
-    "Plug 'pbogut/fzf-mru.vim'
+    "Plug 'tweekmonster/fzf-filemru'
+    Plug 'pbogut/fzf-mru.vim'
 else
     Plug 'ctrlpvim/ctrlp.vim'
 endif
@@ -1323,15 +1328,15 @@ nnoremap <silent> <Leader>B        :<C-U>Buffers<CR>
 nnoremap <silent> <Leader>C        :<C-U>Colors<CR>
 nnoremap <silent> <Leader>F        :<C-U>Files<CR>
 nnoremap <silent> <Leader>L        :<C-U>Lines<CR>
-nnoremap <silent> <Leader>M        :<C-U>FilesMru<CR>
+nnoremap <silent> <Leader>M        :<C-U>FZFMru<CR>
 nnoremap <silent> <Leader>T        :<C-U>Tags<CR>
 "nnoremap <silent><expr> <Leader>W  ":<C-U>BTags ".expand('<cword>')."<CR>"
 nnoremap <silent><expr> <Leader>W  ":<C-U>Tags ".expand('<cword>')."<CR>"
 nnoremap <silent> <Leader>`        :<C-U>Marks<CR>
 nmap <F1> :<C-U>Buffers<CR>
-nmap <F2> :<C-U>FilesMru<CR>
-nmap <F3> :<C-U>Tags<CR>
-nmap <F4> :<C-U>Files<CR>
+nmap <F2> :<C-U>FZFMru<CR>
+nmap <F3> :<C-U>Files<CR>
+nmap <F4> :<C-U>Tags<CR>
 imap <F1> <C-\><C-N><F1>
 imap <F2> <C-\><C-N><F2>
 imap <F3> <C-\><C-N><F3>
@@ -1608,6 +1613,11 @@ let g:rainbow_active = 1
 " smartim {{{2
 
 let g:smartim_default = "com.apple.keylayout.ABC"
+
+" splitjoin {{{2
+
+nmap zj :SplitjoinSplit<cr>
+nmap zk :SplitjoinJoin<cr>
 
 " supertab {{{2
 
