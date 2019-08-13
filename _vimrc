@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2562)
-" Last Change:  2019-08-02 14:30:41
+" Version:      0.5 (2564)
+" Last Change:  2019-08-13 23:28:25
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1616,8 +1616,12 @@ let g:smartim_default = "com.apple.keylayout.ABC"
 
 " splitjoin {{{2
 
+let g:splitjoin_split_mapping = ''
+let g:splitjoin_join_mapping = ''
+
 nmap zj :SplitjoinSplit<cr>
 nmap zk :SplitjoinJoin<cr>
+
 
 " supertab {{{2
 
