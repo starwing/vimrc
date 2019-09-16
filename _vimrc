@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2564)
-" Last Change:  2019-08-13 23:28:25
+" Version:      0.5 (2565)
+" Last Change:  2019-09-04 10:31:18
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -999,7 +999,6 @@ Plug 'mbbill/echofunc'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
-Plug 'terryma/vim-multiple-cursors'
 Plug 'triglav/vim-visual-increment'
 Plug 'vim-airline/vim-airline'
 Plug 'Chiel92/vim-autoformat'

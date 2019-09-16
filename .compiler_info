@@ -82,7 +82,7 @@ au FileType clojure SetCompilerInfo! clojure
 
 au FileType go SetExtensionName go
 au FileType go SetCompilerInfo! go
-	\ cmd='!go build $flags -o $output $input'
+	\ cmd='!go build $flags -o $output $input' flags=''
 	\ run='!$output $args' input='%:.' output='%:t:r' args=''
 
 " filetype graphviz {{{1
