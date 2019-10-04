@@ -114,10 +114,6 @@
 	path = bundle/neomake
 	url = https://github.com/neomake/neomake.git
 	ignore = untracked
-[submodule "bundle/rainbow"]
-	path = bundle/rainbow
-	url = https://github.com/luochen1990/rainbow.git
-	ignore = untracked
 [submodule "bundle/vim-autoformat"]
 	path = bundle/vim-autoformat
 	url = https://github.com/Chiel92/vim-autoformat.git
