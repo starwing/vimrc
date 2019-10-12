@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2565)
-" Last Change:  2019-09-04 10:31:18
+" Version:      0.5 (2569)
+" Last Change:  2019-10-12 16:02:11
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1604,6 +1604,10 @@ let g:OmniCpp_MayCompleteScope = 1
 " perl {{{2
 
 let g:perl_fold = 1
+
+" polyglot {{{2
+
+"let g:polyglot_disabled = ["c/c++"]
 
 " rainbow {{{2
 
