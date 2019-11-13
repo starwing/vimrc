@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2569)
-" Last Change:  2019-10-12 16:02:11
+" Version:      0.5 (2571)
+" Last Change:  2019-11-13 14:37:02
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1146,6 +1146,7 @@ let g:clang_format#style_options = {
 
 onoremap <leader>S :ClangFormat<CR>
 vnoremap <leader>S :ClangFormat<CR>
+nmap <Leader>rf :ClangFormatAutoToggle<CR>
 
 endif
 
