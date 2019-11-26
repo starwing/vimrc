@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2571)
-" Last Change:  2019-11-13 14:37:02
+" Version:      0.5 (2575)
+" Last Change:  2019-11-26 14:22:30
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -55,13 +55,17 @@ set whichwrap+=<,>,h,l
 set wildcharm=<C-Z>
 set wildmenu
 
-" new in Vim 7.3 {{{2
+" Versioned settings {{{2
 
 if v:version > 703
     set formatoptions+=j
 endif
 if v:version >= 703 && has('persistent_undo')
     set undofile
+endif
+if v:version >= 801
+    set pythondll=
+    set pythonhome=
 endif
 
 
