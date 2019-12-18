@@ -57,16 +57,20 @@ hi Ignore ctermfg=DarkGrey guifg=grey20
 
 " Change By Starwing
 " DateTime : 2008年 09月 02日 星期二 15:18:48 CST
-hi Comment gui=italic guifg=#80A0FF
+hi Comment gui=italic guifg=#66CCFF
 hi FoldColumn guibg=grey20 guifg=Grey
 hi Folded guibg=DarkGrey guifg=White
-hi Function guibg=bg guifg=Purple gui=bold
-hi Identifier guibg=bg guifg=Purple gui=none
+"hi Function guibg=bg guifg=Purple gui=bold
+"hi Function guibg=bg guifg=#ff52a5 gui=bold
+hi Function guibg=bg guifg=#b19cd9 gui=bold
+"hi Identifier guibg=bg guifg=Purple gui=none
+hi Identifier guibg=bg guifg=#aa2af9 gui=none
 hi LineNr guibg=Black guifg=Grey
 hi Operator guifg=LightGoldenrod
 hi PreProc guifg=HotPink
 hi Search guibg=LightBlue guifg=Black
-hi Type guibg=grey20 guifg=Green gui=bold
+"hi Type guibg=grey20 guifg=Green gui=bold
+hi Type guibg=grey20 guifg=#00fa2e gui=bold
 
 if has('multi_byte_ime')
     highlight Cursor guifg=Black guibg=Green

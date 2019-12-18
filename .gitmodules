@@ -174,3 +174,8 @@
 	path = bundle/vim-clang-format
 	url = https://github.com/rhysd/vim-clang-format.git
 	ignore = untracked
+[submodule "bundle/vim-tmux-navigator"]
+	path = bundle/vim-tmux-navigator
+	url = https://github.com/christoomey/vim-tmux-navigator.git
+	ignore = untracked
+

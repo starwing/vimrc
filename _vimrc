@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2575)
-" Last Change:  2019-11-26 14:22:30
+" Version:      0.5 (2584)
+" Last Change:  2019-12-18 15:21:15
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -851,6 +851,7 @@ nmap <leader>H <C-W>H
 nmap <leader>J <C-W>J
 nmap <leader>K <C-W>K
 nmap <leader>L <C-W>L
+nmap <leader>N <C-W>N
 
 " <leader>p paste {{{3
 
@@ -946,6 +947,7 @@ Plug 'metakirby5/codi.vim' " on-the-fly coding
 "Plug 'luochen1990/rainbow'
 Plug 'andymass/vim-matchup'
 "Plug 'roman/golden-ratio'
+Plug 'christoomey/vim-tmux-navigator'
 
 if has('terminal')
     Plug 'Shougo/deol.nvim'
@@ -1575,7 +1577,8 @@ function! g:NvimGUISetting()
         let g:airline_powerline_fonts = 1
         "GuiLinespace 8
     endif
-    colorscheme kaltex
+    "colorscheme kaltex
+    colorscheme evening
 endfunction
 
 if has('nvim')
@@ -1663,6 +1666,14 @@ else
     let g:UltiSnipsSnippetsDir = expand("~/.vim/UltiSnips")
 endif
 
+
+" vim/tmux navigator {{{2
+
+let g:tmux_navigator_no_mappings = 1
+nnoremap <silent> <leader>h :TmuxNavigateLeft<cr>
+nnoremap <silent> <leader>j :TmuxNavigateDown<cr>
+nnoremap <silent> <leader>k :TmuxNavigateUp<cr>
+nnoremap <silent> <leader>l :TmuxNavigateRight<cr>
 
 " zip {{{2
 let g:loaded_zipPlugin= 1
