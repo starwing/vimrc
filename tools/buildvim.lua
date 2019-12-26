@@ -1,6 +1,6 @@
 -- options --
 local tdir   = [[\Devel]]
-local dstdir = tdir..[[\Vim\vim81]]
+local dstdir = tdir..[[\Vim\vim82]]
 local srcdir = [[\Work\Sources\Vim\src\]]
 local rtdir  = [[\Work\Sources\Vim\runtime\]]
 local flags  = [[DIRECTX=yes IME=yes CSCOPE=yes OLE=yes WINVER=0x0501]]
