@@ -175,8 +175,13 @@ au FileType perl SetCompilerInfo! perl
 " filetype python {{{1
 
 au FileType python SetExtensionName py
-au FileType python SetCompilerInfo! python
-	    \ title='Python' cc='python'
+if executable('python3')
+    au FileType python SetCompilerInfo! python
+                \ title='Python' cc='python3'
+else
+    au FileType python SetCompilerInfo! python
+                \ title='Python' cc='python'
+endif
 
 " filetype rst {{{1
 

@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2584)
-" Last Change:  2019-12-18 15:21:15
+" Version:      0.5 (2588)
+" Last Change:  2020-01-09 19:09:03
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -930,9 +930,9 @@ if has('eval')
 filetype off
 
 if has("win32")
-    call plug#begin("$VIM/vimfiles/bundle")
+    silent! call plug#begin("$VIM/vimfiles/bundle")
 else
-    call plug#begin("~/.vim/bundle")
+    silent! call plug#begin("~/.vim/bundle")
 endif
 
 
@@ -1014,7 +1014,7 @@ Plug 'sheerun/vim-polyglot'
 
 if has('python') || has('python3')
     Plug 'Shougo/vinarise.vim'
-    Plug 'SirVer/ultisnips'
+    "Plug 'SirVer/ultisnips'
     Plug 'sjl/gundo.vim'
 else
     Plug 'MarcWeber/vim-addon-mw-utils'
@@ -1166,7 +1166,7 @@ amenu 1.248 ToolBar.-sep5-1- <Nop>
 
 
 " ctrlp {{{2
-if has_key(g:plugs, "ctrlp.vim")
+if exists('g:plugs') && has_key(g:plugs, "ctrlp.vim")
 
 nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":CtrlP\<cr>"
 nnoremap <silent> <Leader><Enter>  :<C-U>CtrlPBuffer<CR>
@@ -1324,7 +1324,7 @@ function! s:ToggleFoldcolumn(fold)
 endfunction
 
 " fzf {{{2
-if has_key(g:plugs, "fzf.vim")
+if exists('g:plugs') && has_key(g:plugs, "fzf.vim")
 
 " nnoremap <silent> <Leader><Leader> :Files<CR>
 nnoremap <silent> <C-P> :<C-U>Files<CR>
