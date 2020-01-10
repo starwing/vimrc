@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2588)
-" Last Change:  2020-01-09 19:09:03
+" Version:      0.5 (2591)
+" Last Change:  2020-01-10 18:26:51
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -948,6 +948,7 @@ Plug 'metakirby5/codi.vim' " on-the-fly coding
 Plug 'andymass/vim-matchup'
 "Plug 'roman/golden-ratio'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'kana/vim-fakeclip' " for paste in tmux
 
 if has('terminal')
     Plug 'Shougo/deol.nvim'
