@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2591)
-" Last Change:  2020-01-10 18:26:51
+" Version:      0.5 (2648)
+" Last Change:  2020-02-13 10:05:34
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1013,24 +1013,29 @@ Plug 'Chiel92/vim-autoformat'
 " Language-spec
 Plug 'sheerun/vim-polyglot'
 
+if has('lua')
+    Plug 'Shougo/neocomplete.vim' " need Lua
+    "Plug 'Shougo/neosnippet.vim'
+    "Plug 'Shougo/neosnippet-snippets'
+    "Plug 'Konfekt/FastFold' " depend by neocomplete
+endif
+
+if has('python3')
+    Plug 'SirVer/ultisnips'
+endif
+
 if has('python') || has('python3')
     Plug 'Shougo/vinarise.vim'
-    "Plug 'SirVer/ultisnips'
     Plug 'sjl/gundo.vim'
-else
-    Plug 'MarcWeber/vim-addon-mw-utils'
-    Plug 'tomtom/tlib_vim'
-    Plug 'garbas/vim-snipmate'
+"else
+"    Plug 'MarcWeber/vim-addon-mw-utils'
+"    Plug 'tomtom/tlib_vim'
+"    Plug 'garbas/vim-snipmate'
 endif
 
 if has('nvim')
     Plug 'equalsraf/neovim-gui-shim'
     Plug 'dzhou121/gonvim-fuzzy'
-endif
-
-if has('lua')
-    Plug 'Shougo/neocomplete.vim' " need Lua
-    " Plug 'Konfekt/FastFold' " depend by neocomplete
 endif
 
 if has("mac")
@@ -1478,6 +1483,9 @@ function! Multiple_cursors_after()
     exe 'NeoCompleteUnlock'
   endif
 endfunction
+
+let g:neosnippet#enable_snipmate_compatibility = 1
+
 
 " neomake {{{2
 
