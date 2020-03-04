@@ -983,9 +983,8 @@ function! s:compile(count, entry, bang) " {{{1
         let tfile = tempname()
         call writefile(cmdres, tfile)
         exec "cgetfile" tfile
-        exec v:shell_error == 0 ? 'cwindow' : 
+        silent! exec v:shell_error == 0 ? 'cwindow' : 
                     \ (res == '' ? 'cclose' : 'copen')
-
         echo 'Compile' (v:shell_error ? 'Fail' : 'Successful')
 
     elseif res != ''
