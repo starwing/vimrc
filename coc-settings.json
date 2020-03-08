@@ -1,8 +1,4 @@
 {
-    "languageserver": {
-        "elixirLS": {
-            "command": "~/Work/Local/elixir_ls/language_server.sh",
-            "filetypes": ["elixir", "eelixir"]
-        }
-    }
+    "suggest.noselect": true,
+    "suggest.autoTrigger":"none"
 }

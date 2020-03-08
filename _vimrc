@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2648)
-" Last Change:  2020-02-13 10:05:34
+" Version:      0.5 (2692)
+" Last Change:  2020-03-08 17:27:13
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -49,6 +49,7 @@ set softtabstop=4
 set tags=./tags,tags,./tags;
 set tabstop=8
 set textwidth=70
+set updatetime=300
 set viminfo+=!
 set virtualedit=block
 set whichwrap+=<,>,h,l
@@ -935,6 +936,12 @@ else
     silent! call plug#begin("~/.vim/bundle")
 endif
 
+function! PlugLoaded(name)
+    return (
+                \ exists('g:plugs') &&
+                \ has_key(g:plugs, a:name) &&
+                \ isdirectory(g:plugs[a:name].dir))
+endfunction
 
 if exists(':Plug')
 
@@ -953,16 +960,6 @@ Plug 'kana/vim-fakeclip' " for paste in tmux
 if has('terminal')
     Plug 'Shougo/deol.nvim'
 endif
-
-"if v:version >= 801
-"    if has('win32')
-"        Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.bat'}
-"    else
-"        Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
-"    endif
-"else
-"    Plug 'w0rp/ale'
-"endif
 
 " textobj
 Plug 'junegunn/vim-easy-align'
@@ -998,7 +995,6 @@ Plug 'Konfekt/FoldText'
 Plug 'Raimondi/delimitMate'
 Plug 'dyng/ctrlsf.vim'
 Plug 'easymotion/vim-easymotion'
-Plug 'ervandew/supertab'
 Plug 'fidian/hexmode'
 Plug 'godlygeek/tabular'
 Plug 'itchyny/calendar.vim'
@@ -1020,18 +1016,29 @@ if has('lua')
     "Plug 'Konfekt/FastFold' " depend by neocomplete
 endif
 
-if has('python3')
-    Plug 'SirVer/ultisnips'
-endif
+" completion
 
-if has('python') || has('python3')
-    Plug 'Shougo/vinarise.vim'
-    Plug 'sjl/gundo.vim'
-"else
-"    Plug 'MarcWeber/vim-addon-mw-utils'
-"    Plug 'tomtom/tlib_vim'
-"    Plug 'garbas/vim-snipmate'
-endif
+Plug 'honza/vim-snippets' " snippets
+
+if v:version >= 800 && executable('node') && 0
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+else
+    Plug 'ervandew/supertab'
+    if has('python3')
+        Plug 'SirVer/ultisnips'
+    endif
+
+    if has('python') || has('python3')
+        Plug 'Shougo/vinarise.vim'
+        Plug 'sjl/gundo.vim'
+    "else
+    "    Plug 'MarcWeber/vim-addon-mw-utils'
+    "    Plug 'tomtom/tlib_vim'
+    "    Plug 'garbas/vim-snipmate'
+    endif
+end
+
+" utility
 
 if has('nvim')
     Plug 'equalsraf/neovim-gui-shim'
@@ -1041,8 +1048,6 @@ endif
 if has("mac")
     Plug 'ybian/smartim'
 endif
-
-Plug 'honza/vim-snippets' " snippets
 
 
 call plug#end()
@@ -1105,23 +1110,6 @@ let g:airline_mode_map = {
             \ 't'  : 'T',
             \ }
 
-" ale {{{2
-
-"let g:ale_linters_explicit = 1
-let g:ale_completion_delay = 500
-let g:ale_echo_delay = 20
-let g:ale_lint_delay = 500
-let g:ale_echo_msg_format = '[%linter%] %code: %%s'
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 0
-let g:airline#extensions#ale#enabled = 1
-
-let g:ale_c_gcc_options = '-Wall -O2 -std=c99'
-let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++14'
-let g:ale_c_cppcheck_options = ''
-let g:ale_cpp_cppcheck_options = ''
-
 " calendar {{{2
 
 for dir in ['~', $VIM, $VIM.'/..', $PRJDIR, $PRJDIR.'/..']
@@ -1160,6 +1148,30 @@ onoremap <leader>S :ClangFormat<CR>
 vnoremap <leader>S :ClangFormat<CR>
 nmap <Leader>rf :ClangFormatAutoToggle<CR>
 
+endif
+
+" coc {{{2
+
+if PlugLoaded('coc.nvim')
+
+    function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~ '\s'
+    endfunction
+
+    inoremap <silent><expr> <Tab>
+                \ pumvisible() ? "\<C-n>" :
+                \ <SID>check_back_space() ? "\<Tab>" :
+                \ coc#refresh()
+    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+    let g:endwise_no_mappings = 1
+    imap <C-X><CR>   <CR><Plug>AlwaysEnd
+    imap <expr> <CR>
+                \ (pumvisible() ? coc#_select_confirm() :
+                \ "\<CR>\<Plug>DiscretionaryEnd")
+
+    autocmd CursorHold * silent call CocActionAsync('highlight')
 endif
 
 " ctk {{{2
@@ -1228,6 +1240,7 @@ elseif executable('ag')
 endif
 
 endif
+
 " delimitMate {{{2
 
 let g:delimitMate_expand_space = 1
