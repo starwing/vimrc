@@ -191,3 +191,15 @@
 [submodule "bundle/vim-exchange"]
 	path = bundle/vim-exchange
 	url = https://github.com/tommcdo/vim-exchange
+[submodule "bundle/asyncomplete.vim"]
+	path = bundle/asyncomplete.vim
+	url = https://github.com/prabirshrestha/asyncomplete.vim
+[submodule "bundle/asyncomplete-buffer.vim"]
+	path = bundle/asyncomplete-buffer.vim
+	url = https://github.com/prabirshrestha/asyncomplete-buffer.vim
+[submodule "bundle/asyncomplete-file.vim"]
+	path = bundle/asyncomplete-file.vim
+	url = https://github.com/prabirshrestha/asyncomplete-file.vim
+[submodule "bundle/asyncomplete-ultisnips.vim"]
+	path = bundle/asyncomplete-ultisnips.vim
+	url = https://github.com/prabirshrestha/asyncomplete-ultisnips.vim

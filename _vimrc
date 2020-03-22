@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2698)
-" Last Change:  2020-03-22 19:39:51
+" Version:      0.5 (2772)
+" Last Change:  2020-03-22 21:23:54
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1012,34 +1012,34 @@ Plug 'Chiel92/vim-autoformat'
 " Language-spec
 Plug 'sheerun/vim-polyglot'
 
-if has('lua')
-    Plug 'Shougo/neocomplete.vim' " need Lua
-    "Plug 'Shougo/neosnippet.vim'
-    "Plug 'Shougo/neosnippet-snippets'
-    "Plug 'Konfekt/FastFold' " depend by neocomplete
-endif
-
 " completion
 
-Plug 'honza/vim-snippets' " snippets
+Plug 'ervandew/supertab'
 
-if v:version >= 800 && executable('node') && 0
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
-else
-    Plug 'ervandew/supertab'
+if has('python3')
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets' " snippets
+endif
+
+if has('python') || has('python3')
+    Plug 'Shougo/vinarise.vim'
+    Plug 'sjl/gundo.vim'
+endif
+
+if v:version >= 800 || has('nvim')
+    Plug 'prabirshrestha/asyncomplete.vim'
+    Plug 'prabirshrestha/asyncomplete-buffer.vim'
+    Plug 'prabirshrestha/asyncomplete-file.vim'
     if has('python3')
-        Plug 'SirVer/ultisnips'
+        Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
     endif
+elseif has('lua')
+    Plug 'Shougo/neocomplete.vim' " need Lua
+    Plug 'Shougo/neosnippet.vim'
+    Plug 'Shougo/neosnippet-snippets'
+    Plug 'Konfekt/FastFold' " depend by neocomplete
+endif
 
-    if has('python') || has('python3')
-        Plug 'Shougo/vinarise.vim'
-        Plug 'sjl/gundo.vim'
-    "else
-    "    Plug 'MarcWeber/vim-addon-mw-utils'
-    "    Plug 'tomtom/tlib_vim'
-    "    Plug 'garbas/vim-snipmate'
-    endif
-end
 
 " utility
 
@@ -1113,6 +1113,36 @@ let g:airline_mode_map = {
             \ 't'  : 'T',
             \ }
 
+" asyncomplete {{{2
+
+au User asyncomplete_setup call asyncomplete#register_source(
+            \ asyncomplete#sources#buffer#get_source_options({
+            \ 'name': 'buffer',
+            \ 'whitelist': ['*'],
+            \ 'blacklist': ['go'],
+            \ 'completor': function('asyncomplete#sources#buffer#completor'),
+            \ 'config': {
+            \    'max_buffer_size': 5000000,
+            \  },
+            \ }))
+
+au User asyncomplete_setup call asyncomplete#register_source(
+            \ asyncomplete#sources#file#get_source_options({
+            \ 'name': 'file',
+            \ 'whitelist': ['*'],
+            \ 'priority': 10,
+            \ 'completor': function('asyncomplete#sources#file#completor')
+            \ }))
+
+if has('python3')
+    au User asyncomplete_setup call asyncomplete#register_source(
+                \ asyncomplete#sources#ultisnips#get_source_options({
+                \ 'name': 'ultisnips',
+                \ 'whitelist': ['*'],
+                \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+                \ }))
+endif
+
 " calendar {{{2
 
 for dir in ['~', $VIM, $VIM.'/..', $PRJDIR, $PRJDIR.'/..']
@@ -1167,12 +1197,6 @@ if PlugLoaded('coc.nvim')
                 \ <SID>check_back_space() ? "\<Tab>" :
                 \ coc#refresh()
     inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-    let g:endwise_no_mappings = 1
-    imap <C-X><CR>   <CR><Plug>AlwaysEnd
-    imap <expr> <CR>
-                \ (pumvisible() ? coc#_select_confirm() :
-                \ "\<CR>\<Plug>DiscretionaryEnd")
 
     autocmd CursorHold * silent call CocActionAsync('highlight')
 endif
@@ -1294,6 +1318,16 @@ map <Leader>m <Plug>(easymotion-prefix)
 
 if &insertmode
     run! evim.vim
+endif
+
+" endwise {{{2
+
+if PlugLoaded('vim-endwise')
+    let g:endwise_no_mappings = 1
+    imap <C-X><CR> <CR><Plug>AlwaysEnd
+    imap <silent> <expr> <CR> (pumvisible() ? "\<C-Y>" : "\<CR>\<Plug>DiscretionaryEnd")
+else
+    imap <silent> <expr> <CR> (pumvisible() ? "\<C-Y>" : "\<CR>")
 endif
 
 " FoldText {{{2
@@ -1683,7 +1717,7 @@ xmap a, <Plug>(swap-textobject-a)
 " UltiSnips {{{2
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger = '<Tab>'
+let g:UltiSnipsExpandTrigger = '<C-Y>'
 let g:UltiSnipsListSnippets = '<C-Tab>'
 let g:UltiSnipsJumpForwardTrigger = '<Tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
