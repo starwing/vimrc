@@ -128,7 +128,7 @@
 	ignore = untracked
 [submodule "bundle/nerdcommenter"]
 	path = bundle/nerdcommenter
-	url = https://github.com/scrooloose/nerdcommenter.git
+	url = https://github.com/preservim/nerdcommenter
 	ignore = untracked
 [submodule "bundle/vim-textobj-indent"]
 	path = bundle/vim-textobj-indent
@@ -152,7 +152,7 @@
 	ignore = untracked
 [submodule "bundle/nerdtree"]
 	path = bundle/nerdtree
-	url = https://github.com/scrooloose/nerdtree.git
+	url = https://github.com/preservim/nerdtree
 	ignore = untracked
 [submodule "bundle/FoldText"]
 	path = bundle/FoldText
@@ -185,3 +185,9 @@
 [submodule "bundle/coc.nvim"]
 	path = bundle/coc.nvim
 	url = https://github.com/https://github.com/neoclide/coc.nvim
+[submodule "bundle/vim-swap"]
+	path = bundle/vim-swap
+	url = https://github.com/machakann/vim-swap
+[submodule "bundle/vim-exchange"]
+	path = bundle/vim-exchange
+	url = https://github.com/tommcdo/vim-exchange

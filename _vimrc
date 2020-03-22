@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2692)
-" Last Change:  2020-03-08 17:27:13
+" Version:      0.5 (2698)
+" Last Change:  2020-03-22 19:39:51
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -956,6 +956,9 @@ Plug 'andymass/vim-matchup'
 "Plug 'roman/golden-ratio'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'kana/vim-fakeclip' " for paste in tmux
+Plug 'machakann/vim-swap'
+Plug 'tommcdo/vim-exchange'
+
 
 if has('terminal')
     Plug 'Shougo/deol.nvim'
@@ -1000,8 +1003,8 @@ Plug 'godlygeek/tabular'
 Plug 'itchyny/calendar.vim'
 Plug 'mbbill/echofunc'
 Plug 'nathanaelkane/vim-indent-guides'
-Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree'
+Plug 'preservim/nerdcommenter'
+Plug 'preservim/nerdtree'
 Plug 'triglav/vim-visual-increment'
 Plug 'vim-airline/vim-airline'
 Plug 'Chiel92/vim-autoformat'
@@ -1667,6 +1670,14 @@ let g:SuperTabNoCompleteAfter = [ '^', ',', '\s' ]
 " surround {{{2
 
 let g:surround_{char2nr("c")} = "/* \r */"
+
+
+" swap {{{2
+
+omap i, <Plug>(swap-textobject-i)
+xmap i, <Plug>(swap-textobject-i)
+omap a, <Plug>(swap-textobject-a)
+xmap a, <Plug>(swap-textobject-a)
 
 
 " UltiSnips {{{2
