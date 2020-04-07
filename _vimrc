@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2772)
-" Last Change:  2020-03-22 21:23:54
+" Version:      0.5 (2818)
+" Last Change:  2020-04-07 15:54:54
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1322,13 +1322,16 @@ endif
 
 " endwise {{{2
 
-if PlugLoaded('vim-endwise')
-    let g:endwise_no_mappings = 1
-    imap <C-X><CR> <CR><Plug>AlwaysEnd
-    imap <silent> <expr> <CR> (pumvisible() ? "\<C-Y>" : "\<CR>\<Plug>DiscretionaryEnd")
-else
-    imap <silent> <expr> <CR> (pumvisible() ? "\<C-Y>" : "\<CR>")
-endif
+function! SendCY()
+    call feedkeys("\<C-Y>", "t")
+    return ""
+endfunction
+function! SendCR()
+    call feedkeys("\<C-Y>", "n")
+    return ""
+endfunction
+imap <silent> <CR> <C-R>=(pumvisible() ? SendCY() : SendCR())<CR>
+
 
 " FoldText {{{2
 
