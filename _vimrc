@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2818)
-" Last Change:  2020-04-07 15:54:54
+" Version:      0.5 (2819)
+" Last Change:  2020-04-26 12:17:36
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1327,7 +1327,7 @@ function! SendCY()
     return ""
 endfunction
 function! SendCR()
-    call feedkeys("\<C-Y>", "n")
+    call feedkeys("\<CR>", "n")
     return ""
 endfunction
 imap <silent> <CR> <C-R>=(pumvisible() ? SendCY() : SendCR())<CR>
