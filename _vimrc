@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2819)
-" Last Change:  2020-04-26 12:17:36
+" Version:      0.5 (2821)
+" Last Change:  2020-05-10 17:10:04
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -170,7 +170,10 @@ if g:gui_running " {{{2
             silent! set gfw=YaHei_Mono:h16:cGB2312
             "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
         elseif has('mac')
-            if exists('&macligatures')
+            if exists('g:neovide')
+                set gfn=FiraCode-Regular:h16
+                set gfw=YaHei_Mono:h16:cGB2312
+            elseif exists('&macligatures')
                 set macligatures
                 set gfn=FiraCode-Regular:h18
             else
@@ -233,6 +236,11 @@ else
 endif
 
 "}}}2
+" settings for VV
+if exists('g:vv')
+    VVset fontfamily="Fira\ Code"
+    VVset fontsize=16
+endif
 " ----------------------------------------------------------
 " Helpers {{{1
 
