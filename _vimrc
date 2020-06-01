@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2821)
-" Last Change:  2020-05-10 17:10:04
+" Version:      0.5 (2823)
+" Last Change:  2020-06-02 00:13:44
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -984,6 +984,10 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive'
 Plug 'AndrewRadev/splitjoin.vim'
+
+if executable('sk')
+    Plug 'lotabout/skim'
+endif
 
 if !has('win32') && executable("fzf")
     if isdirectory('/usr/local/opt/fzf')
