@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2823)
-" Last Change:  2020-06-02 00:13:44
+" Version:      0.5 (2859)
+" Last Change:  2020-06-03 14:45:53
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -139,7 +139,20 @@ elseif has('unix') " {{{2
         silent! so $VIMRUNTIME/delmenu.vim
         silent! so $VIMRUNTIME/menu.vim
     endif
-    if has("termguicolors")
+    function! s:support_guicolors()
+        if exists('$TGC')
+            return v:true
+        elseif exists('g:support_guicolors')
+            return g:support_guicolors
+        elseif executable($HOME.'/.iterm2/it2check')
+            silent! !"$HOME/.iterm2/it2check"
+            let g:support_guicolors = (v:shell_error == 0)
+            return g:support_guicolors
+        endif
+        return v:false
+    endfunction
+
+    if !g:gui_running && has("termguicolors") && s:support_guicolors()
         " fix bug for vim
         let &t_8f="\<ESC>[38;2;%lu;%lu;%lum"
         let &t_8b="\<ESC>[48;2;%lu;%lu;%lum"
@@ -186,15 +199,13 @@ if g:gui_running " {{{2
         endif
     endif
     if has('win32')
-       silent! colorscheme evening
+        let g:colorscheme = "evening"
     else
-        "silent! colorscheme kaltex
-        silent! colorscheme evening
+        let g:colorscheme = "evening"
     end
 
 else " in terminal {{{2
-    "silent! colorscheme kaltex
-    silent! colorscheme evening
+    let g:colorscheme = "evening"
 endif " }}}2
 " swapfiles/undofiles settings {{{2
 
@@ -1023,6 +1034,7 @@ Plug 'Chiel92/vim-autoformat'
 
 " Language-spec
 Plug 'sheerun/vim-polyglot'
+Plug 'andrewstuart/vim-kubernetes'
 
 " completion
 
@@ -1651,8 +1663,7 @@ function! g:NvimGUISetting()
         let g:airline_powerline_fonts = 1
         "GuiLinespace 8
     endif
-    "colorscheme kaltex
-    colorscheme evening
+    g:colorscheme = "evening"
 endfunction
 
 if has('nvim')
@@ -1764,6 +1775,12 @@ let g:loaded_zip      = 1
 " }}}2
 
 endif
+
+if exists('$COLORSCHEME')
+    let g:colorscheme = $COLORSCHEME
+endif
+
+silent! exec 'colorscheme' g:colorscheme
 
 if exists('s:cpo_save')
     let &cpo = s:cpo_save
