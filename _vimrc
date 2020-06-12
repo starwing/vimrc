@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2859)
-" Last Change:  2020-06-03 14:45:53
+" Version:      0.5 (2880)
+" Last Change:  2020-06-13 01:08:34
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -117,6 +117,26 @@ if has('eval')
     endfunction
 endif
 
+if has("nvim") " {{{2
+    function! s:nvim_gui()
+        let g:gui_running = filter(nvim_list_uis(),
+                    \ {k,v -> v.chan==v:event.chan})[0].rgb
+        if has('win32')
+            silent! set gfn=Fira\ Code:h12
+            silent! set termguicolors
+        elseif has('mac')
+            if exists('g:vv')
+                VVset fontfamily="Fira\ Code"
+                VVset fontsize=16
+            elseif exists('g:neovide')
+                silent! set gfn=FiraCode-Regular:h16
+                silent! set gfw=YaHei_Mono:h16:cGB2312
+            endif
+        endif
+    endfunction
+    autocmd UIEnter * call s:nvim_gui()
+endif
+
 if has("win32") " {{{2
     if $LANG =~? 'zh_CN' && &encoding !=? "cp936"
         set termencoding=cp936
@@ -183,10 +203,7 @@ if g:gui_running " {{{2
             silent! set gfw=YaHei_Mono:h16:cGB2312
             "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
         elseif has('mac')
-            if exists('g:neovide')
-                set gfn=FiraCode-Regular:h16
-                set gfw=YaHei_Mono:h16:cGB2312
-            elseif exists('&macligatures')
+            if exists('&macligatures')
                 set macligatures
                 set gfn=FiraCode-Regular:h18
             else
@@ -247,11 +264,6 @@ else
 endif
 
 "}}}2
-" settings for VV
-if exists('g:vv')
-    VVset fontfamily="Fira\ Code"
-    VVset fontsize=16
-endif
 " ----------------------------------------------------------
 " Helpers {{{1
 
@@ -1653,22 +1665,6 @@ endfunction
 silent!  call neomake#config#set('ft.erlang.InitForJob',
             \ function('s:neomake_Erlang_InitForJob'))
 
-
-" Neovim {{{2
-
-function! g:NvimGUISetting()
-    let g:gui_running = 1
-    if exists(':GuiFont')
-        GuiFont Monaco for Powerline:h16
-        let g:airline_powerline_fonts = 1
-        "GuiLinespace 8
-    endif
-    g:colorscheme = "evening"
-endfunction
-
-if has('nvim')
-    call NvimGUISetting()
-endif
 
 " NERDTree {{{2
 
