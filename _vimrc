@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2880)
-" Last Change:  2020-06-13 01:08:34
+" Version:      0.5 (2881)
+" Last Change:  2020-06-16 10:54:28
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -172,7 +172,7 @@ elseif has('unix') " {{{2
         return v:false
     endfunction
 
-    if !g:gui_running && has("termguicolors") && s:support_guicolors()
+    if has("termguicolors") && s:support_guicolors()
         " fix bug for vim
         let &t_8f="\<ESC>[38;2;%lu;%lu;%lum"
         let &t_8b="\<ESC>[48;2;%lu;%lu;%lum"
