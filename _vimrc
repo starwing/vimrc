@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2881)
-" Last Change:  2020-06-16 10:54:28
+" Version:      0.5 (2885)
+" Last Change:  2020-07-28 16:46:16
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1030,7 +1030,8 @@ endif
 
 Plug 'rhysd/vim-clang-format'
 Plug 'Konfekt/FoldText'
-Plug 'Raimondi/delimitMate'
+"Plug 'Raimondi/delimitMate'
+Plug 'jiangmiao/auto-pairs'
 Plug 'dyng/ctrlsf.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'fidian/hexmode'
@@ -1178,6 +1179,10 @@ if has('python3')
                 \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
                 \ }))
 endif
+
+" auto-pairs {{{2
+
+let g:AutoPairsMultilineClose = 0
 
 " calendar {{{2
 
