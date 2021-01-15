@@ -12,11 +12,12 @@ set cpo&vim
 " Common default info {{{1
 
 au FileType c,cpp,go,objc,rust,nim SetDefaultInfo!
-	\ cmd='!$cc $flags $input $libs -o $output'
-	\ run='!$output $args' input='%:.' output='%:t:r'
+	\ cmd='!$cc $flags $input $libs -o $executable'
+	\ run='!$executable $args' input='%:.' output='%:t:r'
+        \ executable='$output'
 	\ asm_run=":pedit $output" args=''
 	\ asm_output='$output.s'
-	\ debug_run='!gdb -q $output'
+	\ debug_run='!gdb -q $executable'
 
 au FileType clojure,javascript,haskell,lua,metalua,moon,m4,perl,python,ruby,scheme,tcl,lisp SetDefaultInfo!
         \ cmd='#RUN_DIRECT' runmap='<f5>'
@@ -27,6 +28,10 @@ if has('unix')
     au FileType c,cpp SetDefaultInfo asm_output='$output.s'
 else
     au FileType c,cpp SetDefaultInfo asm_output='$output.asm'
+endif
+
+if has('win32')
+    au FileType rust,go SetDefaultInfo executable='$output.exe'
 endif
 
 
@@ -70,7 +75,7 @@ au FileType objc SetCompilerInfo! clang
 
 au FileType rust SetExtensionName rs
 au FileType rust SetCompilerInfo! rustc
-    	\ title='rustc' cc='rustc' flags='' libs=''
+    	\ title='rustc' cc='rustc' flags='-Ctarget-feature=+crt-static -O' libs=''
 
 " filetype clojure "{{{1
  
@@ -82,8 +87,8 @@ au FileType clojure SetCompilerInfo! clojure
 
 au FileType go SetExtensionName go
 au FileType go SetCompilerInfo! go
-	\ cmd='!go build $flags -o $output $input' flags=''
-	\ run='!$output $args' input='%:.' output='%:t:r' args=''
+	\ cmd='!go build $flags -o $executable $input' flags=''
+	\ run='!$executable $args' input='%:.' args=''
 
 " filetype graphviz {{{1
 
@@ -142,7 +147,7 @@ au FileType m4 SetCompilerInfo! m4
 au FileType nim SetExtensionName nim
 au FileType nim SetCompilerInfo! nim
 	    \ title='nim' cc='nim c' flags=''
-            \ cmd='!$cc $flags -o:$output $input'
+            \ cmd='!$cc $flags -o:$executable $input'
 
 " filletype ocaml {{{1
 

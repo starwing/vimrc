@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2886)
-" Last Change:  2020-10-18 17:25:34
+" Version:      0.5 (2903)
+" Last Change:  2021-01-15 10:48:32
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -149,7 +149,7 @@ if has("win32") " {{{2
     endif
 
     if has("directx")
-        "set renderoptions=type:directx,geom:1
+        set renderoptions=type:directx,geom:1
     endif
 
 elseif has('unix') " {{{2
@@ -200,7 +200,7 @@ if g:gui_running " {{{2
         if has('win32')
             "silent! set gfn=Consolas:h16:cANSI
             silent! set gfn=Fira_Code:h16:cANSI:qDRAFT
-            silent! set gfw=YaHei_Mono:h16:cGB2312
+            "silent! set gfw=YaHei_Mono:h16:cGB2312
             "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
         elseif has('mac')
             if exists('&macligatures')
@@ -223,6 +223,9 @@ if g:gui_running " {{{2
 
 else " in terminal {{{2
     let g:colorscheme = "evening"
+    if has('win32')
+        silent! set termguicolors
+    endif
 endif " }}}2
 " swapfiles/undofiles settings {{{2
 
@@ -482,7 +485,6 @@ if has('autocmd')
                     \  if exists('w:last_fdm')
                     \|     let &l:foldmethod=w:last_fdm | unlet w:last_fdm
                     \| endif
-
     augroup END
 
     augroup NEOMAKE_ERL
