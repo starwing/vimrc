@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2903)
-" Last Change:  2021-01-15 10:48:32
+" Version:      0.5 (2916)
+" Last Change:  2021-04-02 16:23:50
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1045,7 +1045,10 @@ Plug 'preservim/nerdcommenter'
 Plug 'preservim/nerdtree'
 Plug 'triglav/vim-visual-increment'
 Plug 'vim-airline/vim-airline'
-Plug 'Chiel92/vim-autoformat'
+
+if !has('win32') " hangs on Windows
+    Plug 'Chiel92/vim-autoformat'
+endif
 
 " Language-spec
 Plug 'sheerun/vim-polyglot'
