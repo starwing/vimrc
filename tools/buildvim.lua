@@ -17,7 +17,7 @@ local optflags = {
     tcl      = [[TCL=]]..tdir..[[\Tcl DYNAMIC_TCL=yes TCL_VER=86 TCL_VER_LONG=8.6]],
     vs_def   = [[DEFINES="/GL /GS- /O2 /Oy /Oi"]],
 }
-local uses = { "vs_def", "sdkdir64", "user", "lua", "python3" }
+local uses = { "vs_def", "user", "lua", "python3" }
 -- end --
 
 if arg[1] == "copy" then

@@ -206,6 +206,3 @@
 [submodule "bundle/skim"]
 	path = bundle/skim
 	url = https://github.com/lotabout/skim
-[submodule "bundle/auto-pairs"]
-	path = bundle/auto-pairs
-	url = https://github.com/jiangmiao/auto-pairs
