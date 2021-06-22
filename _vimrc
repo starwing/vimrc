@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2916)
-" Last Change:  2021-04-02 16:23:50
+" Version:      0.5 (2919)
+" Last Change:  2021-04-09 11:08:48
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -365,7 +365,7 @@ if has('eval')
         let s:spec_path = [['$WORK', $VIM.'\..\..\..\Work'],
                     \ ['$DOC', nr2char(s:cur_root).':\Document'],
                     \ ['$WORK', nr2char(s:cur_root).':\Work']]
-        for i in range(char2nr('D'), char2nr('Z'))
+        for i in range(char2nr('D'), char2nr('W'))
             let s:spec_path += [['$DOC', nr2char(i).':\Document'],
                         \ ['$WORK', nr2char(i).':\Work']]
         endfor
@@ -443,7 +443,7 @@ if has('autocmd')
         au!
         au BufFilePost * filetype detect|redraw
         au BufWritePre $MYVIMRC,_vimrc silent call s:vimrc_write()
-        au BufWritePre Y:/* set noundofile
+        au BufWritePre X:/*,Y:/*,Z:*  set noundofile
         au BufReadPost * if getfsize(expand('%')) < 50000 | syn sync fromstart | endif
         "au BufWritePre * let &backup = (getfsize(expand('%')) > 500000)
         au BufNewFile,BufRead *.vba set noml
@@ -510,8 +510,8 @@ if has('autocmd')
         endfunc
         if has('win32')
             call s:reg_tgame("C:/Devel/Projects/tgame/versions")
-            call s:reg_tgame("Y:/Work")
-            call s:reg_im_erl("Y:/Work/Projects")
+            "call s:reg_tgame("Y:/Work")
+            "call s:reg_im_erl("Y:/Work/Projects")
         elseif has('mac')
             call s:reg_tgame("/Users/sw/Work/Code/tgame/versions")
         else
