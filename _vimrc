@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2919)
-" Last Change:  2021-04-09 11:08:48
+" Version:      0.5 (2921)
+" Last Change:  2021-07-08 10:01:10
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -991,6 +991,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'kana/vim-fakeclip' " for paste in tmux
 Plug 'machakann/vim-swap'
 Plug 'tommcdo/vim-exchange'
+Plug 'tpope/vim-abolish'
 
 
 if has('terminal')
