@@ -493,23 +493,23 @@ endfunction
 "=============================================================================
 "Standalone cmd {{{1
 "RENAME
-command! -nargs=0 -complete=file REN call <SID>SysIOAction("REN")  
+command! -nargs=0 REN call <SID>SysIOAction("REN")  
 "DELETE
-command! -nargs=0 -complete=file DEL call <SID>SysIOAction("DEL")  
+command! -nargs=0 DEL call <SID>SysIOAction("DEL")  
 "OPEN DIR
-command! -nargs=0 -complete=file BROZ call <SID>SysIOAction("BROZ")  
+command! -nargs=0 BROZ call <SID>SysIOAction("BROZ")  
 "INFO
-command! -nargs=0 -complete=file INFOS call <SID>SysIOAction("INFOS")  
-command! -nargs=0 -complete=file INFO call <SID>SysIOAction("INFOS")  
-command! -nargs=0 -complete=file INF call <SID>SysIOAction("INFOS")  
+command! -nargs=0 INFOS call <SID>SysIOAction("INFOS")  
+command! -nargs=0 INFO call <SID>SysIOAction("INFOS")  
+command! -nargs=0 INF call <SID>SysIOAction("INFOS")  
 "}}}1
 "=============================================================================
 "Menu cmd {{{1
-command! -nargs=0 -complete=file LSD call <SID>DisplayListing()  
+command! -nargs=0 LSD call <SID>DisplayListing()  
 "}}}1
 "=============================================================================
 "Help file cmd {{{1
-command! -nargs=0 -complete=file FSOHLP call <SID>GenerateHelpFile("fsohelp.txt")
+command! -nargs=0 FSOHLP call <SID>GenerateHelpFile("fsohelp.txt")
 "}}}1
 "=============================================================================
 "Autosource when saving this file {{{1
