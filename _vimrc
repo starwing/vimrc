@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2923)
-" Last Change:  2021-08-16 11:21:00
+" Version:      0.5 (2969)
+" Last Change:  2021-09-21 16:15:36
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -129,8 +129,8 @@ if has("nvim") " {{{2
                 VVset fontfamily="Fira\ Code"
                 VVset fontsize=16
             elseif exists('g:neovide')
-                silent! set gfn=FiraCode-Regular:h16
-                silent! set gfw=YaHei_Mono:h16:cGB2312
+                silent! set gfn=Fira\ Code:h16,Yahei\ Mono:h16
+                let g:neovide_cursor_vfx_mode = "railgun"
             endif
         endif
     endfunction
@@ -459,6 +459,7 @@ if has('autocmd')
         au FileType erlang,elixir se sw=2 sts=2 fdm=marker fdc=2 ff=unix
         au FileType javascript se sw=2 sts=2 ts=2 et fdc=2 fdm=syntax
         au FileType cs se ai nu noet sw=4 sts=4 ts=4 fdc=2 fdm=syntax
+        au FileType go se ai nu noet sw=4 sts=4 ts=4 fdc=2 fdm=syntax
         au FileType javascript if exists("*JavaScriptFold")
                     \|             call JavaScriptFold()
                     \|         endif
@@ -477,14 +478,15 @@ if has('autocmd')
         " Don't screw up folds when inserting text that might affect them, until
         " leaving insert mode. Foldmethod is local to the window. Protect against
         " screwing up folding when switching between windows.
-        autocmd InsertEnter *
-                    \  if !exists('w:last_fdm')
-                    \|     let w:last_fdm=&foldmethod | setlocal foldmethod=manual
-                    \| endif
-        autocmd InsertLeave,WinLeave *
-                    \  if exists('w:last_fdm')
-                    \|     let &l:foldmethod=w:last_fdm | unlet w:last_fdm
-                    \| endif
+        " TODO 
+        "autocmd InsertEnter *
+        "            \  if !exists('w:last_fdm')
+        "            \|     let w:last_fdm=&foldmethod | setlocal foldmethod=manual
+        "            \| endif
+        "autocmd InsertLeave,WinLeave *
+        "            \  if exists('w:last_fdm')
+        "            \|     let &l:foldmethod=w:last_fdm | unlet w:last_fdm
+        "            \| endif
     augroup END
 
     augroup NEOMAKE_ERL
@@ -1055,32 +1057,33 @@ endif
 " Language-spec
 Plug 'sheerun/vim-polyglot'
 Plug 'andrewstuart/vim-kubernetes'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " completion
-
-Plug 'ervandew/supertab'
 
 if has('python3')
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets' " snippets
 endif
 
+Plug 'ervandew/supertab'
+
 if has('python') || has('python3')
     Plug 'Shougo/vinarise.vim'
 endif
 
-if v:version >= 800 || has('nvim')
+if has('lua') && v:versionlong < 8021066
+    Plug 'Shougo/neocomplete.vim' " need Lua
+    Plug 'Shougo/neosnippet.vim'
+    Plug 'Shougo/neosnippet-snippets'
+    Plug 'Konfekt/FastFold' " depend by neocomplete
+elseif v:version >= 800 || has('nvim')
     Plug 'prabirshrestha/asyncomplete.vim'
     Plug 'prabirshrestha/asyncomplete-buffer.vim'
     Plug 'prabirshrestha/asyncomplete-file.vim'
     if has('python3')
         Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
     endif
-elseif has('lua')
-    Plug 'Shougo/neocomplete.vim' " need Lua
-    Plug 'Shougo/neosnippet.vim'
-    Plug 'Shougo/neosnippet-snippets'
-    Plug 'Konfekt/FastFold' " depend by neocomplete
 endif
 
 
@@ -1092,7 +1095,8 @@ if has('nvim')
 endif
 
 if has("mac")
-    Plug 'ybian/smartim'
+    " cause i/<esc> slow
+    " Plug 'ybian/smartim'
 endif
 
 
@@ -1523,6 +1527,20 @@ command! PlugHelp call fzf#run(fzf#wrap({
   \ 'sink':   function('s:plug_help_sink')}))
 
 endif
+
+" go {{{2
+
+" Go syntax highlighting
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_operators = 1
+
+" Auto formatting and importing
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = "goimports"
+
 " indent guide {{{2
 
 let g:indent_guides_guide_size=1
@@ -1716,6 +1734,14 @@ let g:rainbow_active = 1
 " smartim {{{2
 
 let g:smartim_default = "com.apple.keylayout.ABC"
+
+function! Multiple_cursors_before()
+  let g:smartim_disable = 1
+endfunction
+
+function! Multiple_cursors_after()
+  unlet g:smartim_disable
+endfunction
 
 " splitjoin {{{2
 
