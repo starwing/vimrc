@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (2969)
-" Last Change:  2021-09-21 16:15:36
+" Version:      0.5 (3034)
+" Last Change:  2021-10-22 10:34:06
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -48,7 +48,7 @@ set shiftwidth=4
 set softtabstop=4
 set tags=./tags,tags,./tags;
 set tabstop=8
-set textwidth=70
+" set textwidth=70
 set updatetime=300
 set viminfo+=!
 set virtualedit=block
@@ -188,7 +188,7 @@ elseif has('unix') " {{{2
         let &t_EI = "\e[2 q"
     endif
     se mouse=a
-    if &term =~ '^screen'
+    if !has('nvim') && &term =~ '^screen'
         " tmux knows the extended mouse mode
         set ttymouse=xterm2
     endif
@@ -748,9 +748,14 @@ inoremap <M-B> <S-Left>
 
 " clipboard operations {{{3
 if has('eval')
+    let s:clipreg = '+'
+    if !has('nvim') && !has('xterm_clipboard')
+        let s:clipreg = 'c'
+    endif
+
     for op in ['y', 'Y', 'p', 'P']
-        exec 'nmap z'.op.' "+'.op
-        exec 'xmap z'.op.' "+'.op.'gv'
+        exec 'nmap z'.op.' "'.s:clipreg.op
+        exec 'xmap z'.op.' "'.s:clipreg.op.'gv'
     endfor
 
     " inner buffer
@@ -780,6 +785,68 @@ if has('eval')
 
     " set Y operator tp y$
     map Y y$
+
+    " tmux
+    func! s:get_tmux_buffer_name()
+        let l:list = systemlist('tmux list-buffers -F"#{buffer_name}"')
+        if len(l:list)==0
+            return ""
+        else
+            return l:list[0]
+        endif
+    endfunc
+
+    func! s:get_tmux_buffer()
+        return system('tmux saveb -')
+    endfunc
+
+    func! s:update_from_tmux()
+        let buffer_name = s:get_tmux_buffer_name()
+        if s:lastbname != buffer_name
+            call setreg(s:clipreg, s:get_tmux_buffer())
+            let s:lastbname = buffer_name
+        endif
+    endfunc
+
+    func! s:update_to_tmux(event)
+        if a:event['regname'] == s:clipreg
+            if has('nvim')
+                call system('tmux deleteb')
+            endif
+            call system('tmux loadb -w -', join(a:event['regcontents'], "\n"))
+        endif
+    endfunc
+
+    func! s:enable_tmux_copy()
+        if $TMUX==''
+            " not in tmux session
+            return
+        endif
+
+        let s:lastbname=""
+
+        " if support TextYankPost
+        if exists('##TextYankPost')==1
+            " @"
+            augroup vimtmuxclipboard
+                autocmd!
+                autocmd FocusLost    * call s:update_from_tmux()
+                autocmd FocusGained  * call s:update_from_tmux()
+                autocmd TextYankPost * call s:update_to_tmux(v:event)
+            augroup END
+        else
+            " vim doesn't support TextYankPost event
+            " This is a workaround for vim
+            augroup vimtmuxclipboard
+                autocmd!
+                autocmd FocusLost   * silent! call system('tmux loadb -', getreg(s:clipreg))
+                autocmd FocusGained * silent! call setreg(s:clipreg, s:get_tmux_buffer())
+            augroup END
+        endif
+        call setreg(s:clipreg, s:get_tmux_buffer())
+    endfunc
+
+    call s:enable_tmux_copy()
 endif
 
 " visual # and * operators {{{3
@@ -990,7 +1057,7 @@ Plug 'metakirby5/codi.vim' " on-the-fly coding
 Plug 'andymass/vim-matchup'
 "Plug 'roman/golden-ratio'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'kana/vim-fakeclip' " for paste in tmux
+" Plug 'kana/vim-fakeclip' " for paste in tmux
 Plug 'machakann/vim-swap'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-abolish'
