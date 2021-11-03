@@ -12,7 +12,7 @@ local optflags = {
     mz       = [[MZSCHEME=]]..tdir..[[\Racket DYNAMIC_MZSCHEME=yes MZSCHEME_VER=3m_9x82yo]],
     perl     = [[PERL=]]..tdir..[[\perl DYNAMIC_PERL=yes PERL_VER=522]],
     python   = [[PYTHON=]]..tdir..[[\python27 DYNAMIC_PYTHON=yes PYTHON_VER=27]],
-    python3  = [[PYTHON3=]]..tdir..[[\python39 DYNAMIC_PYTHON3=yes PYTHON3_VER=39]],
+    python3  = [[PYTHON3=]]..tdir..[[\python310 DYNAMIC_PYTHON3=yes PYTHON3_VER=310]],
     ruby     = [[RUBY=]]..tdir..[[\ruby192 DYNAMIC_RUBY=yes RUBY_VER=192 RUBY_VER_LONG=1.9.1]],
     tcl      = [[TCL=]]..tdir..[[\Tcl DYNAMIC_TCL=yes TCL_VER=86 TCL_VER_LONG=8.6]],
     vs_def   = [[DEFINES="/GL /GS- /O2 /Oy /Oi"]],
