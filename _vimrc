@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (3034)
-" Last Change:  2021-10-22 10:34:06
+" Version:      0.5 (3036)
+" Last Change:  2021-11-03 11:51:32
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -122,8 +122,13 @@ if has("nvim") " {{{2
         let g:gui_running = filter(nvim_list_uis(),
                     \ {k,v -> v.chan==v:event.chan})[0].rgb
         if has('win32')
-            silent! set gfn=Fira\ Code:h12
-            silent! set termguicolors
+            if has('nvim')
+                silent! set gfn=Fira\ Code:h14
+                silent! set termguicolors
+            else
+                silent! set gfn=Fira\ Code:h12
+                silent! set termguicolors
+            endif
         elseif has('mac')
             if exists('g:vv')
                 VVset fontfamily="Fira\ Code"
