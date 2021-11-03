@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (3036)
-" Last Change:  2021-11-03 11:51:32
+" Version:      0.5 (3037)
+" Last Change:  2021-11-03 16:01:18
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -754,7 +754,7 @@ inoremap <M-B> <S-Left>
 " clipboard operations {{{3
 if has('eval')
     let s:clipreg = '+'
-    if !has('nvim') && !has('xterm_clipboard')
+    if !has('nvim') && !has('xterm_clipboard') && !has('gui_running')
         let s:clipreg = 'c'
     endif
 
