@@ -1062,7 +1062,7 @@ Plug 'metakirby5/codi.vim' " on-the-fly coding
 Plug 'andymass/vim-matchup'
 "Plug 'roman/golden-ratio'
 Plug 'christoomey/vim-tmux-navigator'
-" Plug 'kana/vim-fakeclip' " for paste in tmux
+Plug 'kana/vim-fakeclip' " for paste in tmux
 Plug 'machakann/vim-swap'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-abolish'
