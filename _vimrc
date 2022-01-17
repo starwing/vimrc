@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (3037)
-" Last Change:  2021-11-03 16:01:18
+" Version:      0.5 (3042)
+" Last Change:  2022-01-17 12:07:02
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -210,7 +210,7 @@ if g:gui_running " {{{2
         elseif has('mac')
             if exists('&macligatures')
                 set macligatures
-                set gfn=FuraCodeNerdFontComplete-Regular:h18
+                set gfn=FiraCodeNerdFontComplete-Retina:h18
             else
                 set gfn=Monaco\ for\ Powerline:h18
             endif
