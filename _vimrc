@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (3046)
-" Last Change:  2022-01-17 19:41:04
+" Version:      0.5 (3047)
+" Last Change:  2022-03-13 13:29:13
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
