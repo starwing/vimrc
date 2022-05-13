@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (3047)
-" Last Change:  2022-03-13 13:29:13
+" Version:      0.5 (3049)
+" Last Change:  2022-05-01 20:07:22
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1092,6 +1092,8 @@ endif
 if !has('win32') && executable("fzf")
     if isdirectory('/usr/local/opt/fzf')
         Plug '/usr/local/opt/fzf'
+    elseif isdirectory('/opt/homebrew/opt/fzf')
+        Plug '/opt/homebrew/opt/fzf'
     else
         let fzf_dir = system('which fzf')
         let fzf_dir = simplify(fnamemodify(fzf_dir, ':p:h') . "/..")

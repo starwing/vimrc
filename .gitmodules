@@ -31,7 +31,7 @@
 	url = https://github.com/terryma/vim-multiple-cursors.git
 	ignore = untracked
 [submodule "bundle/fzf-mru"]
-	path = bundle/fzf-mru
+	path = bundle/fzf-mru.vim
 	url = https://github.com/pbogut/fzf-mru.vim.git
 	ignore = untracked
 [submodule "bundle/fzf-filemru"]
