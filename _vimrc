@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (3049)
-" Last Change:  2022-05-01 20:07:22
+" Version:      0.5 (3057)
+" Last Change:  2022-07-29 16:37:21
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -133,10 +133,13 @@ if has("nvim") " {{{2
             if exists('g:vv')
                 VVset fontfamily="Fira\ Code"
                 VVset fontsize=16
-            elseif exists('g:neovide')
-                silent! set gfn=Fira\ Code:h16,Yahei\ Mono:h16
-                let g:neovide_cursor_vfx_mode = "railgun"
             endif
+        endif
+        if exists('g:neovide')
+            silent! set gfn=Fira\ Code:h16,Yahei\ Mono:h16
+            let g:neovide_cursor_vfx_mode = "railgun"
+            let g:neovide_remember_window_size = v:true
+            se mouse=a
         endif
     endfunction
     autocmd UIEnter * call s:nvim_gui()
@@ -199,7 +202,11 @@ elseif has('unix') " {{{2
     endif
 endif " }}}2
 if g:gui_running " {{{2
-    set co=120 lines=35
+    if exists('g:neovide')
+        set co=142 lines=42
+    else
+        set co=120 lines=35
+    endif
 
     if exists('+gfn')
         if has('win32')
