@@ -212,3 +212,6 @@
 [submodule "bundle/vim-go"]
 	path = bundle/vim-go
 	url = https://github.com/fatih/vim-go
+[submodule "bundle/vim-kubernetes"]
+	path = bundle/vim-kubernetes
+	url = https://github.com/andrewstuart/vim-kubernetes
