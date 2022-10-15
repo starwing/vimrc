@@ -215,3 +215,6 @@
 [submodule "bundle/vim-kubernetes"]
 	path = bundle/vim-kubernetes
 	url = https://github.com/andrewstuart/vim-kubernetes
+[submodule "bundle/vim-abolish"]
+	path = bundle/vim-abolish
+	url = https://github.com/tpope/vim-abolish
