@@ -1,10 +1,11 @@
 @echo off
 rem -- Run Vim --
 
-set VIM_EXE_DIR=%~dp0\Vim82
+set VIM_EXE_DIR=%~dp0\Vim90
 if exist "%VIM%\vim73\gvim.exe" set VIM_EXE_DIR=%VIM%\vim73
 if exist "%VIM%\vim74\gvim.exe" set VIM_EXE_DIR=%VIM%\vim74
 if exist "%VIM%\vim81\gvim.exe" set VIM_EXE_DIR=%VIM%\vim81
+if exist "%VIM%\vim82\gvim.exe" set VIM_EXE_DIR=%VIM%\vim82
 if exist "%VIMRUNTIME%\gvim.exe" set VIM_EXE_DIR=%VIMRUNTIME%
 
 if exist "%VIM_EXE_DIR%\vim.exe" goto havevim

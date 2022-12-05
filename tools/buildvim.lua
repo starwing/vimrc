@@ -4,7 +4,7 @@ local ver    = [[90]]
 local dstdir = tdir..[[\Vim\vim]]..ver
 local srcdir = [[\Work\Sources\Vim\src\]]
 local rtdir  = [[\Work\Sources\Vim\runtime\]]
-local flags  = [[DIRECTX=yes IME=yes CSCOPE=yes OLE=yes WINVER=0x0501]]
+local flags  = [[DIRECTX=yes IME=yes CSCOPE=yes OLE=yes WINVER=0x0601]]
 local optflags = {
     user     = [[USERNAME=SW USERDOMAIN=SB_DiaoSi_Mo XPM=no NODEFAULTLIB=/nodefaultlib:msvcrt.lib ]],
     sdkdir   = [[SDK_INCLUDE_DIR="C:\Program Files\Microsoft SDKs\Windows\v7.1\Include"]],
@@ -13,7 +13,7 @@ local optflags = {
     mz       = [[MZSCHEME=]]..tdir..[[\Racket DYNAMIC_MZSCHEME=yes MZSCHEME_VER=3m_9x82yo]],
     perl     = [[PERL=]]..tdir..[[\perl DYNAMIC_PERL=yes PERL_VER=522]],
     python   = [[PYTHON=]]..tdir..[[\python27 DYNAMIC_PYTHON=yes PYTHON_VER=27]],
-    python3  = [[PYTHON3=]]..tdir..[[\python310 DYNAMIC_PYTHON3=yes PYTHON3_VER=310]],
+    python3  = [[PYTHON3=]]..tdir..[[\python311 DYNAMIC_PYTHON3=yes PYTHON3_VER=311]],
     ruby     = [[RUBY=]]..tdir..[[\ruby192 DYNAMIC_RUBY=yes RUBY_VER=192 RUBY_VER_LONG=1.9.1]],
     tcl      = [[TCL=]]..tdir..[[\Tcl DYNAMIC_TCL=yes TCL_VER=86 TCL_VER_LONG=8.6]],
     vs_def   = [[DEFINES="/GL /GS- /O2 /Oy /Oi"]],
