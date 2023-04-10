@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (3057)
-" Last Change:  2022-07-29 16:37:21
+" Version:      0.5 (3070)
+" Last Change:  2023-01-30 15:57:12
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -797,6 +797,19 @@ if has('eval')
 
     " set Y operator tp y$
     map Y y$
+
+    nnoremap <C-\>x <Nop>
+    nnoremap <C-\>c <Nop>
+    nnoremap <C-\>v "+p
+    xnoremap <C-\>x "+d
+    xnoremap <C-\>c "+y
+    xnoremap <C-\>v "+p
+    inoremap <C-\>x <Nop>
+    inoremap <C-\>c <Nop>
+    inoremap <C-\>v <C-R>+
+    snoremap <C-\>x <C-O>"+d
+    snoremap <C-\>c <C-O>"+y
+    snoremap <C-\>v <C-O>"+p
 
     " tmux
     func! s:get_tmux_buffer_name()
