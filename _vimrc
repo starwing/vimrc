@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (3070)
-" Last Change:  2023-01-30 15:57:12
+" Version:      0.5 (3071)
+" Last Change:  2023-07-28 20:50:32
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -212,7 +212,7 @@ if g:gui_running " {{{2
         if has('win32')
             "silent! set gfn=Consolas:h16:cANSI
             "silent! set gfw=YaHei_Mono:h16:cGB2312
-            silent! set gfn=FiraCode_NF:h16:cANSI:qDRAFT
+            silent! set gfn=FiraCode_Nerd_Font_Mono:h16:cANSI:qDRAFT
             "exec 'set gfw='.iconv('新宋体', 'utf8', 'gbk').':h10:cGB2312'
         elseif has('mac')
             if exists('&macligatures')
