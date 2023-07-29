@@ -64,7 +64,7 @@ endif
 if v:version >= 703 && has('persistent_undo')
     set undofile
 endif
-if v:version >= 801
+if v:version >= 801 && !has("nvim")
     set pythondll=
     set pythonhome=
 endif
@@ -122,13 +122,8 @@ if has("nvim") " {{{2
         let g:gui_running = filter(nvim_list_uis(),
                     \ {k,v -> v.chan==v:event.chan})[0].rgb
         if has('win32')
-            if has('nvim')
-                silent! set gfn=Fira\ Code:h14
-                silent! set termguicolors
-            else
-                silent! set gfn=Fira\ Code:h12
-                silent! set termguicolors
-            endif
+            silent! set gfn=Fira\ Code:h12
+            silent! set termguicolors
         elseif has('mac')
             if exists('g:vv')
                 VVset fontfamily="Fira\ Code"
@@ -217,7 +212,7 @@ if g:gui_running " {{{2
         elseif has('mac')
             if exists('&macligatures')
                 set macligatures
-                set gfn=FiraCodeNerdFontComplete-Retina:h18
+                set gfn=FiraCodeNF-Reg:h16
             else
                 set gfn=Monaco\ for\ Powerline:h18
             endif
@@ -1076,7 +1071,7 @@ if exists(':Plug')
 
 Plug 'asins/vimcdoc'       " chinese document
 "Plug 'mhinz/vim-signify'   " show difference
-Plug 'neomake/neomake'     " live lint/build
+Plug 'neomake/neomake'     " live lint/build, will disappear splash screen
 Plug 'metakirby5/codi.vim' " on-the-fly coding
 "Plug 'luochen1990/rainbow'
 Plug 'andymass/vim-matchup'
