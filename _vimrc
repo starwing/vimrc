@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (3071)
-" Last Change:  2023-07-28 20:50:32
+" Version:      0.5 (3073)
+" Last Change:  2023-10-25 17:52:04
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -758,6 +758,9 @@ if has('eval')
     let s:clipreg = '+'
     if !has('nvim') && !has('xterm_clipboard') && !has('gui_running')
         let s:clipreg = 'c'
+    endif
+    if has('nvim')
+        set clipboard=unnamedplus
     endif
 
     for op in ['y', 'Y', 'p', 'P']
