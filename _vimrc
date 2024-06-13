@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (3073)
-" Last Change:  2023-10-25 17:52:04
+" Version:      0.5 (3098)
+" Last Change:  2024-06-13 16:41:26
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -131,7 +131,7 @@ if has("nvim") " {{{2
             endif
         endif
         if exists('g:neovide')
-            silent! set gfn=Fira\ Code:h16,Yahei\ Mono:h16
+            silent! set gfn=FiraCode\ NF:h16
             let g:neovide_cursor_vfx_mode = "railgun"
             let g:neovide_remember_window_size = v:true
             se mouse=a
@@ -725,6 +725,16 @@ command! -bar -count=10 FSIZE let &gfn = substitute(&gfn, s:gf_pat,
             \ <count>, '') | let &gfw = substitute(&gfw, s:gf_pat,
             \ <count>, '')
 
+command! NR set sms showtabline=0 laststatus=0 titlestring=Console
+            \| call CreateScrollMap() | 12FSIZE
+func! CreateScrollMap()
+    map <ScrollWheelUp>   <C-Y>
+    map <ScrollWheelDown> <C-E>
+    map k                 <C-Y>
+    map j                 <C-E>
+endfunc
+
+
 " }}}3
 
 endif
@@ -945,6 +955,8 @@ map <leader>f+ :<C-U>setf cpp<CR>
 map <leader>fc :<C-U>setf c<CR>
 map <leader>fC :<C-U>setf clojure<CR>
 map <leader>fd :<C-U>setf dot<CR>
+map <leader>fe :<C-U>setf elixir<CR>
+map <leader>ff :<C-U>setf fennel<CR>
 map <leader>fg :<C-U>setf go<CR>
 map <leader>fh :<C-U>setf haskell<CR>
 map <leader>fj :<C-U>setf java<CR>
@@ -961,6 +973,7 @@ map <leader>fs :<C-U>setf scheme<CR>
 map <leader>fT :<C-U>setf tcl<CR>
 map <leader>ft :<C-U>setf text<CR>
 map <leader>fv :<C-U>setf vim<CR>
+map <leader>fz :<C-U>setf zig<CR>
 
 " <leader>g get syntax stack {{{3
 nmap<silent> <leader>g :echo ""<bar>for id in synstack(line('.'),col('.'))
@@ -1150,6 +1163,8 @@ endif
 Plug 'sheerun/vim-polyglot'
 Plug 'andrewstuart/vim-kubernetes'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'NoahTheDuke/vim-just'
+Plug 'bakpakin/fennel.vim'
 
 " completion
 

@@ -1,6 +1,6 @@
 -- options --
 local tdir   = [[\Devel]]
-local ver    = [[90]]
+local ver    = [[91]]
 local dstdir = tdir..[[\Vim\vim]]..ver
 local srcdir = [[\Work\Sources\Vim\src\]]
 local rtdir  = [[\Work\Sources\Vim\runtime\]]
@@ -13,7 +13,7 @@ local optflags = {
     mz       = [[MZSCHEME=]]..tdir..[[\Racket DYNAMIC_MZSCHEME=yes MZSCHEME_VER=3m_9x82yo]],
     perl     = [[PERL=]]..tdir..[[\perl DYNAMIC_PERL=yes PERL_VER=522]],
     python   = [[PYTHON=]]..tdir..[[\python27 DYNAMIC_PYTHON=yes PYTHON_VER=27]],
-    python3  = [[PYTHON3=]]..tdir..[[\python311 DYNAMIC_PYTHON3=yes PYTHON3_VER=311]],
+    python3  = [[PYTHON3=]]..tdir..[[\python312 DYNAMIC_PYTHON3=yes PYTHON3_VER=312]],
     ruby     = [[RUBY=]]..tdir..[[\ruby192 DYNAMIC_RUBY=yes RUBY_VER=192 RUBY_VER_LONG=1.9.1]],
     tcl      = [[TCL=]]..tdir..[[\Tcl DYNAMIC_TCL=yes TCL_VER=86 TCL_VER_LONG=8.6]],
     vs_def   = [[DEFINES="/GL /GS- /O2 /Oy /Oi"]],
@@ -21,7 +21,49 @@ local optflags = {
 local uses = { "vs_def", "user", "lua", "python3" }
 -- end --
 
-if arg[1] == "copy" then
+if arg[1] ~= "copy" then
+   -- parse argument options
+   for _, curarg in ipairs(arg) do
+      if curarg == '--help' then
+         print("usage: "..arg[0].." [options] [srcdir]")
+         os.exit(1)
+      elseif curarg:match '^--use-' then
+         local name, newarg = curarg:match '^--use-(.+)=(.*)$'
+         if not name then
+            name = curarg:match '^--use-(.+)$'
+         else
+            optflags[name] = newarg
+         end
+         uses[#uses+1] = name
+      elseif not curarg:match "^-" then
+         flags = curarg .. " " .. flags
+      end
+   end
+
+   -- apply vim build options
+   for _, v in ipairs(uses) do
+      if optflags[v] then
+         flags = flags .. " " .. optflags[v]
+         optflags[v] = nil
+      end
+   end
+
+   local function spawn(cmdline)
+      cmdline = "cd "..srcdir.." && "..cmdline
+      print(cmdline)
+      return os.execute(cmdline)
+   end
+
+   -- build
+   if spawn("nmake -f Make_mvc.mak GUI=yes "..flags) then
+      os.execute("copy "..srcdir.."gvim.exe "..dstdir)
+      if spawn("nmake -f Make_mvc.mak GUI=no "..flags) then
+         os.execute("copy "..srcdir.."vim.exe "..dstdir)
+      end
+   end
+end
+
+if arg[1] == "copy" or arg[1] == "bc" then
    local runtimes = {}
    for dir in io.popen("dir /A:D /B "..rtdir, "r"):lines() do
       if dir ~= 'icons' and dir ~= 'print' then
@@ -34,47 +76,6 @@ if arg[1] == "copy" then
    os.execute("xcopy>nul /i/s/q/y "..rtdir.."doc\\*.txt".." "..dstdir.."\\doc")
    os.execute("copy>nul /y "..rtdir.."*.vim".." "..dstdir)
    os.execute("copy>nul /y "..rtdir.."rgb.txt".." "..dstdir)
-   os.execute(dstdir..[[\\vim.exe --cmd "helptags ]]..dstdir..[[/doc|q"]])
-   return
-end
-
--- parse argument options
-for _, curarg in ipairs(arg) do
-    if curarg == '--help' then
-        print("usage: "..arg[0].." [options] [srcdir]")
-        os.exit(1)
-    elseif curarg:match '^--use-' then
-        local name, newarg = curarg:match '^--use-(.+)=(.*)$'
-        if not name then
-            name = curarg:match '^--use-(.+)$'
-        else
-            optflags[name] = newarg
-        end
-        uses[#uses+1] = name
-    elseif not curarg:match "^-" then
-        flags = curarg .. " " .. flags
-    end
-end
-
--- apply vim build options
-for _, v in ipairs(uses) do
-    if optflags[v] then
-        flags = flags .. " " .. optflags[v]
-        optflags[v] = nil
-    end
-end
-
-local function spawn(cmdline)
-    cmdline = "cd "..srcdir.." && "..cmdline
-    print(cmdline)
-    return os.execute(cmdline)
-end
-
--- build
-if spawn("nmake -f Make_mvc.mak GUI=yes "..flags) then
-    os.execute("copy "..srcdir.."gvim.exe "..dstdir)
-    if spawn("nmake -f Make_mvc.mak GUI=no "..flags) then
-        os.execute("copy "..srcdir.."vim.exe "..dstdir)
-    end
+   os.execute(dstdir..[[\\vim.exe>nul --cmd "helptags ]]..dstdir..[[/doc|q"]])
 end
 

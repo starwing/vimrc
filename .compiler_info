@@ -11,7 +11,7 @@ set cpo&vim
 
 " Common default info {{{1
 
-au FileType c,cpp,go,objc,rust,nim SetDefaultInfo!
+au FileType c,cpp,go,objc,rust,nim,zig SetDefaultInfo!
 	\ cmd='!$cc $flags $input $libs -o $executable'
 	\ run='!$executable $args' input='%:.' output='%:t:r'
         \ executable='$output'
@@ -19,7 +19,7 @@ au FileType c,cpp,go,objc,rust,nim SetDefaultInfo!
 	\ asm_output='$output.s'
 	\ debug_run='!gdb -q $executable'
 
-au FileType clojure,javascript,haskell,lua,metalua,moon,m4,perl,python,ruby,scheme,tcl,lisp SetDefaultInfo!
+au FileType clojure,javascript,haskell,lua,metalua,fennel,moon,m4,perl,python,ruby,scheme,tcl,lisp SetDefaultInfo!
         \ cmd='#RUN_DIRECT' runmap='<f5>'
         \ run='!$cc $flags $src $args' src='%:.'
         \ flags='' args=''
@@ -124,6 +124,12 @@ au FileType lua SetCompilerInfo! lua
 au FileType lua SetCompilerInfo! metalua
 	    \ title='metalua' cc='metalua -f $input'
 
+" filetype fennel {{{1
+
+au FileType fennel SetExtensionName fnl
+au FileType fennel SetCompilerInfo! fnl
+	    \ title='fennel' cc='fennel' src='%:.' cmdmap='<f5>'
+
 " filetype metalua {{{1
 
 au FileType meta.lua SetExtensionName mlua
@@ -168,6 +174,22 @@ au FileType erlang SetCompilerInfo! escript
 au FileType erlang SetCompilerInfo! erlc
             \ title='erlang erlc' input='%:.'
             \ cc='erlc' flags='-Werror' outdir='.'
+            \ cmd='!$cc $flags -o $outdir $input'
+            \ run='!$output $args' args=''
+
+" filetype elixir {{{1
+
+au FileType elixir SetExtensionName ex
+
+au FileType elixir SetCompilerInfo! exlixir
+            \ cmd='#RUN_DIRECT' runmap='<f5>'
+            \ run='!$cc $flags $src $args' src='%:.'
+            \ flags='' args=''
+            \ title='elixir' cc='elixir' src='%:.' cmdmap='<f5>'
+
+au FileType elixir SetCompilerInfo! elixirc
+            \ title='elixir compiler' input='%:.'
+            \ cc='elixirc' flags='-Werror' outdir='.'
             \ cmd='!$cc $flags -o $outdir $input'
             \ run='!$output $args' args=''
 
@@ -231,6 +253,13 @@ au FileType tcl SetCompilerInfo! tclsh
 au FileType lisp SetExtensionName lisp
 au FileType lisp SetCompilerInfo! sbcl
             \ title='sbcl' cc='sbcl' flags='--script'
+
+" filetype zig {{{1
+
+au FileType zig SetExtensionName zig
+au FileType zig SetCompilerInfo! zig
+            \ cmd='!$cc $flags --name $executable $libs $input'
+            \ title='zig' cc='zig build-exe' flags='' libs=''
 
 " terminational works {{{1
 let &cpo = s:cpo_save

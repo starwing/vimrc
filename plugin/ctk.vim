@@ -28,7 +28,7 @@ if !exists('g:loaded_ctk')
     call s:defopt('g:ctk_autofname', 'strftime("%Y-%m-%d")."-".idx')
     call s:defopt('g:ctk_autostart', 1)
     call s:defopt('g:ctk_cinfo_file', '.compiler_info')
-    call s:defopt('g:ctk_defoutput', './output')
+    call s:defopt('g:ctk_defoutput', 'output')
     call s:defopt('g:ctk_ext_var', 'ft_ext')
     call s:defopt('g:ctk_tempdir', './noname')
 
