@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (3098)
-" Last Change:  2024-06-13 16:41:26
+" Version:      0.5 (3084)
+" Last Change:  2025-05-06 21:56:23
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -34,7 +34,9 @@ set cpo&vim " set cpo-=C cpo-=b
 " generic Settings {{{2
 
 set ambiwidth=single
-set bsdir=buffer
+if !has('nvim')
+    set bsdir=buffer
+endif
 set complete-=i
 set completeopt=longest,menu
 set diffopt+=vertical
@@ -101,7 +103,7 @@ if v:version >= 603
 endif
 
 " diffexpr {{{2
-if has('eval')
+if has('eval') && !has('mac')
     set diffexpr=MyDiff('diff')
 
     function! MyDiff(cmd)
@@ -1921,6 +1923,12 @@ if exists('$COLORSCHEME')
 endif
 
 silent! exec 'colorscheme' g:colorscheme
+
+if has('nvim') && !has('gui_running')
+    hi StatusLine gui=NONE
+    hi TabLine gui=NONE
+    hi WinBar gui=NONE
+endif
 
 if exists('s:cpo_save')
     let &cpo = s:cpo_save
