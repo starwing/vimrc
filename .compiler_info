@@ -25,7 +25,7 @@ au FileType clojure,javascript,haskell,lua,metalua,fennel,moon,m4,perl,python,ru
         \ flags='' args=''
 
 if has('unix')
-    au FileType c,cpp SetDefaultInfo asm_output='$output.s'
+    au FileType c,cpp SetDefaultInfo asm_output='$output.s' executable="./$output"
 else
     au FileType c,cpp SetDefaultInfo asm_output='$output.asm'
 endif

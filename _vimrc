@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (3084)
-" Last Change:  2025-05-06 21:56:23
+" Version:      0.5 (3120)
+" Last Change:  2025-09-19 19:49:33
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1096,9 +1096,9 @@ Plug 'andymass/vim-matchup'
 "Plug 'roman/golden-ratio'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'kana/vim-fakeclip' " for paste in tmux
-Plug 'machakann/vim-swap'
-Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-fugitive'
+Plug 'mbbill/undotree'
 
 
 if has('terminal')
@@ -1112,11 +1112,16 @@ Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-user'
 Plug 'sgur/vim-textobj-parameter'
+Plug 'machakann/vim-swap'
+Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-fugitive'
 Plug 'AndrewRadev/splitjoin.vim'
+Plug 'godlygeek/tabular'
+Plug 'triglav/vim-visual-increment'
+Plug 'vim-airline/vim-airline'
+Plug 'ervandew/supertab'
 
 if executable('sk')
     Plug 'lotabout/skim'
@@ -1143,19 +1148,14 @@ endif
 Plug 'rhysd/vim-clang-format'
 Plug 'Konfekt/FoldText'
 Plug 'Raimondi/delimitMate'
-"Plug 'jiangmiao/auto-pairs'
 Plug 'dyng/ctrlsf.vim'
 Plug 'easymotion/vim-easymotion'
 Plug 'fidian/hexmode'
-Plug 'godlygeek/tabular'
 Plug 'itchyny/calendar.vim'
 Plug 'mbbill/echofunc'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'preservim/nerdcommenter'
 Plug 'preservim/nerdtree'
-Plug 'triglav/vim-visual-increment'
-Plug 'vim-airline/vim-airline'
-Plug 'mbbill/undotree'
 
 if !has('win32') " hangs on Windows
     Plug 'Chiel92/vim-autoformat'
@@ -1165,42 +1165,25 @@ endif
 Plug 'sheerun/vim-polyglot'
 Plug 'andrewstuart/vim-kubernetes'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'NoahTheDuke/vim-just'
-Plug 'bakpakin/fennel.vim'
+Plug 'NoahTheDuke/vim-just' "x
+Plug 'bakpakin/fennel.vim' "x
 
-" completion
-
-if has('python3')
-    Plug 'SirVer/ultisnips'
-    Plug 'honza/vim-snippets' " snippets
+" completions
+if has('nvim')
+    Plug 'hrsh7th/cmp-buffer'
+    Plug 'hrsh7th/cmp-path'
+    Plug 'hrsh7th/cmp-cmdline'
+    Plug 'hrsh7th/nvim-cmp'
+    Plug 'hrsh7th/cmp-vsnip'
 endif
 
-Plug 'ervandew/supertab'
-
-if has('python') || has('python3')
-    Plug 'Shougo/vinarise.vim'
-endif
-
-if has('lua') && v:versionlong < 8021066
-    Plug 'Shougo/neocomplete.vim' " need Lua
-    Plug 'Shougo/neosnippet.vim'
-    Plug 'Shougo/neosnippet-snippets'
-    Plug 'Konfekt/FastFold' " depend by neocomplete
-elseif v:version >= 800 || has('nvim')
-    Plug 'prabirshrestha/asyncomplete.vim'
-    Plug 'prabirshrestha/asyncomplete-buffer.vim'
-    Plug 'prabirshrestha/asyncomplete-file.vim'
-    if has('python3')
-        Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-    endif
-endif
-
+Plug 'hrsh7th/vim-vsnip'
 
 " utility
 
 if has('nvim')
-    Plug 'equalsraf/neovim-gui-shim'
-    Plug 'dzhou121/gonvim-fuzzy'
+    Plug 'equalsraf/neovim-gui-shim' "x
+    Plug 'dzhou121/gonvim-fuzzy' "x
 endif
 
 if has("mac")
@@ -1269,36 +1252,6 @@ let g:airline_mode_map = {
             \ 't'  : 'T',
             \ }
 
-" asyncomplete {{{2
-
-au User asyncomplete_setup call asyncomplete#register_source(
-            \ asyncomplete#sources#buffer#get_source_options({
-            \ 'name': 'buffer',
-            \ 'whitelist': ['*'],
-            \ 'blacklist': ['go'],
-            \ 'completor': function('asyncomplete#sources#buffer#completor'),
-            \ 'config': {
-            \    'max_buffer_size': 5000000,
-            \  },
-            \ }))
-
-au User asyncomplete_setup call asyncomplete#register_source(
-            \ asyncomplete#sources#file#get_source_options({
-            \ 'name': 'file',
-            \ 'whitelist': ['*'],
-            \ 'priority': 10,
-            \ 'completor': function('asyncomplete#sources#file#completor')
-            \ }))
-
-if has('python3')
-    au User asyncomplete_setup call asyncomplete#register_source(
-                \ asyncomplete#sources#ultisnips#get_source_options({
-                \ 'name': 'ultisnips',
-                \ 'whitelist': ['*'],
-                \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-                \ }))
-endif
-
 " auto-pairs {{{2
 
 let g:AutoPairsMultilineClose = 0
@@ -1343,24 +1296,6 @@ nmap <Leader>rf :ClangFormatAutoToggle<CR>
 
 endif
 
-" coc {{{2
-
-if PlugLoaded('coc.nvim')
-
-    function! s:check_back_space() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~ '\s'
-    endfunction
-
-    inoremap <silent><expr> <Tab>
-                \ pumvisible() ? "\<C-n>" :
-                \ <SID>check_back_space() ? "\<Tab>" :
-                \ coc#refresh()
-    inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-    autocmd CursorHold * silent call CocActionAsync('highlight')
-endif
-
 " ctk {{{2
 
 amenu 1.246 ToolBar.BuiltIn25 :CC<CR>
@@ -1371,7 +1306,7 @@ amenu 1.248 ToolBar.-sep5-1- <Nop>
 
 
 " ctrlp {{{2
-if exists('g:plugs') && has_key(g:plugs, "ctrlp.vim")
+if PlugLoaded('ctrlp.vim')
 
 nnoremap <silent> <expr> <Leader><Leader> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":CtrlP\<cr>"
 nnoremap <silent> <Leader><Enter>  :<C-U>CtrlPBuffer<CR>
@@ -1543,7 +1478,7 @@ function! s:ToggleFoldcolumn(fold)
 endfunction
 
 " fzf {{{2
-if exists('g:plugs') && has_key(g:plugs, "fzf.vim")
+if PlugLoaded("fzf.vim")
 
 " nnoremap <silent> <Leader><Leader> :Files<CR>
 nnoremap <silent> <C-P> :<C-U>Files<CR>
@@ -1585,7 +1520,7 @@ imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 inoremap <expr> <c-x><c-d> fzf#vim#complete#path('blsd')
 imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-imap <c-x><c-l> <plug>(fzf-complete-line)
+"imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " nmap <leader><tab> <plug>(fzf-maps-n)
 " xmap <leader><tab> <plug>(fzf-maps-x)
@@ -1675,43 +1610,6 @@ endif
 "let lua_complete_dynamic = 1
 let lua_complete_omni = 0
 
-
-
-" multiple-cursors  {{{2
-
-let g:multi_cursor_exit_from_insert_mode = 0
-let g:multi_cursor_exit_from_visual_mode = 0
-
-if has("mac")
-    function! Multiple_cursors_before()
-        let g:smartim_disable = 1
-    endfunction
-    function! Multiple_cursors_after()
-        unlet g:smartim_disable
-    endfunction
-end
-
-
-" neocomplete {{{2
-
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#data_directory = s:tprefix . "/swapfiles/neocomplete"
-
-" Called once right before you start selecting multiple cursors
-function! Multiple_cursors_before()
-  if exists(':NeoCompleteLock')==2
-    exe 'NeoCompleteLock'
-  endif
-endfunction
-
-" Called once only when the multiple selection is canceled (default <Esc>)
-function! Multiple_cursors_after()
-  if exists(':NeoCompleteUnlock')==2
-    exe 'NeoCompleteUnlock'
-  endif
-endfunction
-
-let g:neosnippet#enable_snipmate_compatibility = 1
 
 
 " neomake {{{2
@@ -1815,19 +1713,6 @@ map <leader>nv :<C-U>NERDTree $VIM<CR>
 nmap <leader>nx :NERDTree .<CR>
 xmap <leader>nx "ey:NERDTree <C-R>e<CR>
 
-" omnicppcomplete {{{2
-
-let g:OmniCpp_GlobalScopeSearch = 1  " 0 or 1
-let g:OmniCpp_NamespaceSearch = 1   " 0 ,  1 or 2
-let g:OmniCpp_DisplayMode = 1
-let g:OmniCpp_ShowScopeInAbbr = 0
-let g:OmniCpp_ShowPrototypeInAbbr = 1
-let g:OmniCpp_ShowAccess = 1
-let g:OmniCpp_MayCompleteDot = 1
-let g:OmniCpp_MayCompleteArrow = 1
-let g:OmniCpp_MayCompleteScope = 1
-
-
 " perl {{{2
 
 let g:perl_fold = 1
@@ -1882,26 +1767,6 @@ omap a, <Plug>(swap-textobject-a)
 xmap a, <Plug>(swap-textobject-a)
 
 
-" UltiSnips {{{2
-
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger = '<C-Y>'
-let g:UltiSnipsListSnippets = '<C-Tab>'
-let g:UltiSnipsJumpForwardTrigger = '<Tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-
-let g:UltiSnipsSnippetDirectories=['UltiSnips']
-
-if has('win32')
-    let g:UltiSnipsSnippetsDir = expand("$VIM/vimfiles/UltiSnips")
-else
-    let g:UltiSnipsSnippetsDir = expand("~/.vim/UltiSnips")
-endif
-
-
 " vim/tmux navigator {{{2
 
 let g:tmux_navigator_no_mappings = 1
@@ -1929,6 +1794,14 @@ if has('nvim') && !has('gui_running')
     hi TabLine gui=NONE
     hi WinBar gui=NONE
 endif
+
+" EXTERNAL configs {{{1
+if has('nvim')
+    luafile $VIMDIR/luaconfigs.lua
+elseif has('vim9script')
+    source $VIMDIR/vim9configs.vim
+endif
+" }}}1
 
 if exists('s:cpo_save')
     let &cpo = s:cpo_save

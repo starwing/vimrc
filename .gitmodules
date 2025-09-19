@@ -2,177 +2,17 @@
 	path = bundle/vimcdoc
 	url = https://github.com/asins/vimcdoc.git
 	ignore = untracked
-[submodule "bundle/vim-textobj-syntax"]
-	path = bundle/vim-textobj-syntax
-	url = https://github.com/kana/vim-textobj-syntax.git
-	ignore = untracked
-[submodule "bundle/neocomplete.vim"]
-	path = bundle/neocomplete.vim
-	url = https://github.com/Shougo/neocomplete.vim.git
-	ignore = untracked
-[submodule "bundle/deol.nvim"]
-	path = bundle/deol.nvim
-	url = https://github.com/Shougo/deol.nvim.git
-	ignore = untracked
-[submodule "bundle/vim-textobj-function"]
-	path = bundle/vim-textobj-function
-	url = https://github.com/kana/vim-textobj-function.git
-	ignore = untracked
-[submodule "bundle/hexmode"]
-	path = bundle/hexmode
-	url = https://github.com/fidian/hexmode.git
-	ignore = untracked
-[submodule "bundle/vim-easy-align"]
-	path = bundle/vim-easy-align
-	url = https://github.com/junegunn/vim-easy-align.git
-	ignore = untracked
-[submodule "bundle/vim-multiple-cursors"]
-	path = bundle/vim-multiple-cursors
-	url = https://github.com/terryma/vim-multiple-cursors.git
-	ignore = untracked
-[submodule "bundle/fzf-mru"]
-	path = bundle/fzf-mru.vim
-	url = https://github.com/pbogut/fzf-mru.vim.git
-	ignore = untracked
-[submodule "bundle/fzf-filemru"]
-	path = bundle/fzf-filemru
-	url = https://github.com/tweekmonster/fzf-filemru.git
-	ignore = untracked
-[submodule "bundle/vinarise.vim"]
-	path = bundle/vinarise.vim
-	url = https://github.com/Shougo/vinarise.vim.git
-	ignore = untracked
-[submodule "bundle/vim-surround"]
-	path = bundle/vim-surround
-	url = https://github.com/tpope/vim-surround.git
-	ignore = untracked
-[submodule "bundle/vim-airline"]
-	path = bundle/vim-airline
-	url = https://github.com/vim-airline/vim-airline.git
-	ignore = untracked
-[submodule "bundle/vim-endwise"]
-	path = bundle/vim-endwise
-	url = https://github.com/tpope/vim-endwise.git
-	ignore = untracked
-[submodule "bundle/tabular"]
-	path = bundle/tabular
-	url = https://github.com/godlygeek/tabular.git
-	ignore = untracked
-[submodule "bundle/supertab"]
-	path = bundle/supertab
-	url = https://github.com/ervandew/supertab.git
-	ignore = untracked
-[submodule "bundle/fzf.vim"]
-	path = bundle/fzf.vim
-	url = https://github.com/junegunn/fzf.vim.git
-	ignore = untracked
-[submodule "bundle/vim-visual-increment"]
-	path = bundle/vim-visual-increment
-	url = https://github.com/triglav/vim-visual-increment.git
-	ignore = untracked
-[submodule "bundle/vim-repeat"]
-	path = bundle/vim-repeat
-	url = https://github.com/tpope/vim-repeat.git
-	ignore = untracked
-[submodule "bundle/vim-textobj-user"]
-	path = bundle/vim-textobj-user
-	url = https://github.com/kana/vim-textobj-user.git
-	ignore = untracked
-[submodule "bundle/ultisnips"]
-	path = bundle/ultisnips
-	url = https://github.com/SirVer/ultisnips.git
-	ignore = untracked
-[submodule "bundle/vim-indent-guides"]
-	path = bundle/vim-indent-guides
-	url = https://github.com/nathanaelkane/vim-indent-guides.git
-	ignore = untracked
-[submodule "bundle/vim-polyglot"]
-	path = bundle/vim-polyglot
-	url = https://github.com/sheerun/vim-polyglot.git
-	ignore = untracked
-[submodule "bundle/delimitMate"]
-	path = bundle/delimitMate
-	url = https://github.com/Raimondi/delimitMate.git
-	ignore = untracked
-[submodule "bundle/smartim"]
-	path = bundle/smartim
-	url = https://github.com/ybian/smartim.git
+[submodule "bundle/neomake"]
+	path = bundle/neomake
+	url = https://github.com/neomake/neomake.git
 	ignore = untracked
 [submodule "bundle/codi.vim"]
 	path = bundle/codi.vim
 	url = https://github.com/metakirby5/codi.vim.git
 	ignore = untracked
-[submodule "bundle/gundo.vim"]
-	path = bundle/gundo.vim
-	url = https://github.com/sjl/gundo.vim.git
-	ignore = untracked
-[submodule "bundle/splitjoin.vim"]
-	path = bundle/splitjoin.vim
-	url = https://github.com/AndrewRadev/splitjoin.vim.git
-	ignore = untracked
-[submodule "bundle/neomake"]
-	path = bundle/neomake
-	url = https://github.com/neomake/neomake.git
-	ignore = untracked
-[submodule "bundle/vim-autoformat"]
-	path = bundle/vim-autoformat
-	url = https://github.com/Chiel92/vim-autoformat.git
-	ignore = untracked
-[submodule "bundle/ctrlsf.vim"]
-	path = bundle/ctrlsf.vim
-	url = https://github.com/dyng/ctrlsf.vim.git
-	ignore = untracked
-[submodule "bundle/calendar.vim"]
-	path = bundle/calendar.vim
-	url = https://github.com/itchyny/calendar.vim.git
-	ignore = untracked
-[submodule "bundle/nerdcommenter"]
-	path = bundle/nerdcommenter
-	url = https://github.com/preservim/nerdcommenter
-	ignore = untracked
-[submodule "bundle/vim-textobj-indent"]
-	path = bundle/vim-textobj-indent
-	url = https://github.com/kana/vim-textobj-indent.git
-	ignore = untracked
-[submodule "bundle/echofunc"]
-	path = bundle/echofunc
-	url = https://github.com/mbbill/echofunc.git
-	ignore = untracked
-[submodule "bundle/vim-textobj-parameter"]
-	path = bundle/vim-textobj-parameter
-	url = https://github.com/sgur/vim-textobj-parameter.git
-	ignore = untracked
 [submodule "bundle/vim-matchup"]
 	path = bundle/vim-matchup
 	url = https://github.com/andymass/vim-matchup.git
-	ignore = untracked
-[submodule "bundle/vim-snippets"]
-	path = bundle/vim-snippets
-	url = https://github.com/honza/vim-snippets.git
-	ignore = untracked
-[submodule "bundle/nerdtree"]
-	path = bundle/nerdtree
-	url = https://github.com/preservim/nerdtree
-	ignore = untracked
-[submodule "bundle/FoldText"]
-	path = bundle/FoldText
-	url = https://github.com/Konfekt/FoldText.git
-	ignore = untracked
-[submodule "bundle/ctrlp.vim"]
-	path = bundle/ctrlp.vim
-	url = https://github.com/ctrlpvim/ctrlp.vim.git
-	ignore = untracked
-[submodule "bundle/vim-easymotion"]
-	path = bundle/vim-easymotion
-	url = https://github.com/easymotion/vim-easymotion.git
-	ignore = untracked
-[submodule "bundle/vim-fugitive"]
-	path = bundle/vim-fugitive
-	url = https://github.com/tpope/vim-fugitive.git
-	ignore = untracked
-[submodule "bundle/vim-clang-format"]
-	path = bundle/vim-clang-format
-	url = https://github.com/rhysd/vim-clang-format.git
 	ignore = untracked
 [submodule "bundle/vim-tmux-navigator"]
 	path = bundle/vim-tmux-navigator
@@ -182,39 +22,190 @@
 	path = bundle/vim-fakeclip
 	url = https://github.com/kana/vim-fakeclip
 	ignore = untracked
-[submodule "bundle/coc.nvim"]
-	path = bundle/coc.nvim
-	url = https://github.com/https://github.com/neoclide/coc.nvim
-[submodule "bundle/vim-swap"]
-	path = bundle/vim-swap
-	url = https://github.com/machakann/vim-swap
-[submodule "bundle/vim-exchange"]
-	path = bundle/vim-exchange
-	url = https://github.com/tommcdo/vim-exchange
-[submodule "bundle/asyncomplete.vim"]
-	path = bundle/asyncomplete.vim
-	url = https://github.com/prabirshrestha/asyncomplete.vim
-[submodule "bundle/asyncomplete-buffer.vim"]
-	path = bundle/asyncomplete-buffer.vim
-	url = https://github.com/prabirshrestha/asyncomplete-buffer.vim
-[submodule "bundle/asyncomplete-file.vim"]
-	path = bundle/asyncomplete-file.vim
-	url = https://github.com/prabirshrestha/asyncomplete-file.vim
-[submodule "bundle/asyncomplete-ultisnips.vim"]
-	path = bundle/asyncomplete-ultisnips.vim
-	url = https://github.com/prabirshrestha/asyncomplete-ultisnips.vim
-[submodule "bundle/skim"]
-	path = bundle/skim
-	url = https://github.com/lotabout/skim
-[submodule "bundle/undotree"]
-	path = bundle/undotree
-	url = https://github.com/mbbill/undotree
-[submodule "bundle/vim-go"]
-	path = bundle/vim-go
-	url = https://github.com/fatih/vim-go
-[submodule "bundle/vim-kubernetes"]
-	path = bundle/vim-kubernetes
-	url = https://github.com/andrewstuart/vim-kubernetes
 [submodule "bundle/vim-abolish"]
 	path = bundle/vim-abolish
 	url = https://github.com/tpope/vim-abolish
+	ignore = untracked
+[submodule "bundle/vim-fugitive"]
+	path = bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+	ignore = untracked
+[submodule "bundle/undotree"]
+	path = bundle/undotree
+	url = https://github.com/mbbill/undotree
+	ignore = untracked
+[submodule "bundle/deol.nvim"]
+	path = bundle/deol.nvim
+	url = https://github.com/Shougo/deol.nvim.git
+	ignore = untracked
+[submodule "bundle/vim-easy-align"]
+	path = bundle/vim-easy-align
+	url = https://github.com/junegunn/vim-easy-align.git
+	ignore = untracked
+[submodule "bundle/vim-textobj-function"]
+	path = bundle/vim-textobj-function
+	url = https://github.com/kana/vim-textobj-function.git
+	ignore = untracked
+[submodule "bundle/vim-textobj-indent"]
+	path = bundle/vim-textobj-indent
+	url = https://github.com/kana/vim-textobj-indent.git
+	ignore = untracked
+[submodule "bundle/vim-textobj-syntax"]
+	path = bundle/vim-textobj-syntax
+	url = https://github.com/kana/vim-textobj-syntax.git
+	ignore = untracked
+[submodule "bundle/vim-textobj-user"]
+	path = bundle/vim-textobj-user
+	url = https://github.com/kana/vim-textobj-user.git
+	ignore = untracked
+[submodule "bundle/vim-textobj-parameter"]
+	path = bundle/vim-textobj-parameter
+	url = https://github.com/sgur/vim-textobj-parameter.git
+	ignore = untracked
+[submodule "bundle/vim-swap"]
+	path = bundle/vim-swap
+	url = https://github.com/machakann/vim-swap
+	ignore = untracked
+[submodule "bundle/vim-exchange"]
+	path = bundle/vim-exchange
+	url = https://github.com/tommcdo/vim-exchange
+	ignore = untracked
+[submodule "bundle/vim-surround"]
+	path = bundle/vim-surround
+	url = https://github.com/tpope/vim-surround.git
+	ignore = untracked
+[submodule "bundle/vim-endwise"]
+	path = bundle/vim-endwise
+	url = https://github.com/tpope/vim-endwise.git
+	ignore = untracked
+[submodule "bundle/vim-repeat"]
+	path = bundle/vim-repeat
+	url = https://github.com/tpope/vim-repeat.git
+	ignore = untracked
+[submodule "bundle/splitjoin.vim"]
+	path = bundle/splitjoin.vim
+	url = https://github.com/AndrewRadev/splitjoin.vim.git
+	ignore = untracked
+[submodule "bundle/tabular"]
+	path = bundle/tabular
+	url = https://github.com/godlygeek/tabular.git
+	ignore = untracked
+[submodule "bundle/vim-visual-increment"]
+	path = bundle/vim-visual-increment
+	url = https://github.com/triglav/vim-visual-increment.git
+	ignore = untracked
+[submodule "bundle/vim-airline"]
+	path = bundle/vim-airline
+	url = https://github.com/vim-airline/vim-airline.git
+	ignore = untracked
+[submodule "bundle/supertab"]
+	path = bundle/supertab
+	url = https://github.com/ervandew/supertab.git
+	ignore = untracked
+[submodule "bundle/fzf.vim"]
+	path = bundle/fzf.vim
+	url = https://github.com/junegunn/fzf.vim.git
+	ignore = untracked
+[submodule "bundle/fzf-mru"]
+	path = bundle/fzf-mru.vim
+	url = https://github.com/pbogut/fzf-mru.vim.git
+	ignore = untracked
+[submodule "bundle/fzf-filemru"]
+	path = bundle/fzf-filemru
+	url = https://github.com/tweekmonster/fzf-filemru.git
+	ignore = untracked
+[submodule "bundle/ctrlp.vim"]
+	path = bundle/ctrlp.vim
+	url = https://github.com/ctrlpvim/ctrlp.vim.git
+	ignore = untracked
+[submodule "bundle/vim-clang-format"]
+	path = bundle/vim-clang-format
+	url = https://github.com/rhysd/vim-clang-format.git
+	ignore = untracked
+[submodule "bundle/FoldText"]
+	path = bundle/FoldText
+	url = https://github.com/Konfekt/FoldText.git
+	ignore = untracked
+[submodule "bundle/delimitMate"]
+	path = bundle/delimitMate
+	url = https://github.com/Raimondi/delimitMate.git
+	ignore = untracked
+[submodule "bundle/ctrlsf.vim"]
+	path = bundle/ctrlsf.vim
+	url = https://github.com/dyng/ctrlsf.vim.git
+	ignore = untracked
+[submodule "bundle/vim-easymotion"]
+	path = bundle/vim-easymotion
+	url = https://github.com/easymotion/vim-easymotion.git
+	ignore = untracked
+[submodule "bundle/hexmode"]
+	path = bundle/hexmode
+	url = https://github.com/fidian/hexmode.git
+[submodule "bundle/calendar.vim"]
+	path = bundle/calendar.vim
+	url = https://github.com/itchyny/calendar.vim.git
+	ignore = untracked
+[submodule "bundle/echofunc"]
+	path = bundle/echofunc
+	url = https://github.com/mbbill/echofunc.git
+	ignore = untracked
+[submodule "bundle/vim-indent-guides"]
+	path = bundle/vim-indent-guides
+	url = https://github.com/nathanaelkane/vim-indent-guides.git
+	ignore = untracked
+[submodule "bundle/nerdcommenter"]
+	path = bundle/nerdcommenter
+	url = https://github.com/preservim/nerdcommenter
+	ignore = untracked
+[submodule "bundle/nerdtree"]
+	path = bundle/nerdtree
+	url = https://github.com/preservim/nerdtree
+	ignore = untracked
+[submodule "bundle/vim-autoformat"]
+	path = bundle/vim-autoformat
+	url = https://github.com/Chiel92/vim-autoformat
+	ignore = untracked
+[submodule "bundle/vim-polyglot"]
+	path = bundle/vim-polyglot
+	url = https://github.com/sheerun/vim-polyglot.git
+	ignore = untracked
+[submodule "bundle/vim-kubernetes"]
+	path = bundle/vim-kubernetes
+	url = https://github.com/andrewstuart/vim-kubernetes
+	ignore = untracked
+[submodule "bundle/vim-go"]
+	path = bundle/vim-go
+	url = https://github.com/fatih/vim-go
+	ignore = untracked
+[submodule "bundle/vim-just"]
+	path = bundle/vim-just
+	url = https://github.com/NoahTheDuke/vim-just
+	ignore = untracked
+[submodule "bundle/fennel.vim"]
+	path = bundle/fennel.vim
+	url = https://github.com/bakpakin/fennel.vim
+	ignore = untracked
+[submodule "bundle/cmp-buffer"]
+	path = bundle/cmp-buffer
+	url = https://github.com/hrsh7th/cmp-buffer
+	ignore = untracked
+[submodule "bundle/cmp-path"]
+	path = bundle/cmp-path
+	url = https://github.com/hrsh7th/cmp-path
+	ignore = untracked
+[submodule "bundle/cmp-cmdline"]
+	path = bundle/cmp-cmdline
+	url = https://github.com/hrsh7th/cmp-cmdline
+	ignore = untracked
+[submodule "bundle/nvim-cmp"]
+	path = bundle/nvim-cmp
+	url = https://github.com/hrsh7th/nvim-cmp
+	ignore = untracked
+[submodule "bundle/cmp-vsnip"]
+	path = bundle/cmp-vsnip
+	url = https://github.com/hrsh7th/cmp-vsnip
+	ignore = untracked
+[submodule "bundle/vim-vsnip"]
+	path = bundle/vim-vsnip
+	url = https://github.com/hrsh7th/vim-vsnip
+	ignore = untracked
