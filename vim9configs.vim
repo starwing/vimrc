@@ -1,6 +1,6 @@
 vim9script
 
-if PlugLoaded('vimcomplete.vim')
+if g:PlugLoaded('vimcomplete.vim')
     var options = {
         completor: { shuffleEqualPriority: true, postfixHighlight: true, triggerWordLen: 2 },
         buffer: { enable: true, priority: 10, urlComplete: true },

@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (3120)
-" Last Change:  2025-09-19 19:49:33
+" Version:      0.5 (3125)
+" Last Change:  2025-09-21 20:09:05
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -27,6 +27,10 @@ if has('eval')
     if !exists('g:gui_running')
         let g:gui_running = has('gui_running')
     endif
+endif
+
+if has('nvim')
+    let $VIMRUNTIME = ""
 endif
 
 set cpo&vim " set cpo-=C cpo-=b
@@ -450,7 +454,7 @@ if has('autocmd')
         " }}}3
 
         au!
-        au BufFilePost * filetype detect|redraw
+        " au BufFilePost * filetype detect|redraw
         au BufWritePre $MYVIMRC,_vimrc silent call s:vimrc_write()
         au BufWritePre X:/*,Y:/*,Z:*  set noundofile
         au BufReadPost * if getfsize(expand('%')) < 50000 | syn sync fromstart | endif
@@ -1076,7 +1080,7 @@ else
     silent! call plug#begin("~/.vim/bundle")
 endif
 
-function! PlugLoaded(name)
+function! g:PlugLoaded(name)
     return (
                 \ exists('g:plugs') &&
                 \ has_key(g:plugs, a:name) &&
@@ -1774,6 +1778,29 @@ nnoremap <silent> <leader>h :TmuxNavigateLeft<cr>
 nnoremap <silent> <leader>j :TmuxNavigateDown<cr>
 nnoremap <silent> <leader>k :TmuxNavigateUp<cr>
 nnoremap <silent> <leader>l :TmuxNavigateRight<cr>
+
+" vsnip {{{2
+
+" Expand
+imap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+smap <expr> <C-j>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+
+" Expand or jump
+imap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <C-l>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+
+" Jump forward or backward
+imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+
+" Select or cut text to use as $TM_SELECTED_TEXT in the next snippet.
+" See https://github.com/hrsh7th/vim-vsnip/pull/50
+nmap        <leader>s   <Plug>(vsnip-select-text)
+xmap        <leader>s   <Plug>(vsnip-select-text)
+nmap        <leader>S   <Plug>(vsnip-cut-text)
+xmap        <leader>S   <Plug>(vsnip-cut-text)
 
 " zip {{{2
 let g:loaded_zipPlugin= 1
