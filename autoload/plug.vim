@@ -68,6 +68,7 @@ let s:mac_gui = has('gui_macvim') && has('gui_running')
 let s:is_win = has('win32')
 let s:nvim = has('nvim-0.2') || (has('nvim') && exists('*jobwait') && !s:is_win)
 let s:vim8 = has('patch-8.0.0039') && exists('*job_start')
+let s:shell_error = 0
 if s:is_win && &shellslash
   set noshellslash
   let s:me = resolve(expand('<sfile>:p'))
@@ -170,7 +171,7 @@ function! s:git_origin_branch(spec)
 
   " The command may not return the name of a branch in detached HEAD state
   let result = s:lines(s:system('git symbolic-ref --short HEAD', a:spec.dir))
-  return v:shell_error ? '' : result[-1]
+  return s:shell_error ? '' : result[-1]
 endfunction
 
 if s:is_win
@@ -372,8 +373,10 @@ function! plug#end()
 
   for [cmd, names] in items(lod.cmd)
     execute printf(
-    \ 'command! -nargs=* -range -bang -complete=file %s call s:lod_cmd(%s, "<bang>", <line1>, <line2>, <q-args>, %s)',
-    \ cmd, string(cmd), string(names))
+    \ has('patch-7.4.1898')
+    \ ? 'command! -nargs=* -range -bang -complete=file %s call s:lod_cmd(%s, "<bang>", <line1>, <line2>, <q-args>, <q-mods> ,%s)'
+    \ : 'command! -nargs=* -range -bang -complete=file %s call s:lod_cmd(%s, "<bang>", <line1>, <line2>, <q-args>, %s)'
+    \ , cmd, string(cmd), string(names))
   endfor
 
   for [map, names] in items(lod.map)
@@ -651,11 +654,19 @@ function! s:lod_ft(pat, names)
   call s:doautocmd('filetypeindent', 'FileType')
 endfunction
 
-function! s:lod_cmd(cmd, bang, l1, l2, args, names)
-  call s:lod(a:names, ['ftdetect', 'after/ftdetect', 'plugin', 'after/plugin'])
-  call s:dobufread(a:names)
-  execute printf('%s%s%s %s', (a:l1 == a:l2 ? '' : (a:l1.','.a:l2)), a:cmd, a:bang, a:args)
-endfunction
+if has('patch-7.4.1898')
+  function! s:lod_cmd(cmd, bang, l1, l2, args, mods, names)
+    call s:lod(a:names, ['ftdetect', 'after/ftdetect', 'plugin', 'after/plugin'])
+    call s:dobufread(a:names)
+    execute printf('%s %s%s%s %s', a:mods, (a:l1 == a:l2 ? '' : (a:l1.','.a:l2)), a:cmd, a:bang, a:args)
+  endfunction
+else
+  function! s:lod_cmd(cmd, bang, l1, l2, args, names)
+    call s:lod(a:names, ['ftdetect', 'after/ftdetect', 'plugin', 'after/plugin'])
+    call s:dobufread(a:names)
+    execute printf('%s%s%s %s', (a:l1 == a:l2 ? '' : (a:l1.','.a:l2)), a:cmd, a:bang, a:args)
+  endfunction
+endif
 
 function! s:lod_map(map, names, with_prefix, prefix)
   call s:lod(a:names, ['ftdetect', 'after/ftdetect', 'plugin', 'after/plugin'])
@@ -783,10 +794,11 @@ endfunction
 function! s:syntax()
   syntax clear
   syntax region plug1 start=/\%1l/ end=/\%2l/ contains=plugNumber
-  syntax region plug2 start=/\%2l/ end=/\%3l/ contains=plugBracket,plugX
+  syntax region plug2 start=/\%2l/ end=/\%3l/ contains=plugBracket,plugX,plugAbort
   syn match plugNumber /[0-9]\+[0-9.]*/ contained
   syn match plugBracket /[[\]]/ contained
   syn match plugX /x/ contained
+  syn match plugAbort /\~/ contained
   syn match plugDash /^-\{1}\ /
   syn match plugPlus /^+/
   syn match plugStar /^*/
@@ -811,6 +823,7 @@ function! s:syntax()
   hi def link plug2       Repeat
   hi def link plugH2      Type
   hi def link plugX       Exception
+  hi def link plugAbort   Ignore
   hi def link plugBracket Structure
   hi def link plugNumber  Number
 
@@ -908,7 +921,7 @@ function! s:prepare(...)
     endif
   endfor
 
-  call s:job_abort()
+  call s:job_abort(0)
   if s:switch_in()
     if b:plug_preview == 1
       pc
@@ -944,6 +957,8 @@ function! s:close_pane()
   if b:plug_preview == 1
     pc
     let b:plug_preview = -1
+  elseif exists('s:jobs') && !empty(s:jobs)
+    call s:job_abort(1)
   else
     bd
   endif
@@ -1071,15 +1086,19 @@ function! s:hash_match(a, b)
   return stridx(a:a, a:b) == 0 || stridx(a:b, a:a) == 0
 endfunction
 
+function! s:disable_credential_helper()
+  return s:git_version_requirement(2) && get(g:, 'plug_disable_credential_helper', 1)
+endfunction
+
 function! s:checkout(spec)
   let sha = a:spec.commit
   let output = s:git_revision(a:spec.dir)
   let error = 0
   if !empty(output) && !s:hash_match(sha, s:lines(output)[0])
-    let credential_helper = s:git_version_requirement(2) ? '-c credential.helper= ' : ''
+    let credential_helper = s:disable_credential_helper() ? '-c credential.helper= ' : ''
     let output = s:system(
           \ 'git '.credential_helper.'fetch --depth 999999 && git checkout '.plug#shellescape(sha).' --', a:spec.dir)
-    let error = v:shell_error
+    let error = s:shell_error
   endif
   return [output, error]
 endfunction
@@ -1285,7 +1304,7 @@ function! s:update_finish()
         let tag = spec.tag
         if tag =~ '\*'
           let tags = s:lines(s:system('git tag --list '.plug#shellescape(tag).' --sort -version:refname 2>&1', spec.dir))
-          if !v:shell_error && !empty(tags)
+          if !s:shell_error && !empty(tags)
             let tag = tags[0]
             call s:log4(name, printf('Latest tag for %s -> %s', spec.tag, tag))
             call append(3, '')
@@ -1293,7 +1312,7 @@ function! s:update_finish()
         endif
         call s:log4(name, 'Checking out '.tag)
         let out = s:system('git checkout -q '.plug#shellescape(tag).' -- 2>&1', spec.dir)
-        let error = v:shell_error
+        let error = s:shell_error
       endif
       if !error && filereadable(spec.dir.'/.gitmodules') &&
             \ (s:update.force || has_key(s:update.new, name) || s:is_updated(spec.dir))
@@ -1301,7 +1320,7 @@ function! s:update_finish()
         let out .= s:bang('git submodule update --init --recursive'.s:submodule_opt.' 2>&1', spec.dir)
         let error = v:shell_error
       endif
-      let msg = s:format_message(v:shell_error ? 'x': '-', name, out)
+      let msg = s:format_message(error ? 'x': '-', name, out)
       if error
         call add(s:update.errors, name)
         call s:regress_bar()
@@ -1326,7 +1345,12 @@ function! s:update_finish()
   endif
 endfunction
 
-function! s:job_abort()
+function! s:mark_aborted(name, message)
+  let attrs = { 'running': 0, 'error': 1, 'abort': 1, 'lines': [a:message] }
+  let s:jobs[a:name] = extend(get(s:jobs, a:name, {}), attrs)
+endfunction
+
+function! s:job_abort(cancel)
   if (!s:nvim && !s:vim8) || !exists('s:jobs')
     return
   endif
@@ -1340,8 +1364,18 @@ function! s:job_abort()
     if j.new
       call s:rm_rf(g:plugs[name].dir)
     endif
+    if a:cancel
+      call s:mark_aborted(name, 'Aborted')
+    endif
   endfor
-  let s:jobs = {}
+
+  if a:cancel
+    for todo in values(s:update.todo)
+      let todo.abort = 1
+    endfor
+  else
+    let s:jobs = {}
+  endif
 endfunction
 
 function! s:last_non_empty_line(lines)
@@ -1355,6 +1389,16 @@ function! s:last_non_empty_line(lines)
   return ''
 endfunction
 
+function! s:bullet_for(job, ...)
+  if a:job.running
+    return a:job.new ? '+' : '*'
+  endif
+  if get(a:job, 'abort', 0)
+    return '~'
+  endif
+  return a:job.error ? 'x' : get(a:000, 0, '-')
+endfunction
+
 function! s:job_out_cb(self, data) abort
   let self = a:self
   let data = remove(self.lines, -1) . a:data
@@ -1363,10 +1407,9 @@ function! s:job_out_cb(self, data) abort
   " To reduce the number of buffer updates
   let self.tick = get(self, 'tick', -1) + 1
   if !self.running || self.tick % len(s:jobs) == 0
-    let bullet = self.running ? (self.new ? '+' : '*') : (self.error ? 'x' : '-')
     let result = self.error ? join(self.lines, "\n") : s:last_non_empty_line(self.lines)
     if len(result)
-      call s:log(bullet, self.name, result)
+      call s:log(s:bullet_for(self), self.name, result)
     endif
   endif
 endfunction
@@ -1380,7 +1423,7 @@ endfunction
 
 function! s:job_cb(fn, job, ch, data)
   if !s:plug_window_exists() " plug window closed
-    return s:job_abort()
+    return s:job_abort(0)
   endif
   call call(a:fn, [a:job, a:data])
 endfunction
@@ -1438,7 +1481,7 @@ function! s:spawn(name, spec, queue, opts)
     endif
   else
     let job.lines = s:lines(call('s:system', has_key(a:opts, 'dir') ? [argv, a:opts.dir] : [argv]))
-    let job.error = v:shell_error != 0
+    let job.error = s:shell_error != 0
     let job.running = 0
   endif
 endfunction
@@ -1452,17 +1495,16 @@ function! s:reap(name)
   endif
 
   let more = len(get(job, 'queue', []))
-  let bullet = job.error ? 'x' : more ? (job.new ? '+' : '*') : '-'
   let result = job.error ? join(job.lines, "\n") : s:last_non_empty_line(job.lines)
   if len(result)
-    call s:log(bullet, a:name, result)
+    call s:log(s:bullet_for(job), a:name, result)
   endif
 
   if !job.error && more
     let job.spec.queue = job.queue
     let s:update.todo[a:name] = job.spec
   else
-    let s:update.bar .= job.error ? 'x' : '='
+    let s:update.bar .= s:bullet_for(job, '=')
     call s:bar()
   endif
 endfunction
@@ -1541,6 +1583,12 @@ while 1 " Without TCO, Vim stack is bound to explode
 
   let name = keys(s:update.todo)[0]
   let spec = remove(s:update.todo, name)
+  if get(spec, 'abort', 0)
+    call s:mark_aborted(name, 'Skipped')
+    call s:reap(name)
+    continue
+  endif
+
   let queue = get(spec, 'queue', [])
   let new = empty(globpath(spec.dir, '.git', 1))
 
@@ -1556,7 +1604,7 @@ while 1 " Without TCO, Vim stack is bound to explode
     let [error, _] = s:git_validate(spec, 0)
     if empty(error)
       if pull
-        let cmd = s:git_version_requirement(2) ? ['git', '-c', 'credential.helper=', 'fetch'] : ['git', 'fetch']
+        let cmd = s:disable_credential_helper() ? ['git', '-c', 'credential.helper=', 'fetch'] : ['git', 'fetch']
         if has_tag && !empty(globpath(spec.dir, '.git/shallow'))
           call extend(cmd, ['--depth', '99999999'])
         endif
@@ -2281,7 +2329,26 @@ endfunction
 
 function! s:with_cd(cmd, dir, ...)
   let script = a:0 > 0 ? a:1 : 1
-  return printf('cd%s %s && %s', s:is_win ? ' /d' : '', plug#shellescape(a:dir, {'script': script}), a:cmd)
+  let pwsh = s:is_powershell(&shell)
+  let cd = s:is_win && !pwsh ? 'cd /d' : 'cd'
+  let sep = pwsh ? ';' : '&&'
+  return printf('%s %s %s %s', cd, plug#shellescape(a:dir, {'script': script, 'shell': &shell}), sep, a:cmd)
+endfunction
+
+function! s:system_job(cmd) abort
+  let tmp = tempname()
+  let job = job_start(['/bin/sh', '-c', a:cmd], {
+  \ 'out_io': 'file',
+  \ 'out_name': tmp,
+  \ 'err_io': 'out',
+  \})
+  while job_status(job) ==# 'run'
+    sleep 1m
+  endwhile
+  let s:shell_error = job_info(job).exitval
+  let result = filereadable(tmp) ? join(readfile(tmp, 'b'), "\n") : ''
+  silent! call delete(tmp)
+  return result
 endfunction
 
 function! s:system(cmd, ...)
@@ -2293,7 +2360,9 @@ function! s:system(cmd, ...)
       " but it cannot set the working directory for the command.
       " Assume that the command does not rely on the shell.
       if has('nvim') && a:0 == 0
-        return system(a:cmd)
+        let ret = system(a:cmd)
+        let s:shell_error = v:shell_error
+        return ret
       endif
       let cmd = join(map(copy(a:cmd), 'plug#shellescape(v:val, {"shell": &shell, "script": 0})'))
       if s:is_powershell(&shell)
@@ -2308,7 +2377,12 @@ function! s:system(cmd, ...)
     if s:is_win && type(a:cmd) != s:TYPE.list
       let [batchfile, cmd] = s:batchfile(cmd)
     endif
-    return system(cmd)
+    if s:vim8 && has('gui_running') && !s:is_win
+      return s:system_job(cmd)
+    endif
+    let ret = system(cmd)
+    let s:shell_error = v:shell_error
+    return ret
   finally
     let [&shell, &shellcmdflag, &shellredir] = [sh, shellcmdflag, shrd]
     if s:is_win && filereadable(batchfile)
@@ -2319,7 +2393,7 @@ endfunction
 
 function! s:system_chomp(...)
   let ret = call('s:system', a:000)
-  return v:shell_error ? '' : substitute(ret, '\n$', '', '')
+  return s:shell_error ? '' : substitute(ret, '\n$', '', '')
 endfunction
 
 function! s:git_validate(spec, check_branch)
@@ -2333,7 +2407,9 @@ function! s:git_validate(spec, check_branch)
       let err = join(['Invalid URI: '.remote,
                     \ 'Expected:    '.a:spec.uri,
                     \ 'PlugClean required.'], "\n")
-    elseif a:check_branch && has_key(a:spec, 'commit')
+    elseif !a:check_branch
+      return ['', 0]
+    elseif has_key(a:spec, 'commit')
       let sha = s:git_revision(a:spec.dir)
       if empty(sha)
         let err = join(add(result, 'PlugClean required.'), "\n")
@@ -2342,18 +2418,16 @@ function! s:git_validate(spec, check_branch)
                               \ a:spec.commit[:6], sha[:6]),
                       \ 'PlugUpdate required.'], "\n")
       endif
+    elseif has_key(a:spec, 'tag')
+      let tag = s:system_chomp('git describe --exact-match --tags HEAD 2>&1', a:spec.dir)
+      if a:spec.tag !=# tag && a:spec.tag !~ '\*'
+        let err = printf('Invalid tag: %s (expected: %s). Try PlugUpdate.',
+              \ (empty(tag) ? 'N/A' : tag), a:spec.tag)
+      endif
     elseif a:check_branch
       let current_branch = result[0]
-      " Check tag
       let origin_branch = s:git_origin_branch(a:spec)
-      if has_key(a:spec, 'tag')
-        let tag = s:system_chomp('git describe --exact-match --tags HEAD 2>&1', a:spec.dir)
-        if a:spec.tag !=# tag && a:spec.tag !~ '\*'
-          let err = printf('Invalid tag: %s (expected: %s). Try PlugUpdate.',
-                \ (empty(tag) ? 'N/A' : tag), a:spec.tag)
-        endif
-      " Check branch
-      elseif origin_branch !=# current_branch
+      if origin_branch !=# current_branch
         let err = printf('Invalid branch: %s (expected: %s). Try PlugUpdate.',
               \ current_branch, origin_branch)
       endif
@@ -2362,7 +2436,7 @@ function! s:git_validate(spec, check_branch)
           \ 'git', 'rev-list', '--count', '--left-right',
           \ printf('HEAD...origin/%s', origin_branch)
           \ ], a:spec.dir)), '\t')
-        if v:shell_error || len(ahead_behind) != 2
+        if s:shell_error || len(ahead_behind) != 2
           let err = "Failed to compare with the origin. The default branch might have changed.\nPlugClean required."
         else
           let [ahead, behind] = ahead_behind
@@ -2512,7 +2586,7 @@ function! s:upgrade()
 
   try
     let out = s:system(['git', 'clone', '--depth', '1', s:plug_src, tmp])
-    if v:shell_error
+    if s:shell_error
       return s:err('Error upgrading vim-plug: '. out)
     endif
 
