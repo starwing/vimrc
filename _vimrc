@@ -1,8 +1,8 @@
 " ==========================================================
 " File Name:    vimrc
 " Author:       StarWing
-" Version:      0.5 (3125)
-" Last Change:  2025-09-21 20:09:05
+" Version:      0.5 (3126)
+" Last Change:  2026-06-05 01:43:47
 " Must After Vim 7.0 {{{1
 if v:version < 700
     finish
@@ -1191,6 +1191,7 @@ if has('nvim')
 endif
 
 if has("mac")
+    let g:ctk_mac_term = "Ghostty"
     " cause i/<esc> slow
     " Plug 'ybian/smartim'
 endif

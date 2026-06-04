@@ -618,20 +618,33 @@ function! s:mac_system(cmd) " {{{2
         let &shellcmdflag = old
         return ""
     endif
-    let scpt = '
-        \@> tell application "iTerm"
-        \@>   set curWin to (current window)
-        \@>   if curWin is missing value then
-        \@>     set curWin to (create window with default profile)
-        \@>   end if
-        \@>   tell current session of curWin
-        \@>     activate
-        \@>     if (variable named "session.path") is not "$path" then
-        \@>       write text "cd \"$path\"; " newline no
-        \@>     end if
-        \@>     write text "$cmd"
-        \@>   end tell
-        \@> end tell'
+    if g:ctk_mac_term == "iTerm"
+        let scpt = '
+            \@> tell application "iTerm"
+            \@>   set curWin to (current window)
+            \@>   if curWin is missing value then
+            \@>     set curWin to (create window with default profile)
+            \@>   end if
+            \@>   tell current session of curWin
+            \@>     activate
+            \@>     if (variable named "session.path") is not "$path" then
+            \@>       write text "cd \"$path\"; " newline no
+            \@>     end if
+            \@>     write text "$cmd"
+            \@>   end tell
+            \@> end tell'
+    elseif g:ctk_mac_term == "Ghostty"
+        let scpt = '
+            \@> tell application "Ghostty"
+            \@>   set term to focused terminal of selected tab of front window
+            \@>   if working directory of term is not "$path" then
+            \@>     input text "cd \"$path\"; " to term
+            \@>   end if
+            \@>   input text "$cmd" to term
+            \@>   send key "enter" to term
+            \@>   focus term
+            \@> end tell'
+    end
     let scpt = substitute(scpt, '@> ', '\n', 'g')
     let path = substitute(getcwd(), '[$"\\]', '\\\0', 'g')
     let scpt = substitute(scpt, '\$path', path, 'g')
