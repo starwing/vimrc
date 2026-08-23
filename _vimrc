@@ -98,7 +98,7 @@ set statusline+=\ 0x%-8B  " current char
 set statusline+=\ %-12.(%l,%c%V%)[%o]\ %P " offset
 
 if globpath(&rtp, "plugin/vimbuddy.vim") != ''
-    set statusline+=\ %{VimBuddy()} " vim buddy
+    set statusline+=\ %{exists('*VimBuddy')?VimBuddy():''} " vim buddy
 endif
 
 " helplang {{{2
