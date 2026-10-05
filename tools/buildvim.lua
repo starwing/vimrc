@@ -1,6 +1,6 @@
 -- options --
 local tdir   = [[\Devel]]
-local ver    = [[91]]
+local ver    = [[92]]
 local dstdir = tdir..[[\Vim\vim]]..ver
 local srcdir = [[\Work\Sources\Vim\src\]]
 local rtdir  = [[\Work\Sources\Vim\runtime\]]
